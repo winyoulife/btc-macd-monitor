@@ -39,22 +39,37 @@ class InteractiveTelegramHandler:
         
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """處理接收到的訊息"""
+        # 記錄所有接收到的更新
+        self.logger.info(f"🔔 收到Telegram更新: {type(update).__name__}")
+        
         if not update.message:
             self.logger.debug("收到非訊息更新，忽略")
             return
             
-        if update.message.chat.id != self.chat_id:
-            self.logger.debug(f"收到來自非目標群組的訊息 (chat_id: {update.message.chat.id})，忽略")
+        # 記錄所有收到的訊息，包括Chat ID
+        incoming_chat_id = update.message.chat.id
+        message_text = update.message.text.strip() if update.message.text else "非文字訊息"
+        
+        self.logger.info(f"📨 收到訊息:")
+        self.logger.info(f"   來源Chat ID: {incoming_chat_id}")
+        self.logger.info(f"   目標Chat ID: {self.chat_id}")
+        self.logger.info(f"   訊息內容: '{message_text}'")
+        self.logger.info(f"   ID匹配: {'✅ 是' if incoming_chat_id == self.chat_id else '❌ 否'}")
+        
+        if incoming_chat_id != self.chat_id:
+            self.logger.warning(f"❌ Chat ID不匹配，忽略來自 {incoming_chat_id} 的訊息")
             return
             
-        text = update.message.text.strip()
+        text = message_text
         self.logger.info(f"✅ 收到來自目標群組的訊息: '{text}'")
         
         # 檢查是否是詢問買進/賣出
         if self.is_trading_query(text):
             self.logger.info(f"✅ 識別為交易詢問: '{text}'")
             try:
+                self.logger.info("🤖 開始執行AI分析...")
                 response = await self.analyze_trading_decision(text)
+                self.logger.info("📤 正在發送AI分析回覆...")
                 await update.message.reply_text(response, parse_mode='HTML')
                 self.logger.info("✅ AI分析回覆已發送")
             except Exception as e:
@@ -75,8 +90,12 @@ class InteractiveTelegramHandler:
         buy_keywords = ['买进', '买入', '買進', '買入', 'buy', 'BUY', '进场', '進場']
         # 賣出相關關鍵詞  
         sell_keywords = ['卖出', '卖掉', '賣出', '賣掉', 'sell', 'SELL', '出场', '出場']
+        # 測試關鍵詞
+        test_keywords = ['test', 'TEST', '測試', '测试']
         
-        for keyword in buy_keywords + sell_keywords:
+        all_keywords = buy_keywords + sell_keywords + test_keywords
+        
+        for keyword in all_keywords:
             if keyword in text and '?' in text:
                 return True
         return False
