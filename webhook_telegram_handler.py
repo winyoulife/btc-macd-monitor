@@ -10,7 +10,7 @@ import asyncio
 import json
 import logging
 from datetime import datetime, timezone, timedelta
-from typing import Dict, Optional, Any
+from typing import Dict, Optional, Any, List
 from telegram import Update, Bot
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 from aiohttp import web
@@ -18,6 +18,7 @@ import os
 
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
+from news_fetcher import NewsFetcher
 
 # 台灣時區 (UTC+8)
 TAIWAN_TZ = timezone(timedelta(hours=8))
@@ -31,6 +32,7 @@ class WebhookTelegramHandler:
         self.cloud_monitor = cloud_monitor
         self.max_api = MaxAPI()
         self.macd_analyzer = EnhancedMACDAnalyzer()
+        self.news_fetcher = NewsFetcher()
         self.logger = logging.getLogger('WebhookTelegram')
         
         # 創建Application
@@ -107,10 +109,22 @@ class WebhookTelegramHandler:
     async def analyze_trading_decision(self, query: str) -> str:
         """分析交易決策並返回AI建議"""
         try:
+            self.logger.info("🤖 開始AI分析流程...")
+            
             # 獲取當前市場數據
+            self.logger.info("📊 正在獲取市場數據...")
             market_data = await self.cloud_monitor.check_market_conditions('btctwd')
             if not market_data:
                 return "❌ 抱歉，目前無法獲取市場數據，請稍後再試。"
+            
+            # 獲取即時新聞
+            self.logger.info("📰 正在獲取BTC相關新聞...")
+            news_list = []
+            try:
+                news_list = self.news_fetcher.get_crypto_news(limit=3)
+                self.logger.info(f"✅ 獲取到 {len(news_list)} 條新聞")
+            except Exception as e:
+                self.logger.warning(f"⚠️  新聞獲取失敗: {e}")
             
             # 提取技術指標
             technical = market_data['technical']
@@ -120,15 +134,20 @@ class WebhookTelegramHandler:
             is_buy_query = any(keyword in query for keyword in ['买进', '买入', '買進', '買入', 'buy', 'BUY', '进场', '進場'])
             
             # AI分析邏輯
+            self.logger.info("🔍 正在執行技術分析...")
             analysis = self.perform_ai_analysis(technical, price, is_buy_query)
             
-            # 格式化回覆
-            response = self.format_analysis_response(analysis, technical, price, is_buy_query)
+            # 格式化回覆，包含新聞
+            self.logger.info("📝 正在格式化分析回覆...")
+            response = self.format_analysis_response(analysis, technical, price, is_buy_query, news_list)
             
+            self.logger.info("✅ AI分析完成")
             return response
             
         except Exception as e:
             self.logger.error(f"分析交易決策時出錯: {e}")
+            import traceback
+            self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
             return "❌ 分析過程中出現錯誤，請稍後再試。"
     
     def perform_ai_analysis(self, technical: Dict, price: Dict, is_buy_query: bool) -> Dict[str, Any]:
@@ -197,7 +216,7 @@ class WebhookTelegramHandler:
         
         return analysis
     
-    def format_analysis_response(self, analysis: Dict, technical: Dict, price: Dict, is_buy_query: bool) -> str:
+    def format_analysis_response(self, analysis: Dict, technical: Dict, price: Dict, is_buy_query: bool, news_list: List[Dict]) -> str:
         """格式化分析回覆"""
         query_type = "買進" if is_buy_query else "賣出"
         
@@ -267,6 +286,35 @@ class WebhookTelegramHandler:
 
 <i>⚠️ 此為AI技術分析，僅供參考，請結合其他資訊並謹慎決策</i>
         """
+        
+        # 添加新聞
+        if news_list:
+            response += f"""
+📰 <b>相關新聞資訊:</b>
+"""
+            for i, news in enumerate(news_list, 1):
+                title = news['title']
+                source = news.get('source', '未知來源')
+                time_str = news.get('time', '剛剛')
+                
+                # 限制標題長度避免過長
+                if len(title) > 45:
+                    title = title[:42] + "..."
+                
+                response += f"   {i}. {title}\n"
+                response += f"      <i>📍 來源: {source} • {time_str}</i>\n"
+                
+                # 如果有摘要，也加上
+                if news.get('summary'):
+                    summary = news['summary']
+                    if len(summary) > 60:
+                        summary = summary[:57] + "..."
+                    response += f"      💬 {summary}\n"
+                response += "\n"
+        else:
+            response += f"""
+📰 <b>相關新聞資訊:</b> 暫時無法獲取最新新聞
+"""
         
         return response.strip()
     
