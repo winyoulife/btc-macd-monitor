@@ -20,6 +20,14 @@ from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
 from telegram_notifier import TelegramNotifier
 
+# 添加交互式处理器导入
+try:
+    from interactive_telegram_handler import InteractiveTelegramHandler
+    INTERACTIVE_AVAILABLE = True
+except ImportError:
+    INTERACTIVE_AVAILABLE = False
+    InteractiveTelegramHandler = None
+
 class CloudMonitor:
     """雲端監控系統主類"""
     
@@ -50,6 +58,19 @@ class CloudMonitor:
             'errors_count': 0,
             'start_time': None
         }
+        
+        # 初始化交互式Telegram处理器
+        self.interactive_handler = None
+        if INTERACTIVE_AVAILABLE and self.config['notifications']['telegram_enabled']:
+            try:
+                bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
+                chat_id = os.getenv('TELEGRAM_CHAT_ID')
+                if bot_token and chat_id:
+                    self.interactive_handler = InteractiveTelegramHandler(bot_token, chat_id, self)
+                    self.logger.info("交互式Telegram处理器初始化成功")
+            except Exception as e:
+                self.logger.error(f"交互式Telegram处理器初始化失败: {e}")
+                self.interactive_handler = None
         
     def apply_env_overrides(self):
         """使用環境變量覆蓋配置"""
@@ -425,6 +446,14 @@ class CloudMonitor:
         
         self.logger.info("雲端監控系統啟動")
         
+        # 啟動交互式Telegram處理器
+        if self.interactive_handler:
+            try:
+                await self.interactive_handler.start_polling()
+                self.logger.info("交互式Telegram消息處理已啟動")
+            except Exception as e:
+                self.logger.error(f"啟動交互式處理器失敗: {e}")
+        
         # 發送啟動通知
         if self.config['notifications']['telegram_enabled']:
             start_message = f"""
@@ -475,6 +504,14 @@ class CloudMonitor:
     async def stop(self):
         """停止監控"""
         self.is_running = False
+        
+        # 停止交互式Telegram处理器
+        if self.interactive_handler:
+            try:
+                await self.interactive_handler.stop_polling()
+                self.logger.info("交互式Telegram消息处理已停止")
+            except Exception as e:
+                self.logger.error(f"停止交互式处理器失败: {e}")
         
         # 發送停止通知
         if self.config['notifications']['telegram_enabled']:
