@@ -19,6 +19,7 @@ import os
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
 from news_fetcher import NewsFetcher
+from news_sentiment_analyzer import NewsSentimentAnalyzer
 
 # 台灣時區 (UTC+8)
 TAIWAN_TZ = timezone(timedelta(hours=8))
@@ -33,6 +34,7 @@ class WebhookTelegramHandler:
         self.max_api = MaxAPI()
         self.macd_analyzer = EnhancedMACDAnalyzer()
         self.news_fetcher = NewsFetcher()
+        self.sentiment_analyzer = NewsSentimentAnalyzer()
         self.logger = logging.getLogger('WebhookTelegram')
         
         # 創建Application
@@ -101,9 +103,15 @@ class WebhookTelegramHandler:
         
         all_keywords = buy_keywords + sell_keywords + test_keywords
         
+        # 支持各種問號符號：半角?、全角？、手機問號等
+        question_marks = ['?', '？', '︖', '﹖']
+        
         for keyword in all_keywords:
-            if keyword in text and '?' in text:
-                return True
+            if keyword in text:
+                # 檢查是否包含任何類型的問號
+                for qmark in question_marks:
+                    if qmark in text:
+                        return True
         return False
     
     async def analyze_trading_decision(self, query: str) -> str:
@@ -126,20 +134,34 @@ class WebhookTelegramHandler:
             except Exception as e:
                 self.logger.warning(f"⚠️  新聞獲取失敗: {e}")
             
+            # 分析新聞情緒
+            self.logger.info("🔍 正在分析新聞情緒...")
+            sentiment_analysis = self.sentiment_analyzer.analyze_news_sentiment(news_list)
+            self.logger.info(f"📈 新聞情緒: {sentiment_analysis['overall_sentiment']}")
+            
             # 提取技術指標
             technical = market_data['technical']
             price = market_data['price']
             
             # 判斷用戶詢問類型
-            is_buy_query = any(keyword in query for keyword in ['买进', '买入', '買進', '買入', 'buy', 'BUY', '进场', '進場'])
+            is_buy_query = any(keyword in query for keyword in ['买进', '买入', '買進', '購入', 'buy', 'BUY', '进场', '進場'])
             
-            # AI分析邏輯
+            # AI技術分析
             self.logger.info("🔍 正在執行技術分析...")
-            analysis = self.perform_ai_analysis(technical, price, is_buy_query)
+            tech_analysis = self.perform_ai_analysis(technical, price, is_buy_query)
             
-            # 格式化回覆，包含新聞
+            # 綜合分析 - 結合技術面和新聞面
+            self.logger.info("🎯 正在生成綜合交易建議...")
+            trading_recommendation = self.sentiment_analyzer.get_trading_recommendation(
+                sentiment_analysis, tech_analysis
+            )
+            
+            # 格式化回覆，包含所有分析
             self.logger.info("📝 正在格式化分析回覆...")
-            response = self.format_analysis_response(analysis, technical, price, is_buy_query, news_list)
+            response = self.format_comprehensive_response(
+                tech_analysis, sentiment_analysis, trading_recommendation, 
+                technical, price, is_buy_query, news_list
+            )
             
             self.logger.info("✅ AI分析完成")
             return response
@@ -216,76 +238,93 @@ class WebhookTelegramHandler:
         
         return analysis
     
-    def format_analysis_response(self, analysis: Dict, technical: Dict, price: Dict, is_buy_query: bool, news_list: List[Dict]) -> str:
-        """格式化分析回覆"""
+    def format_comprehensive_response(self, tech_analysis: Dict, sentiment_analysis: Dict, 
+                                    trading_recommendation: Dict, technical: Dict, price: Dict, 
+                                    is_buy_query: bool, news_list: List[Dict]) -> str:
+        """格式化綜合分析回覆"""
         query_type = "買進" if is_buy_query else "賣出"
         
-        # 建議emoji和文字
-        if analysis['recommendation'] == 'BUY':
-            rec_emoji = '🚀'
-            rec_text = '建議買進'
-            rec_color = '🟢'
-        elif analysis['recommendation'] == 'SELL':
-            rec_emoji = '📉'
-            rec_text = '建議賣出'
-            rec_color = '🔴'
-        elif analysis['recommendation'] == 'WAIT':
-            rec_emoji = '⏳'
-            rec_text = '建議等待'
-            rec_color = '🟡'
+        # 技術分析建議
+        if tech_analysis['recommendation'] == 'BUY':
+            tech_emoji = '🚀'
+            tech_text = '建議買進'
+            tech_color = '🟢'
+        elif tech_analysis['recommendation'] == 'SELL':
+            tech_emoji = '📉'
+            tech_text = '建議賣出'
+            tech_color = '🔴'
+        elif tech_analysis['recommendation'] == 'WAIT':
+            tech_emoji = '⏳'
+            tech_text = '建議等待'
+            tech_color = '🟡'
         else:
-            rec_emoji = '⚖️'
-            rec_text = '建議持有'
-            rec_color = '🟡'
+            tech_emoji = '⚖️'
+            tech_text = '建議持有'
+            tech_color = '🟡'
+        
+        # 新聞情緒
+        news_sentiment = sentiment_analysis['overall_sentiment']
+        if news_sentiment == 'bullish':
+            news_emoji = '📈'
+            news_text = '看漲'
+            news_color = '🟢'
+        elif news_sentiment == 'bearish':
+            news_emoji = '📉'
+            news_text = '看跌'
+            news_color = '🔴'
+        else:
+            news_emoji = '➡️'
+            news_text = '中性'
+            news_color = '🟡'
+        
+        # 綜合建議
+        action = trading_recommendation['action']
+        risk_level = trading_recommendation['risk_level']
+        probability = trading_recommendation['probability_analysis']
         
         # 風險等級emoji
-        risk_emojis = {'LOW': '🟢', 'MEDIUM': '🟡', 'HIGH': '🔴'}
-        risk_emoji = risk_emojis.get(analysis['risk_level'], '🟡')
+        risk_emojis = {'低': '🟢', '中低': '🟡', '中等': '🟠', '較高': '🔴', '高': '🔴'}
+        risk_emoji = risk_emojis.get(risk_level, '🟡')
         
         # 置信度條
-        confidence = analysis['confidence']
-        confidence_bar = '█' * (confidence // 10) + '░' * (10 - confidence // 10)
+        tech_confidence = tech_analysis['confidence']
+        news_confidence = sentiment_analysis['confidence']
+        tech_confidence_bar = '█' * (tech_confidence // 10) + '░' * (10 - tech_confidence // 10)
+        news_confidence_bar = '█' * (int(news_confidence) // 10) + '░' * (10 - int(news_confidence) // 10)
         
         response = f"""
-🤖 <b>AI交易分析回覆</b> (Webhook模式)
+🤖 <b>AI綜合交易分析</b> (Webhook模式)
 
-❓ <b>您的詢問:</b> {query_type}?
+❓ <b>您的詢問:</b> {query_type}？
 
-{rec_color} <b>AI建議:</b> {rec_emoji} {rec_text}
-📊 <b>置信度:</b> {confidence}% [{confidence_bar}]
-⚠️ <b>風險等級:</b> {risk_emoji} {analysis['risk_level']}
+🎯 <b>綜合建議:</b> {action}
+📊 <b>概率分析:</b> {probability}
+⚠️ <b>風險等級:</b> {risk_emoji} {risk_level}
 
 💰 <b>目前市場數據:</b>
 • 價格: ${price['current']:,.0f} TWD
 • 24H最高: ${price['high_24h']:,.0f} TWD
 • 24H最低: ${price['low_24h']:,.0f} TWD
 
-📈 <b>技術指標:</b>
+📈 <b>技術分析:</b>
+{tech_color} <b>技術建議:</b> {tech_emoji} {tech_text}
+📊 <b>技術置信度:</b> {tech_confidence}% [{tech_confidence_bar}]
 • MACD: {technical['macd']:.2f}
 • Signal: {technical['macd_signal']:.2f}
 • Histogram: {technical['macd_histogram']:.2f}
 • RSI: {technical['rsi']:.1f}
 
-🔍 <b>分析依據:</b>
+📰 <b>新聞情緒分析:</b>
+{news_color} <b>市場情緒:</b> {news_emoji} {news_text}
+📊 <b>情緒置信度:</b> {int(news_confidence)}% [{news_confidence_bar}]
+🎲 <b>漲跌概率:</b> 上漲{sentiment_analysis['bullish_probability']}% vs 下跌{sentiment_analysis['bearish_probability']}%
+💬 <b>情緒分析:</b> {sentiment_analysis['analysis']}
+
+🔍 <b>技術分析依據:</b>
 """
         
-        for i, reason in enumerate(analysis['reasons'], 1):
+        for i, reason in enumerate(tech_analysis['reasons'], 1):
             response += f"   {i}. {reason}\n"
-        
-        # 添加市場展望
-        outlook_emojis = {'BULLISH': '📈', 'BEARISH': '📉', 'NEUTRAL': '➡️'}
-        short_emoji = outlook_emojis.get(analysis['short_term_outlook'], '➡️')
-        long_emoji = outlook_emojis.get(analysis['long_term_outlook'], '➡️')
-        
-        response += f"""
-🔮 <b>市場展望:</b>
-• 短期: {short_emoji} {analysis['short_term_outlook']}
-• 長期: {long_emoji} {analysis['long_term_outlook']}
-
-⏰ <b>分析時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
-
-<i>⚠️ 此為AI技術分析，僅供參考，請結合其他資訊並謹慎決策</i>
-        """
         
         # 添加新聞
         if news_list:
@@ -315,6 +354,18 @@ class WebhookTelegramHandler:
             response += f"""
 📰 <b>相關新聞資訊:</b> 暫時無法獲取最新新聞
 """
+
+        response += f"""
+🔮 <b>市場展望:</b>
+• 短期: {tech_analysis['short_term_outlook']}
+• 長期: {tech_analysis['long_term_outlook']}
+
+💡 <b>操作建議:</b> {trading_recommendation['reason']}
+
+⏰ <b>分析時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
+
+<i>⚠️ 此為AI技術+新聞綜合分析，僅供參考，請結合其他資訊並謹慎決策</i>
+        """
         
         return response.strip()
     
