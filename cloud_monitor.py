@@ -11,7 +11,7 @@ import json
 import logging
 import time
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Optional, Any
 import schedule
 import pandas as pd
@@ -35,6 +35,9 @@ try:
 except ImportError:
     INTERACTIVE_AVAILABLE = False
     InteractiveTelegramHandler = None
+
+# 台灣時區 (UTC+8)
+TAIWAN_TZ = timezone(timedelta(hours=8))
 
 class CloudMonitor:
     """雲端監控系統主類"""
@@ -530,7 +533,7 @@ class CloudMonitor:
     async def run_forever(self):
         """持續運行監控"""
         self.is_running = True
-        self.stats['start_time'] = datetime.now()
+        self.stats['start_time'] = datetime.now(TAIWAN_TZ)
         
         self.logger.info("雲端監控系統啟動")
         
@@ -594,6 +597,14 @@ class CloudMonitor:
         
         # 發送啟動通知
         if self.config['notifications']['telegram_enabled']:
+            # 檢查AI分析功能狀態 - 支持Webhook和長輪詢兩種模式
+            ai_enabled = bool(self.webhook_handler or self.interactive_handler)
+            ai_mode = ""
+            if self.webhook_handler:
+                ai_mode = " (Webhook模式)"
+            elif self.interactive_handler:
+                ai_mode = " (長輪詢模式)"
+            
             start_message = f"""
 🤖 <b>雲端監控系統啟動</b>
 
@@ -603,9 +614,9 @@ class CloudMonitor:
 • 檢查間隔: {self.config['monitoring']['check_interval']}秒
 
 💬 <b>交互式功能:</b>
-• AI分析: {'✅ 已啟用' if self.interactive_handler else '❌ 未啟用'}
+• AI分析: {'✅ 已啟用' if ai_enabled else '❌ 未啟用'}{ai_mode}
 
-⏰ <b>啟動時間:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+⏰ <b>啟動時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
 
 🔔 系統將開始監控市場並發送警報通知
 
@@ -660,7 +671,7 @@ class CloudMonitor:
         
         # 發送停止通知
         if self.config['notifications']['telegram_enabled']:
-            runtime = datetime.now() - self.stats['start_time'] if self.stats['start_time'] else timedelta(0)
+            runtime = datetime.now(TAIWAN_TZ) - self.stats['start_time'] if self.stats['start_time'] else timedelta(0)
             
             stop_message = f"""
 🛑 <b>雲端監控系統停止</b>
@@ -671,7 +682,7 @@ class CloudMonitor:
 • 警報發送: {self.stats['alerts_sent']}
 • 錯誤次數: {self.stats['errors_count']}
 
-⏰ <b>停止時間:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+⏰ <b>停止時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
             """
             
             try:
