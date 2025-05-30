@@ -267,119 +267,141 @@ class InteractiveTelegramHandler:
         return response.strip()
     
     async def start_polling(self):
-        """啟動訊息輪詢"""
+        """啟動訊息輪詢 - 雲端優化版本"""
         self.logger.info("啟動Telegram訊息處理器...")
         
-        # 多次嘗試解決衝突
-        max_retries = 3
-        for attempt in range(max_retries):
+        # 創建Bot實例
+        bot = Bot(token=self.bot_token)
+        
+        # 超強力清理 - 雲端環境特殊處理
+        max_attempts = 5
+        for attempt in range(max_attempts):
             try:
-                self.logger.info(f"🚀 第 {attempt + 1} 次嘗試啟動...")
+                self.logger.info(f"🔧 第 {attempt + 1} 次清理嘗試...")
                 
-                # 創建Bot實例進行衝突清理
-                bot = Bot(token=self.bot_token)
+                # 檢查當前狀態
+                webhook_info = await bot.get_webhook_info()
+                self.logger.info(f"   當前Webhook: {webhook_info.url or '未設置'}")
+                self.logger.info(f"   待處理更新: {webhook_info.pending_update_count}")
                 
-                # 強力清除任何現有衝突
-                self.logger.info("🧹 正在強力清除Bot衝突...")
-                
-                try:
-                    # 檢查並刪除webhook
-                    webhook_info = await bot.get_webhook_info()
-                    if webhook_info.url:
-                        self.logger.warning(f"發現webhook: {webhook_info.url}，正在刪除...")
-                        await bot.delete_webhook(drop_pending_updates=True)
-                        await asyncio.sleep(3)
-                    
-                    # 額外的清理步驟：設置臨時webhook再刪除
-                    self.logger.info("進行深度清理...")
-                    temp_url = "https://httpbin.org/post"
-                    await bot.set_webhook(url=temp_url, drop_pending_updates=True)
-                    await asyncio.sleep(2)
+                # 強制刪除任何webhook
+                if webhook_info.url:
+                    self.logger.info("   🧹 刪除現有webhook...")
                     await bot.delete_webhook(drop_pending_updates=True)
-                    await asyncio.sleep(3)
-                    
-                    self.logger.info("✅ 衝突清理完成")
-                    
-                except Exception as cleanup_e:
-                    self.logger.warning(f"清理過程中的警告: {cleanup_e}")
+                    await asyncio.sleep(2)
                 
-                # 初始化Application
-                self.logger.info("正在初始化Application...")
-                await self.application.initialize()
+                # 超級清理：設置假webhook再刪除
+                self.logger.info("   🧹 執行深度清理...")
+                fake_url = "https://example.com/fake"
+                await bot.set_webhook(url=fake_url, drop_pending_updates=True)
+                await asyncio.sleep(1)
+                await bot.delete_webhook(drop_pending_updates=True)
+                await asyncio.sleep(2)
                 
-                self.logger.info("正在啟動Application...")
-                await self.application.start()
-                
-                self.logger.info("正在啟動訊息輪詢...")
-                await self.application.updater.start_polling(
-                    drop_pending_updates=True,
-                    timeout=10,
-                    error_callback=self._error_callback,
-                    read_timeout=30,
-                    write_timeout=30,
-                    connect_timeout=30,
-                    pool_timeout=30
+                # 測試連接
+                self.logger.info("   🧪 測試Bot連接...")
+                try:
+                    # 使用短超時測試
+                    updates = await bot.get_updates(limit=1, timeout=3)
+                    self.logger.info(f"   ✅ 連接測試成功，獲得 {len(updates)} 個更新")
+                    break  # 成功，跳出清理循環
+                except Exception as test_e:
+                    if "Conflict" in str(test_e):
+                        self.logger.warning(f"   ⚠️  第 {attempt + 1} 次測試仍有衝突: {test_e}")
+                        if attempt < max_attempts - 1:
+                            wait_time = (attempt + 1) * 5
+                            self.logger.info(f"   ⏰ 等待 {wait_time} 秒後重試...")
+                            await asyncio.sleep(wait_time)
+                            continue
+                        else:
+                            self.logger.error("   ❌ 所有清理嘗試都失敗了")
+                            raise test_e
+                    else:
+                        self.logger.error(f"   ❌ 其他錯誤: {test_e}")
+                        break
+                        
+            except Exception as e:
+                self.logger.error(f"   ❌ 清理過程失敗: {e}")
+                if attempt == max_attempts - 1:
+                    raise e
+        
+        # 現在嘗試啟動Application
+        self.logger.info("🚀 開始啟動Application...")
+        
+        try:
+            await self.application.initialize()
+            await self.application.start()
+            
+            # 使用更保守的輪詢設置
+            self.logger.info("🔄 啟動輪詢（雲端優化設置）...")
+            await self.application.updater.start_polling(
+                drop_pending_updates=True,
+                timeout=30,           # 較長的超時
+                read_timeout=30,
+                write_timeout=30,
+                connect_timeout=20,
+                pool_timeout=20,
+                error_callback=self._enhanced_error_callback,
+                allowed_updates=None,  # 接收所有類型的更新
+                bootstrap_retries=-1   # 無限重試
+            )
+            
+            self.logger.info("✅ Telegram長輪詢已啟動")
+            
+            # 發送成功通知
+            try:
+                await bot.send_message(
+                    chat_id=self.chat_id,
+                    text="🎉 <b>交互式AI分析功能現已完全啟動！</b>\n\n💬 發送 '買進?' 或 '賣出?' 即可獲得即時AI分析",
+                    parse_mode='HTML'
                 )
-                
-                self.logger.info("✅ Telegram訊息處理器已成功啟動，等待訊息...")
-                
-                # 發送測試訊息確認啟動
+                self.logger.info("✅ 啟動成功通知已發送")
+            except Exception as msg_e:
+                self.logger.warning(f"發送成功通知失敗: {msg_e}")
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Application啟動失敗: {e}")
+            
+            # 如果是衝突錯誤，發送特殊通知
+            if "Conflict" in str(e):
                 try:
                     await bot.send_message(
                         chat_id=self.chat_id,
-                        text="🤖 <b>交互式AI功能已啟動</b>\n\n✅ 現在可以發送 '買進?' 或 '賣出?' 獲得分析建議",
+                        text="⚠️ <b>交互式功能啟動遇到衝突</b>\n\n🔧 系統正在自動修復，請稍等1-2分鐘後重新部署",
                         parse_mode='HTML'
                     )
-                    self.logger.info("✅ 啟動確認訊息已發送")
-                except Exception as msg_e:
-                    self.logger.warning(f"發送確認訊息失敗: {msg_e}")
-                
-                return  # 成功啟動，退出重試循環
-                
-            except Exception as e:
-                self.logger.error(f"❌ 第 {attempt + 1} 次啟動失敗: {e}")
-                
-                if "Conflict" in str(e):
-                    self.logger.error("🔧 檢測到Bot衝突，正在進行更深度清理...")
-                    
-                    # 等待更長時間讓其他實例停止
-                    wait_time = (attempt + 1) * 10
-                    self.logger.info(f"等待 {wait_time} 秒後重試...")
-                    await asyncio.sleep(wait_time)
-                    
-                    if attempt == max_retries - 1:
-                        self.logger.error("🚨 所有嘗試都失敗了！")
-                        self.logger.error("   可能的解決方案：")
-                        self.logger.error("   1. 重啟整個Render.com服務")
-                        self.logger.error("   2. 檢查是否有其他Bot實例在運行")
-                        self.logger.error("   3. 等待5-10分鐘後再試")
-                        
-                        # 發送錯誤通知
-                        try:
-                            emergency_bot = Bot(token=self.bot_token)
-                            await emergency_bot.send_message(
-                                chat_id=self.chat_id,
-                                text="❌ <b>交互式功能啟動失敗</b>\n\n🔧 檢測到Bot衝突，正在嘗試修復...\n\n請稍等片刻後再試",
-                                parse_mode='HTML'
-                            )
-                        except:
-                            pass
-                else:
-                    import traceback
-                    self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
-                    
-                    if attempt == max_retries - 1:
-                        self.logger.error("🚨 達到最大重試次數，啟動失敗")
-        
-        self.logger.error("❌ 所有啟動嘗試都失敗了")
+                except:
+                    pass
+            
+            raise e
     
-    def _error_callback(self, update, context):
-        """錯誤回調函數"""
+    def _enhanced_error_callback(self, update, context):
+        """增強的錯誤回調函數"""
         error = context.error
         self.logger.error(f"Telegram更新處理錯誤: {error}")
         
         if "Conflict" in str(error):
-            self.logger.error("🔧 檢測到bot衝突，建議重啟服務")
+            self.logger.error("🚨 檢測到嚴重衝突 - 可能需要重新部署")
+            # 嘗試發送緊急通知
+            asyncio.create_task(self._send_emergency_notification())
+        elif "Timeout" in str(error):
+            self.logger.warning("⏰ 超時錯誤 - 這在雲端環境是正常的")
+        else:
+            self.logger.error(f"未知錯誤: {error}")
+    
+    async def _send_emergency_notification(self):
+        """發送緊急通知"""
+        try:
+            emergency_bot = Bot(token=self.bot_token)
+            await emergency_bot.send_message(
+                chat_id=self.chat_id,
+                text="🚨 <b>檢測到Bot衝突</b>\n\n請重新部署系統以完全解決衝突問題",
+                parse_mode='HTML'
+            )
+        except:
+            pass
     
     async def stop_polling(self):
         """停止訊息輪詢"""
