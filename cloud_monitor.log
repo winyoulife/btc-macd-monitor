@@ -254,3 +254,65 @@
 2025-05-30 18:17:39,544 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
 2025-05-30 18:17:49,422 - CloudMonitor - INFO - 開始監控循環
 2025-05-30 18:17:49,814 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:18:05,468 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:18:05,763 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:18:39,280 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:18:40,376 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:18:49,438 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:18:50,126 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:19:05,476 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:19:05,820 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:19:39,282 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:19:39,846 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:19:49,453 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:19:49,804 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:20:05,478 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:20:05,843 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:20:39,286 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:20:39,599 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:20:49,461 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:20:49,884 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:21:05,493 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:21:05,774 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:21:39,297 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:21:39,562 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:21:49,475 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:21:49,850 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:22:05,502 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:22:05,782 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:22:39,311 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:22:39,586 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:22:49,478 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:22:50,483 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:23:05,503 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:23:06,138 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:23:39,321 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:23:39,572 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:23:49,484 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:23:49,726 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:24:05,513 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:24:05,755 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:24:39,333 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:24:39,723 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:24:49,488 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:24:49,748 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:25:05,526 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:25:05,761 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:25:39,339 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:25:39,594 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:25:49,490 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:25:49,737 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:26:05,535 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:26:05,789 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:26:39,354 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:26:39,647 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:26:49,495 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:26:49,765 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:27:05,549 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:27:05,797 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:27:39,358 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:27:39,623 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:27:49,500 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:27:49,731 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+2025-05-30 18:28:05,552 - CloudMonitor - INFO - 開始監控循環
+2025-05-30 18:28:05,795 - CloudMonitor - ERROR - 檢查市場條件時出錯: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().

@@ -14,6 +14,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 import schedule
+import pandas as pd
 
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
@@ -205,7 +206,7 @@ class CloudMonitor:
             # 計算技術指標
             self.logger.info("正在計算技術指標...")
             df_with_macd = self.macd_analyzer.calculate_macd(kline_data)
-            if df_with_macd is None:
+            if df_with_macd is None or df_with_macd.empty:
                 self.logger.error(f"MACD計算失敗")
                 return None
             
@@ -218,6 +219,14 @@ class CloudMonitor:
             latest = df_with_macd.iloc[-1]
             previous = df_with_macd.iloc[-2]
             
+            # 安全獲取技術指標數據，使用默認值處理缺失項
+            def safe_get(series, key, default=0.0):
+                try:
+                    value = series.get(key, default)
+                    return float(value) if pd.notna(value) else default
+                except:
+                    return default
+            
             # 構建市場條件數據
             market_data = {
                 'symbol': symbol,
@@ -229,21 +238,21 @@ class CloudMonitor:
                     'volume_24h': float(ticker['volume'])
                 },
                 'technical': {
-                    'macd': float(latest['macd']),
-                    'macd_signal': float(latest['macd_signal']),
-                    'macd_histogram': float(latest['macd_histogram']),
-                    'rsi': float(latest['rsi']),
-                    'ema_12': float(latest['ema_12']),
-                    'ema_26': float(latest['ema_26'])
+                    'macd': safe_get(latest, 'macd'),
+                    'macd_signal': safe_get(latest, 'macd_signal'),
+                    'macd_histogram': safe_get(latest, 'macd_histogram'),
+                    'rsi': safe_get(latest, 'rsi', 50.0),  # RSI 默認值 50
+                    'ema_12': safe_get(latest, 'ema_12'),
+                    'ema_26': safe_get(latest, 'ema_26')
                 },
                 'previous': {
-                    'macd': float(previous['macd']),
-                    'macd_signal': float(previous['macd_signal']),
-                    'macd_histogram': float(previous['macd_histogram'])
+                    'macd': safe_get(previous, 'macd'),
+                    'macd_signal': safe_get(previous, 'macd_signal'),
+                    'macd_histogram': safe_get(previous, 'macd_histogram')
                 }
             }
             
-            self.logger.info(f"市場條件檢查完成: MACD={latest['macd']:.2f}, RSI={latest['rsi']:.1f}")
+            self.logger.info(f"市場條件檢查完成: MACD={market_data['technical']['macd']:.2f}, RSI={market_data['technical']['rsi']:.1f}")
             return market_data
             
         except Exception as e:
@@ -518,10 +527,7 @@ class CloudMonitor:
                 },
                 'monitoring_symbols': self.config['monitoring']['symbols'],
                 'monitoring_active': len(self.monitoring_data) > 0,
-                'last_check': None if not self.monitoring_data else max([
-                    data.get('timestamp', datetime.min) for data in self.monitoring_data.values() 
-                    if isinstance(data.get('timestamp'), datetime)
-                ], default=datetime.min).isoformat()
+                'timestamp': datetime.now().isoformat()
             }
         except Exception as e:
             return {
