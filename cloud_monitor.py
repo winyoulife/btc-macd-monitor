@@ -180,25 +180,40 @@ class CloudMonitor:
     async def check_market_conditions(self, symbol: str) -> Optional[Dict[str, Any]]:
         """檢查市場條件"""
         try:
+            self.logger.info(f"開始檢查 {symbol} 市場條件")
+            
             # 獲取價格數據
+            self.logger.info("正在獲取價格數據...")
             ticker = self.max_api.get_ticker(symbol)
             if not ticker:
                 self.logger.error(f"無法獲取 {symbol} 價格數據")
                 return None
             
+            self.logger.info(f"價格數據獲取成功: {ticker.get('price', 'N/A')}")
+            
             # 獲取主要週期的K線數據
             primary_period = self.config['monitoring']['primary_period']
+            self.logger.info(f"正在獲取 {primary_period} 分鐘K線數據...")
             kline_data = self.max_api.get_klines(symbol, period=primary_period, limit=200)
             
             if kline_data is None or kline_data.empty:
                 self.logger.error(f"無法獲取 {symbol} K線數據")
                 return None
             
+            self.logger.info(f"K線數據獲取成功，共 {len(kline_data)} 條記錄")
+            
             # 計算技術指標
+            self.logger.info("正在計算技術指標...")
             df_with_macd = self.macd_analyzer.calculate_macd(kline_data)
             if df_with_macd is None:
                 self.logger.error(f"MACD計算失敗")
                 return None
+            
+            if len(df_with_macd) < 2:
+                self.logger.error(f"技術指標數據不足，只有 {len(df_with_macd)} 條記錄")
+                return None
+            
+            self.logger.info("技術指標計算成功")
             
             latest = df_with_macd.iloc[-1]
             previous = df_with_macd.iloc[-2]
@@ -228,10 +243,13 @@ class CloudMonitor:
                 }
             }
             
+            self.logger.info(f"市場條件檢查完成: MACD={latest['macd']:.2f}, RSI={latest['rsi']:.1f}")
             return market_data
             
         except Exception as e:
             self.logger.error(f"檢查市場條件時出錯: {e}")
+            import traceback
+            self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
             self.stats['errors_count'] += 1
             return None
     
@@ -480,12 +498,20 @@ class CloudMonitor:
         """獲取系統狀態"""
         runtime = datetime.now() - self.stats['start_time'] if self.stats['start_time'] else timedelta(0)
         
+        # 簡化狀態響應，避免序列化問題
         return {
             'is_running': self.is_running,
-            'runtime': str(runtime).split('.')[0],
-            'stats': self.stats,
-            'config': self.config,
-            'last_monitoring_data': self.monitoring_data
+            'runtime_seconds': int(runtime.total_seconds()),
+            'runtime_formatted': str(runtime).split('.')[0],
+            'stats': {
+                'alerts_sent': self.stats['alerts_sent'],
+                'checks_performed': self.stats['checks_performed'],
+                'errors_count': self.stats['errors_count'],
+                'start_time': self.stats['start_time'].isoformat() if self.stats['start_time'] else None
+            },
+            'monitoring_symbols': self.config['monitoring']['symbols'],
+            'monitoring_active': len(self.monitoring_data) > 0,
+            'last_check': max([data.get('timestamp', datetime.min) for data in self.monitoring_data.values()]).isoformat() if self.monitoring_data else None
         }
 
 def main():
