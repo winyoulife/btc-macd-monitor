@@ -190,7 +190,7 @@ class CloudMonitor:
             primary_period = self.config['monitoring']['primary_period']
             kline_data = self.max_api.get_klines(symbol, period=primary_period, limit=200)
             
-            if not kline_data:
+            if kline_data is None or kline_data.empty:
                 self.logger.error(f"無法獲取 {symbol} K線數據")
                 return None
             
@@ -385,7 +385,7 @@ class CloudMonitor:
                 self.stats['checks_performed'] += 1
                 self.monitoring_data[symbol] = market_data
                 
-                self.logger.info(f"✅ {symbol} 監控完成 - 發現 {len(alerts)} 個警報")
+                self.logger.info(f"{symbol} 監控完成 - 發現 {len(alerts)} 個警報")
                 
             except Exception as e:
                 self.logger.error(f"監控 {symbol} 時出錯: {e}")
@@ -396,7 +396,7 @@ class CloudMonitor:
         self.is_running = True
         self.stats['start_time'] = datetime.now()
         
-        self.logger.info("🚀 雲端監控系統啟動")
+        self.logger.info("雲端監控系統啟動")
         
         # 發送啟動通知
         if self.config['notifications']['telegram_enabled']:
@@ -474,7 +474,7 @@ class CloudMonitor:
             except Exception as e:
                 self.logger.error(f"發送停止通知失敗: {e}")
         
-        self.logger.info("🔴 雲端監控系統已停止")
+        self.logger.info("雲端監控系統已停止")
     
     def get_status(self) -> Dict[str, Any]:
         """獲取系統狀態"""
