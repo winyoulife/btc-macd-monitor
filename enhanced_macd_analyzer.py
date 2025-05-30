@@ -38,6 +38,9 @@ class EnhancedMACDAnalyzer:
             # Histogram = MACD - Signal
             df['macd_histogram'] = df['macd'] - df['macd_signal']
             
+            # 計算 RSI 指標
+            df['rsi'] = ta.momentum.RSIIndicator(close=df['close'], window=14).rsi()
+            
             # 清理NaN值
             df = df.dropna()
             
