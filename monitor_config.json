@@ -1,0 +1,41 @@
+{
+    "monitoring": {
+        "symbols": [
+            "btctwd"
+        ],
+        "periods": [
+            1,
+            5,
+            15,
+            30,
+            60
+        ],
+        "check_interval": 60,
+        "primary_period": 15
+    },
+    "alerts": {
+        "macd_crossover": true,
+        "signal_strength_threshold": 70,
+        "price_change_threshold": 2.0,
+        "volume_spike_threshold": 1.5,
+        "rsi_overbought": 80,
+        "rsi_oversold": 20
+    },
+    "notifications": {
+        "telegram_enabled": true,
+        "email_enabled": false,
+        "slack_enabled": false,
+        "discord_enabled": false
+    },
+    "cloud": {
+        "platform": "local",
+        "health_check_port": 8080,
+        "timezone": "Asia/Taipei"
+    },
+    "advanced": {
+        "cooldown_period": 300,
+        "max_alerts_per_hour": 10,
+        "enable_backtesting": false,
+        "data_retention_days": 30
+    }
+}
