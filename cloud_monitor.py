@@ -96,7 +96,7 @@ class CloudMonitor:
                 "symbols": ["btctwd"],
                 "periods": [1, 5, 15, 30, 60],
                 "check_interval": 60,
-                "primary_period": 15
+                "primary_period": 60
             },
             "alerts": {
                 "macd_crossover": True,
