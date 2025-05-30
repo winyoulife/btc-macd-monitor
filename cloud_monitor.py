@@ -59,18 +59,43 @@ class CloudMonitor:
             'start_time': None
         }
         
-        # 初始化交互式Telegram处理器
+        # 初始化交互式Telegram处理器 - 添加詳細日誌
         self.interactive_handler = None
-        if INTERACTIVE_AVAILABLE and self.config['notifications']['telegram_enabled']:
-            try:
-                bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-                chat_id = os.getenv('TELEGRAM_CHAT_ID')
-                if bot_token and chat_id:
-                    self.interactive_handler = InteractiveTelegramHandler(bot_token, chat_id, self)
-                    self.logger.info("交互式Telegram處理器初始化成功")
-            except Exception as e:
-                self.logger.error(f"交互式Telegram處理器初始化失敗: {e}")
-                self.interactive_handler = None
+        self.logger.info("🔧 開始初始化交互式Telegram處理器...")
+        
+        # 檢查是否啟用交互式功能
+        if not INTERACTIVE_AVAILABLE:
+            self.logger.error("❌ 交互式模組不可用 - 未找到 interactive_telegram_handler")
+            return
+            
+        if not self.config['notifications']['telegram_enabled']:
+            self.logger.warning("⚠️  Telegram通知未啟用，跳過交互式功能")
+            return
+            
+        # 檢查環境變數
+        bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
+        chat_id = os.getenv('TELEGRAM_CHAT_ID')
+        
+        self.logger.info(f"📱 Bot Token檢查: {'✅ 已設置' if bot_token else '❌ 未設置'}")
+        self.logger.info(f"💬 Chat ID檢查: {'✅ 已設置' if chat_id else '❌ 未設置'}")
+        
+        if not bot_token:
+            self.logger.error("❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動交互式功能")
+            return
+            
+        if not chat_id:
+            self.logger.error("❌ TELEGRAM_CHAT_ID 環境變數未設置，無法啟動交互式功能")
+            return
+        
+        try:
+            self.logger.info("🚀 正在創建交互式處理器實例...")
+            self.interactive_handler = InteractiveTelegramHandler(bot_token, chat_id, self)
+            self.logger.info("✅ 交互式Telegram處理器實例創建成功")
+        except Exception as e:
+            self.logger.error(f"❌ 交互式Telegram處理器初始化失敗: {e}")
+            import traceback
+            self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
+            self.interactive_handler = None
         
     def apply_env_overrides(self):
         """使用環境變量覆蓋配置"""
@@ -449,7 +474,7 @@ class CloudMonitor:
         # 啟動交互式Telegram處理器
         if self.interactive_handler:
             try:
-                self.logger.info("正在啟動交互式Telegram處理器...")
+                self.logger.info("🚀 正在啟動交互式Telegram處理器...")
                 await self.interactive_handler.start_polling()
                 self.logger.info("✅ 交互式Telegram訊息處理已啟動")
             except Exception as e:
@@ -457,7 +482,18 @@ class CloudMonitor:
                 import traceback
                 self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
         else:
-            self.logger.warning("⚠️  交互式Telegram處理器未初始化")
+            self.logger.error("⚠️  交互式Telegram處理器未初始化 - 檢查環境變數和配置")
+            # 再次檢查原因
+            if not INTERACTIVE_AVAILABLE:
+                self.logger.error("   原因: interactive_telegram_handler 模組不可用")
+            elif not self.config['notifications']['telegram_enabled']:
+                self.logger.error("   原因: Telegram通知未啟用")
+            elif not os.getenv('TELEGRAM_BOT_TOKEN'):
+                self.logger.error("   原因: TELEGRAM_BOT_TOKEN 環境變數未設置")
+            elif not os.getenv('TELEGRAM_CHAT_ID'):
+                self.logger.error("   原因: TELEGRAM_CHAT_ID 環境變數未設置")
+            else:
+                self.logger.error("   原因: 未知初始化錯誤")
         
         # 發送啟動通知
         if self.config['notifications']['telegram_enabled']:
