@@ -39,16 +39,35 @@ class InteractiveTelegramHandler:
         
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """處理接收到的訊息"""
-        if not update.message or update.message.chat.id != self.chat_id:
+        if not update.message:
+            self.logger.debug("收到非訊息更新，忽略")
+            return
+            
+        if update.message.chat.id != self.chat_id:
+            self.logger.debug(f"收到來自非目標群組的訊息 (chat_id: {update.message.chat.id})，忽略")
             return
             
         text = update.message.text.strip()
-        self.logger.info(f"收到訊息: {text}")
+        self.logger.info(f"✅ 收到來自目標群組的訊息: '{text}'")
         
         # 檢查是否是詢問買進/賣出
         if self.is_trading_query(text):
-            response = await self.analyze_trading_decision(text)
-            await update.message.reply_text(response, parse_mode='HTML')
+            self.logger.info(f"✅ 識別為交易詢問: '{text}'")
+            try:
+                response = await self.analyze_trading_decision(text)
+                await update.message.reply_text(response, parse_mode='HTML')
+                self.logger.info("✅ AI分析回覆已發送")
+            except Exception as e:
+                self.logger.error(f"❌ 處理交易詢問時出錯: {e}")
+                import traceback
+                self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
+                # 發送錯誤訊息給用戶
+                try:
+                    await update.message.reply_text("❌ 抱歉，處理您的詢問時出現錯誤，請稍後再試。")
+                except:
+                    pass
+        else:
+            self.logger.debug(f"非交易詢問訊息: '{text}'，忽略")
     
     def is_trading_query(self, text: str) -> bool:
         """判斷是否為交易詢問"""
@@ -232,19 +251,27 @@ class InteractiveTelegramHandler:
         """啟動訊息輪詢"""
         self.logger.info("啟動Telegram訊息處理器...")
         try:
+            self.logger.info("正在初始化Application...")
             await self.application.initialize()
+            self.logger.info("正在啟動Application...")
             await self.application.start()
+            self.logger.info("正在啟動訊息輪詢...")
             await self.application.updater.start_polling()
-            self.logger.info("Telegram訊息處理器已啟動")
+            self.logger.info("✅ Telegram訊息處理器已啟動，等待訊息...")
         except Exception as e:
-            self.logger.error(f"啟動訊息處理器失敗: {e}")
+            self.logger.error(f"❌ 啟動訊息處理器失敗: {e}")
+            import traceback
+            self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
     
     async def stop_polling(self):
         """停止訊息輪詢"""
         try:
+            self.logger.info("正在停止訊息輪詢...")
             await self.application.updater.stop()
             await self.application.stop()
             await self.application.shutdown()
-            self.logger.info("Telegram訊息處理器已停止")
+            self.logger.info("✅ Telegram訊息處理器已停止")
         except Exception as e:
-            self.logger.error(f"停止訊息處理器失敗: {e}") 
+            self.logger.error(f"❌ 停止訊息處理器失敗: {e}")
+            import traceback
+            self.logger.error(f"詳細錯誤: {traceback.format_exc()}") 

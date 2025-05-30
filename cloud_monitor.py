@@ -449,10 +449,15 @@ class CloudMonitor:
         # 啟動交互式Telegram處理器
         if self.interactive_handler:
             try:
+                self.logger.info("正在啟動交互式Telegram處理器...")
                 await self.interactive_handler.start_polling()
-                self.logger.info("交互式Telegram訊息處理已啟動")
+                self.logger.info("✅ 交互式Telegram訊息處理已啟動")
             except Exception as e:
-                self.logger.error(f"啟動交互式處理器失敗: {e}")
+                self.logger.error(f"❌ 啟動交互式處理器失敗: {e}")
+                import traceback
+                self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
+        else:
+            self.logger.warning("⚠️  交互式Telegram處理器未初始化")
         
         # 發送啟動通知
         if self.config['notifications']['telegram_enabled']:
@@ -464,9 +469,15 @@ class CloudMonitor:
 • 週期: {self.config['monitoring']['primary_period']}分鐘
 • 檢查間隔: {self.config['monitoring']['check_interval']}秒
 
+💬 <b>交互式功能:</b>
+• AI分析: {'✅ 已啟用' if self.interactive_handler else '❌ 未啟用'}
+
 ⏰ <b>啟動時間:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 🔔 系統將開始監控市場並發送警報通知
+
+💡 <b>使用方法:</b>
+發送 "買進?" 或 "賣出?" 可獲得AI分析建議
             """
             
             try:
@@ -475,8 +486,9 @@ class CloudMonitor:
                     text=start_message.strip(),
                     parse_mode='HTML'
                 )
+                self.logger.info("✅ 啟動通知已發送")
             except Exception as e:
-                self.logger.error(f"發送啟動通知失敗: {e}")
+                self.logger.error(f"❌ 發送啟動通知失敗: {e}")
         
         # 主監控循環
         interval = self.config['monitoring']['check_interval']
