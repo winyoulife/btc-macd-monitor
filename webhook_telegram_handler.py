@@ -9,7 +9,7 @@ Webhook模式Telegram處理器
 import asyncio
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from typing import Dict, Optional, Any
 from telegram import Update, Bot
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
@@ -18,6 +18,9 @@ import os
 
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
+
+# 台灣時區 (UTC+8)
+TAIWAN_TZ = timezone(timedelta(hours=8))
 
 class WebhookTelegramHandler:
     """Webhook模式Telegram處理器"""
@@ -260,7 +263,7 @@ class WebhookTelegramHandler:
 • 短期: {short_emoji} {analysis['short_term_outlook']}
 • 長期: {long_emoji} {analysis['long_term_outlook']}
 
-⏰ <b>分析時間:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+⏰ <b>分析時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
 
 <i>⚠️ 此為AI技術分析，僅供參考，請結合其他資訊並謹慎決策</i>
         """
@@ -372,7 +375,7 @@ class WebhookTelegramHandler:
         return web.json_response({
             'status': 'healthy',
             'webhook_mode': True,
-            'timestamp': datetime.now().isoformat()
+            'timestamp': datetime.now(TAIWAN_TZ).isoformat()
         })
     
     async def stop_webhook(self):
