@@ -67,9 +67,9 @@ class CloudMonitor:
                 chat_id = os.getenv('TELEGRAM_CHAT_ID')
                 if bot_token and chat_id:
                     self.interactive_handler = InteractiveTelegramHandler(bot_token, chat_id, self)
-                    self.logger.info("交互式Telegram处理器初始化成功")
+                    self.logger.info("交互式Telegram處理器初始化成功")
             except Exception as e:
-                self.logger.error(f"交互式Telegram处理器初始化失败: {e}")
+                self.logger.error(f"交互式Telegram處理器初始化失敗: {e}")
                 self.interactive_handler = None
         
     def apply_env_overrides(self):
@@ -450,7 +450,7 @@ class CloudMonitor:
         if self.interactive_handler:
             try:
                 await self.interactive_handler.start_polling()
-                self.logger.info("交互式Telegram消息處理已啟動")
+                self.logger.info("交互式Telegram訊息處理已啟動")
             except Exception as e:
                 self.logger.error(f"啟動交互式處理器失敗: {e}")
         
@@ -509,9 +509,9 @@ class CloudMonitor:
         if self.interactive_handler:
             try:
                 await self.interactive_handler.stop_polling()
-                self.logger.info("交互式Telegram消息处理已停止")
+                self.logger.info("交互式Telegram訊息處理已停止")
             except Exception as e:
-                self.logger.error(f"停止交互式处理器失败: {e}")
+                self.logger.error(f"停止交互式處理器失敗: {e}")
         
         # 發送停止通知
         if self.config['notifications']['telegram_enabled']:
