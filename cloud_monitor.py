@@ -15,6 +15,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Optional, Any
 import schedule
 import pandas as pd
+import aiohttp  # 添加http客戶端
 
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
@@ -69,6 +70,12 @@ class CloudMonitor:
             'errors_count': 0,
             'start_time': None
         }
+        
+        # 保活功能設置
+        self.keep_alive_enabled = os.getenv('KEEP_ALIVE_ENABLED', 'true').lower() == 'true'
+        self.keep_alive_interval = int(os.getenv('KEEP_ALIVE_INTERVAL', '1800'))  # 30分鐘
+        self.health_url = f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME', 'localhost:8080')}/health"
+        self.last_keep_alive = None
         
         # 初始化交互式Telegram处理器 - 添加詳細日誌
         self.interactive_handler = None
@@ -616,6 +623,10 @@ class CloudMonitor:
 💬 <b>交互式功能:</b>
 • AI分析: {'✅ 已啟用' if ai_enabled else '❌ 未啟用'}{ai_mode}
 
+💓 <b>保活功能:</b>
+• 自動保活: {'✅ 已啟用' if self.keep_alive_enabled else '❌ 已禁用'}
+{f'• Ping間隔: {self.keep_alive_interval//60}分鐘' if self.keep_alive_enabled else ''}
+
 ⏰ <b>啟動時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
 
 🔔 系統將開始監控市場並發送警報通知
@@ -637,6 +648,12 @@ class CloudMonitor:
         # 主監控循環
         interval = self.config['monitoring']['check_interval']
         
+        # 創建保活任務
+        keep_alive_task = None
+        if self.keep_alive_enabled:
+            keep_alive_task = asyncio.create_task(self.keep_alive_task())
+            self.logger.info("💓 保活任務已啟動")
+        
         try:
             while self.is_running:
                 start_time = time.time()
@@ -655,6 +672,15 @@ class CloudMonitor:
         except Exception as e:
             self.logger.error(f"監控循環出錯: {e}")
         finally:
+            # 取消保活任務
+            if keep_alive_task:
+                keep_alive_task.cancel()
+                try:
+                    await keep_alive_task
+                except asyncio.CancelledError:
+                    pass
+                self.logger.info("💓 保活任務已停止")
+            
             await self.stop()
     
     async def stop(self):
@@ -696,6 +722,42 @@ class CloudMonitor:
         
         self.logger.info("雲端監控系統已停止")
     
+    async def keep_alive_ping(self):
+        """發送保活ping請求"""
+        if not self.keep_alive_enabled:
+            return
+            
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.health_url, timeout=30) as response:
+                    if response.status == 200:
+                        self.last_keep_alive = datetime.now(TAIWAN_TZ)
+                        self.logger.debug(f"💓 保活ping成功: {self.health_url}")
+                    else:
+                        self.logger.warning(f"⚠️  保活ping回應異常: {response.status}")
+        except Exception as e:
+            self.logger.warning(f"⚠️  保活ping失敗: {e}")
+    
+    async def keep_alive_task(self):
+        """保活任務（背景運行）"""
+        if not self.keep_alive_enabled:
+            self.logger.info("💤 保活功能已禁用")
+            return
+            
+        self.logger.info(f"💓 保活功能已啟動 - 間隔: {self.keep_alive_interval}秒")
+        self.logger.info(f"   目標URL: {self.health_url}")
+        
+        while self.is_running:
+            try:
+                await self.keep_alive_ping()
+                await asyncio.sleep(self.keep_alive_interval)
+            except asyncio.CancelledError:
+                self.logger.info("💓 保活任務已取消")
+                break
+            except Exception as e:
+                self.logger.error(f"❌ 保活任務出錯: {e}")
+                await asyncio.sleep(60)  # 錯誤時等待1分鐘再試
+
     def get_status(self) -> Dict[str, Any]:
         """獲取系統狀態"""
         try:
@@ -720,6 +782,16 @@ class CloudMonitor:
                 },
                 'monitoring_symbols': self.config['monitoring']['symbols'],
                 'monitoring_active': len(self.monitoring_data) > 0,
+                'keep_alive': {
+                    'enabled': self.keep_alive_enabled,
+                    'interval_seconds': self.keep_alive_interval,
+                    'health_url': self.health_url,
+                    'last_ping': self.last_keep_alive.isoformat() if self.last_keep_alive else None
+                },
+                'telegram_handlers': {
+                    'webhook_active': bool(self.webhook_handler),
+                    'polling_active': bool(self.interactive_handler)
+                },
                 'timestamp': datetime.now().isoformat()
             }
         except Exception as e:
