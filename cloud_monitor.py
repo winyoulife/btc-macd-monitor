@@ -496,23 +496,40 @@ class CloudMonitor:
     
     def get_status(self) -> Dict[str, Any]:
         """獲取系統狀態"""
-        runtime = datetime.now() - self.stats['start_time'] if self.stats['start_time'] else timedelta(0)
-        
-        # 簡化狀態響應，避免序列化問題
-        return {
-            'is_running': self.is_running,
-            'runtime_seconds': int(runtime.total_seconds()),
-            'runtime_formatted': str(runtime).split('.')[0],
-            'stats': {
-                'alerts_sent': self.stats['alerts_sent'],
-                'checks_performed': self.stats['checks_performed'],
-                'errors_count': self.stats['errors_count'],
-                'start_time': self.stats['start_time'].isoformat() if self.stats['start_time'] else None
-            },
-            'monitoring_symbols': self.config['monitoring']['symbols'],
-            'monitoring_active': len(self.monitoring_data) > 0,
-            'last_check': max([data.get('timestamp', datetime.min) for data in self.monitoring_data.values()]).isoformat() if self.monitoring_data else None
-        }
+        try:
+            if self.stats['start_time'] and isinstance(self.stats['start_time'], datetime):
+                runtime = datetime.now() - self.stats['start_time']
+                runtime_seconds = int(runtime.total_seconds())
+                runtime_formatted = str(runtime).split('.')[0]
+            else:
+                runtime_seconds = 0
+                runtime_formatted = "0:00:00"
+            
+            # 簡化狀態響應，避免序列化問題
+            return {
+                'is_running': self.is_running,
+                'runtime_seconds': runtime_seconds,
+                'runtime_formatted': runtime_formatted,
+                'stats': {
+                    'alerts_sent': self.stats['alerts_sent'],
+                    'checks_performed': self.stats['checks_performed'],
+                    'errors_count': self.stats['errors_count'],
+                    'start_time': self.stats['start_time'].isoformat() if self.stats['start_time'] and isinstance(self.stats['start_time'], datetime) else None
+                },
+                'monitoring_symbols': self.config['monitoring']['symbols'],
+                'monitoring_active': len(self.monitoring_data) > 0,
+                'last_check': None if not self.monitoring_data else max([
+                    data.get('timestamp', datetime.min) for data in self.monitoring_data.values() 
+                    if isinstance(data.get('timestamp'), datetime)
+                ], default=datetime.min).isoformat()
+            }
+        except Exception as e:
+            return {
+                'status': 'error',
+                'error': str(e),
+                'is_running': self.is_running,
+                'timestamp': datetime.now().isoformat()
+            }
 
 def main():
     """主函數"""
