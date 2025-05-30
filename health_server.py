@@ -61,7 +61,25 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
         """詳細狀態檢查"""
         try:
             status = self.monitor.get_status()
-            self.send_json_response(status, 200)
+            
+            # 修復 datetime 序列化問題
+            if 'stats' in status and 'start_time' in status['stats']:
+                if status['stats']['start_time']:
+                    status['stats']['start_time'] = status['stats']['start_time'].isoformat()
+            
+            # 修復監控數據中的 timestamp
+            if 'last_monitoring_data' in status:
+                for symbol, data in status['last_monitoring_data'].items():
+                    if 'timestamp' in data and data['timestamp']:
+                        data['timestamp'] = data['timestamp'].isoformat()
+            
+            response = json.dumps(status, indent=2, ensure_ascii=False)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(response.encode('utf-8'))
             
         except Exception as e:
             error_response = {
@@ -69,7 +87,13 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
                 'error': str(e),
                 'timestamp': datetime.now().isoformat()
             }
-            self.send_json_response(error_response, 500)
+            
+            response = json.dumps(error_response, indent=2)
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(response.encode('utf-8'))
     
     def handle_metrics(self):
         """指標端點（Prometheus格式）"""
