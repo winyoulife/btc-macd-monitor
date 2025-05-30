@@ -29,12 +29,12 @@ class CloudMonitorService:
         """處理停止信號"""
         if not self.is_stopping:
             self.is_stopping = True
-            print(f"\n📡 收到停止信號 ({signum})")
+            print(f"\n收到停止信號 ({signum})")
             asyncio.create_task(self.stop())
     
     async def start(self):
         """啟動完整的雲端監控服務"""
-        print("🚀 啟動雲端MACD監控系統")
+        print("啟動雲端MACD監控系統")
         print("="*50)
         
         try:
@@ -43,31 +43,38 @@ class CloudMonitorService:
             self.health_server = HealthServer(self.monitor, health_port)
             self.health_server.start()
             
-            print("\n📊 監控配置:")
+            print("\n監控配置:")
             config = self.monitor.config
             print(f"   • 交易對: {', '.join(config['monitoring']['symbols'])}")
             print(f"   • 主要週期: {config['monitoring']['primary_period']}分鐘")
             print(f"   • 檢查間隔: {config['monitoring']['check_interval']}秒")
             print(f"   • 平台: {config['cloud']['platform']}")
             
-            print("\n🔔 通知設定:")
+            print("\n通知設定:")
             notifications = config['notifications']
             for service, enabled in notifications.items():
-                status = "✅" if enabled else "❌"
+                status = "YES" if enabled else "NO"
                 print(f"   • {service.replace('_', ' ').title()}: {status}")
             
-            print(f"\n⚙️  高級設定:")
+            print(f"\n高級設定:")
             advanced = config['advanced']
             print(f"   • 冷卻期: {advanced['cooldown_period']}秒")
             print(f"   • 每小時最大警報: {advanced['max_alerts_per_hour']}次")
             
             print("\n" + "="*50)
             
+            print(f"健康檢查服務器啟動於端口 {health_port}")
+            print("端點:")
+            print(f"   • Health: http://localhost:{health_port}/health")
+            print(f"   • Status: http://localhost:{health_port}/status")
+            print(f"   • Metrics: http://localhost:{health_port}/metrics")
+            print(f"   • Config: http://localhost:{health_port}/config")
+            
             # 啟動監控
             await self.monitor.run_forever()
             
         except Exception as e:
-            print(f"❌ 啟動失敗: {e}")
+            print(f"啟動失敗: {e}")
             await self.stop()
     
     async def stop(self):
@@ -76,7 +83,7 @@ class CloudMonitorService:
             return
             
         self.is_stopping = True
-        print("\n🔄 正在停止服務...")
+        print("\n正在停止服務...")
         
         # 停止監控
         if self.monitor:
@@ -86,7 +93,7 @@ class CloudMonitorService:
         if self.health_server:
             self.health_server.stop()
         
-        print("✅ 所有服務已停止")
+        print("所有服務已停止")
 
 def main():
     """主函數"""
@@ -125,7 +132,7 @@ def main():
     args = parser.parse_args()
     
     if args.test:
-        print("🧪 測試模式")
+        print("測試模式")
         test_system(args.config)
         return
     
@@ -138,41 +145,41 @@ def main():
     try:
         asyncio.run(service.start())
     except KeyboardInterrupt:
-        print("\n👋 用戶中斷")
+        print("\n用戶中斷")
     except Exception as e:
-        print(f"\n❌ 系統錯誤: {e}")
+        print(f"\n系統錯誤: {e}")
         sys.exit(1)
 
 def test_system(config_file):
     """測試系統配置和連接"""
-    print("🔍 檢查系統配置...")
+    print("檢查系統配置...")
     
     try:
         # 測試配置載入
         monitor = CloudMonitor(config_file)
-        print("✅ 配置文件載入成功")
+        print("配置文件載入成功")
         
         # 測試API連接
-        print("\n🔗 測試API連接...")
+        print("\n測試API連接...")
         ticker = monitor.max_api.get_ticker('btctwd')
         if ticker:
-            print(f"✅ MAX API連接成功 - BTC價格: ${ticker['price']:,.0f}")
+            print(f"MAX API連接成功 - BTC價格: ${ticker['price']:,.0f}")
         else:
-            print("❌ MAX API連接失敗")
+            print("MAX API連接失敗")
         
         # 測試Telegram連接
         if monitor.config['notifications']['telegram_enabled']:
-            print("\n📱 測試Telegram連接...")
+            print("\n測試Telegram連接...")
             
             async def test_telegram():
                 try:
                     success, message = await monitor.telegram_notifier.test_connection()
                     if success:
-                        print(f"✅ Telegram連接成功: {message}")
+                        print(f"Telegram連接成功: {message}")
                     else:
-                        print(f"❌ Telegram連接失敗: {message}")
+                        print(f"Telegram連接失敗: {message}")
                 except Exception as e:
-                    print(f"❌ Telegram測試錯誤: {e}")
+                    print(f"Telegram測試錯誤: {e}")
             
             try:
                 # 使用新的event loop來避免衝突
@@ -182,12 +189,12 @@ def test_system(config_file):
                 loop.run_until_complete(test_telegram())
                 loop.close()
             except Exception as e:
-                print(f"❌ Telegram測試失敗: {e}")
+                print(f"Telegram測試失敗: {e}")
         
-        print("\n✅ 系統測試完成")
+        print("\n系統測試完成")
         
     except Exception as e:
-        print(f"❌ 測試失敗: {e}")
+        print(f"測試失敗: {e}")
         import traceback
         traceback.print_exc()
 
