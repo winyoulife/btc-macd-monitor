@@ -251,23 +251,57 @@ class InteractiveTelegramHandler:
         """啟動訊息輪詢"""
         self.logger.info("啟動Telegram訊息處理器...")
         try:
+            # 先清除任何現有的webhook，避免衝突
+            self.logger.info("正在清除可能的webhook衝突...")
+            bot = Bot(token=self.bot_token)
+            
+            try:
+                webhook_info = await bot.get_webhook_info()
+                if webhook_info.url:
+                    self.logger.warning(f"發現現有webhook: {webhook_info.url}，正在清除...")
+                    await bot.delete_webhook(drop_pending_updates=True)
+                    self.logger.info("✅ Webhook已清除")
+                    
+                # 等待一下確保清除完成
+                await asyncio.sleep(2)
+            except Exception as e:
+                self.logger.warning(f"清除webhook時出現問題: {e}")
+            
             self.logger.info("正在初始化Application...")
             await self.application.initialize()
             self.logger.info("正在啟動Application...")
             await self.application.start()
             self.logger.info("正在啟動訊息輪詢...")
-            await self.application.updater.start_polling()
+            await self.application.updater.start_polling(
+                drop_pending_updates=True,  # 丟棄待處理更新
+                timeout=10,                 # 設置超時
+                error_callback=self._error_callback
+            )
             self.logger.info("✅ Telegram訊息處理器已啟動，等待訊息...")
         except Exception as e:
             self.logger.error(f"❌ 啟動訊息處理器失敗: {e}")
             import traceback
             self.logger.error(f"詳細錯誤: {traceback.format_exc()}")
+            
+            # 如果是衝突錯誤，提供解決建議
+            if "Conflict" in str(e):
+                self.logger.error("🔧 檢測到bot衝突！請確保沒有其他實例在運行同一個bot")
+                self.logger.error("   解決方案：運行 fix_bot_conflict.py 腳本")
+    
+    def _error_callback(self, update, context):
+        """錯誤回調函數"""
+        error = context.error
+        self.logger.error(f"Telegram更新處理錯誤: {error}")
+        
+        if "Conflict" in str(error):
+            self.logger.error("🔧 檢測到bot衝突，建議重啟服務")
     
     async def stop_polling(self):
         """停止訊息輪詢"""
         try:
             self.logger.info("正在停止訊息輪詢...")
-            await self.application.updater.stop()
+            if hasattr(self.application, 'updater') and self.application.updater:
+                await self.application.updater.stop()
             await self.application.stop()
             await self.application.shutdown()
             self.logger.info("✅ Telegram訊息處理器已停止")
