@@ -125,19 +125,26 @@ class WebhookTelegramHandler:
             if not market_data:
                 return "❌ 抱歉，目前無法獲取市場數據，請稍後再試。"
             
-            # 獲取即時新聞
-            self.logger.info("📰 正在獲取BTC相關新聞...")
+            # 獲取新聞數據 - 增加獲取數量
+            self.logger.info("📰 正在從15個全球新聞源獲取最新資訊...")
             news_list = []
             try:
-                news_list = self.news_fetcher.get_crypto_news(limit=3)
+                news_list = self.news_fetcher.get_crypto_news(limit=8)  # 增加到8條
                 self.logger.info(f"✅ 獲取到 {len(news_list)} 條新聞")
+                # 顯示新聞來源統計
+                sources = [news.get('source', 'Unknown') for news in news_list]
+                source_count = {}
+                for source in sources:
+                    source_count[source] = source_count.get(source, 0) + 1
+                self.logger.info(f"📊 新聞來源分布: {source_count}")
             except Exception as e:
                 self.logger.warning(f"⚠️  新聞獲取失敗: {e}")
             
-            # 分析新聞情緒
-            self.logger.info("🔍 正在分析新聞情緒...")
+            # 分析新聞情緒 - 使用增強分析器
+            self.logger.info("🔍 正在使用AI增強情緒分析器分析新聞...")
             sentiment_analysis = self.sentiment_analyzer.analyze_news_sentiment(news_list)
             self.logger.info(f"📈 新聞情緒: {sentiment_analysis['overall_sentiment']}")
+            self.logger.info(f"📊 詳細統計: 利多{sentiment_analysis.get('bullish_count', 0)}筆, 利空{sentiment_analysis.get('bearish_count', 0)}筆, 中性{sentiment_analysis.get('neutral_count', 0)}筆")
             
             # 提取技術指標
             technical = market_data['technical']
@@ -277,26 +284,6 @@ class WebhookTelegramHandler:
             news_text = '中性'
             news_color = '🟡'
         
-        # 統計利多利空消息數量
-        bullish_count = 0
-        bearish_count = 0
-        neutral_count = 0
-        
-        if news_list:
-            for news in news_list:
-                title = news.get('title', '').lower()
-                summary = news.get('summary', '').lower()
-                text = title + ' ' + summary
-                
-                # 計算該條新聞的情緒分數
-                score = self.sentiment_analyzer._calculate_sentiment_score(text)
-                if score > 0.5:
-                    bullish_count += 1
-                elif score < -0.5:
-                    bearish_count += 1
-                else:
-                    neutral_count += 1
-        
         # 綜合建議
         action = trading_recommendation['action']
         risk_level = trading_recommendation['risk_level']
@@ -345,9 +332,10 @@ class WebhookTelegramHandler:
 💬 <b>情緒分析:</b> {sentiment_analysis['analysis']}
 
 📊 <b>24小時新聞統計:</b>
-• 📈 利多消息: {bullish_count} 筆
-• 📉 利空消息: {bearish_count} 筆
-• ➡️ 中性消息: {neutral_count} 筆
+• 📈 利多消息: {sentiment_analysis.get('bullish_count', 0)} 筆
+• 📉 利空消息: {sentiment_analysis.get('bearish_count', 0)} 筆
+• ➡️ 中性消息: {sentiment_analysis.get('neutral_count', 0)} 筆
+• 🌐 來源多樣性: {sentiment_analysis.get('source_diversity', 0)}/15個權威新聞源
 
 🔍 <b>技術分析依據:</b>
 """
