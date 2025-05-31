@@ -19,6 +19,7 @@ import aiohttp  # 添加http客戶端
 
 from max_api import MaxAPI
 from enhanced_macd_analyzer import EnhancedMACDAnalyzer
+from advanced_crypto_analyzer import AdvancedCryptoAnalyzer
 from telegram_notifier import TelegramNotifier
 
 # 添加交互式处理器导入
@@ -53,6 +54,7 @@ class CloudMonitor:
         # 初始化組件
         self.max_api = MaxAPI()
         self.macd_analyzer = EnhancedMACDAnalyzer()
+        self.advanced_analyzer = AdvancedCryptoAnalyzer()
         self.telegram_notifier = TelegramNotifier()
         
         # 設置日誌
@@ -377,7 +379,67 @@ class CloudMonitor:
             return None
     
     def analyze_alerts(self, market_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """分析並生成警報"""
+        """分析並生成警報 - 升級為多重技術指標AI分析"""
+        alerts = []
+        
+        try:
+            self.logger.info("🔍 使用AI多重技術指標系統分析警報...")
+            
+            # 使用高級分析器進行綜合分析
+            df = market_data.get('df')
+            current_price = market_data['price']['current']
+            
+            if df is None or len(df) < 100:
+                self.logger.warning("⚠️ 數據不足，無法執行AI多重指標分析")
+                return []
+            
+            # 執行AI綜合分析
+            analysis = self.advanced_analyzer.comprehensive_analysis(df, current_price)
+            
+            recommendation = analysis.get('recommendation', 'HOLD')
+            confidence = analysis.get('confidence', 0)
+            net_score = analysis.get('net_score', 0)
+            
+            # 根據AI分析結果生成警報
+            if recommendation in ['STRONG_BUY', 'BUY'] and confidence >= 60:
+                alert_strength = min(95, confidence + abs(net_score))
+                alerts.append({
+                    'type': 'AI_MULTI_INDICATOR_BUY',
+                    'priority': 'HIGH' if recommendation == 'STRONG_BUY' else 'MEDIUM',
+                    'message': f'AI多重技術指標{analysis["advice"]} (置信度: {confidence:.1f}%)',
+                    'action': 'BUY',
+                    'strength': alert_strength,
+                    'ai_analysis': analysis
+                })
+                self.logger.info(f"✅ 生成AI買進警報: {recommendation}, 置信度: {confidence:.1f}%")
+                
+            elif recommendation in ['STRONG_SELL', 'SELL'] and confidence >= 60:
+                alert_strength = min(95, confidence + abs(net_score))
+                alerts.append({
+                    'type': 'AI_MULTI_INDICATOR_SELL',
+                    'priority': 'HIGH' if recommendation == 'STRONG_SELL' else 'MEDIUM',
+                    'message': f'AI多重技術指標{analysis["advice"]} (置信度: {confidence:.1f}%)',
+                    'action': 'SELL',
+                    'strength': alert_strength,
+                    'ai_analysis': analysis
+                })
+                self.logger.info(f"✅ 生成AI賣出警報: {recommendation}, 置信度: {confidence:.1f}%")
+            
+            # 如果AI分析沒有產生警報，則回退到基本MACD分析作為補充
+            if not alerts:
+                self.logger.info("🔄 AI分析未產生警報，執行基本MACD檢查...")
+                basic_alerts = self._analyze_basic_alerts(market_data)
+                alerts.extend(basic_alerts)
+            
+            return alerts
+            
+        except Exception as e:
+            self.logger.error(f"❌ AI多重指標分析失敗: {e}")
+            # 回退到基本分析
+            return self._analyze_basic_alerts(market_data)
+    
+    def _analyze_basic_alerts(self, market_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """基本MACD+RSI警報分析（作為AI分析的後備）"""
         alerts = []
         
         try:
@@ -432,14 +494,10 @@ class CloudMonitor:
                     'strength': 60
                 })
             
-            # 價格變化警報
-            # 這裡需要歷史價格數據來計算變化百分比
-            # 暫時跳過，可以在後續版本中加入
-            
             return alerts
             
         except Exception as e:
-            self.logger.error(f"分析警報時出錯: {e}")
+            self.logger.error(f"基本警報分析失敗: {e}")
             return []
     
     def should_send_alert(self, alert: Dict[str, Any]) -> bool:
@@ -465,7 +523,7 @@ class CloudMonitor:
         return True
     
     async def send_notifications(self, alerts: List[Dict[str, Any]], market_data: Dict[str, Any]):
-        """發送通知"""
+        """發送通知 - 支援AI多重技術指標分析"""
         notifications = self.config['notifications']
         
         for alert in alerts:
@@ -475,34 +533,117 @@ class CloudMonitor:
             try:
                 # Telegram通知
                 if notifications['telegram_enabled']:
-                    signal_data = {
-                        'signal': alert['action'],
-                        'strength': alert['strength'],
-                        'reason': alert['message'],
-                        'macd_current': market_data['technical']['macd'],
-                        'macd_signal_current': market_data['technical']['macd_signal'],
-                        'histogram_current': market_data['technical']['macd_histogram'],
-                        'rsi_current': market_data['technical']['rsi']
-                    }
+                    # 檢查是否為AI多重指標警報
+                    if 'ai_analysis' in alert:
+                        # 使用AI分析結果發送詳細通知
+                        ai_analysis = alert['ai_analysis']
+                        success = await self._send_ai_analysis_notification(alert, ai_analysis, market_data)
+                    else:
+                        # 傳統MACD+RSI警報通知
+                        signal_data = {
+                            'signal': alert['action'],
+                            'strength': alert['strength'],
+                            'reason': alert['message'],
+                            'macd_current': market_data['technical']['macd'],
+                            'macd_signal_current': market_data['technical']['macd_signal'],
+                            'histogram_current': market_data['technical']['macd_histogram'],
+                            'rsi_current': market_data['technical']['rsi']
+                        }
+                        
+                        price_data = {
+                            'price': market_data['price']['current'],
+                            'high': market_data['price']['high_24h'],
+                            'low': market_data['price']['low_24h'],
+                            'volume': market_data['price']['volume_24h']
+                        }
+                        
+                        success = await self.telegram_notifier.send_signal_notification(signal_data, price_data)
                     
-                    price_data = {
-                        'price': market_data['price']['current'],
-                        'high': market_data['price']['high_24h'],
-                        'low': market_data['price']['low_24h'],
-                        'volume': market_data['price']['volume_24h']
-                    }
-                    
-                    success = await self.telegram_notifier.send_signal_notification(signal_data, price_data)
                     if success:
                         self.last_alerts[alert['type']] = datetime.now()
                         self.stats['alerts_sent'] += 1
-                        self.logger.info(f"已發送Telegram警報: {alert['type']}")
+                        self.logger.info(f"✅ 已發送Telegram警報: {alert['type']}")
                 
                 # 其他通知方式可以在這裡添加
                 # Email, Slack, Discord等
                 
             except Exception as e:
-                self.logger.error(f"發送通知失敗: {e}")
+                self.logger.error(f"❌ 發送通知失敗: {e}")
+    
+    async def _send_ai_analysis_notification(self, alert: Dict, ai_analysis: Dict, market_data: Dict) -> bool:
+        """發送AI多重技術指標分析通知"""
+        try:
+            action = alert['action']
+            confidence = ai_analysis.get('confidence', 0)
+            recommendation = ai_analysis.get('recommendation', 'HOLD')
+            detailed_analysis = ai_analysis.get('detailed_analysis', {})
+            tech_values = ai_analysis.get('technical_values', {})
+            
+            # 構建詳細的AI分析通知
+            action_emoji = '🚀' if action == 'BUY' else '📉'
+            priority_text = '🔥 強烈' if alert['priority'] == 'HIGH' else '⚠️'
+            
+            message = f"""
+{action_emoji} <b>{priority_text}{action}信號 - AI多重技術指標分析</b>
+
+💰 <b>當前價格:</b> ${market_data['price']['current']:,.0f} TWD
+📊 <b>AI建議:</b> {ai_analysis.get('advice', recommendation)}
+🎯 <b>置信度:</b> {confidence:.1f}%
+
+🔍 <b>多重指標詳細分析:</b>
+"""
+            
+            # 添加各項技術指標的分析結果
+            if 'ma_cross' in detailed_analysis:
+                ma = detailed_analysis['ma_cross']
+                status_emoji = '🟢' if ma['signal'] == 'BULLISH' else '🔴' if ma['signal'] == 'BEARISH' else '🟡'
+                message += f"• {status_emoji} 均線系統: {ma['signal']} ({ma['strength']:.0f}%)\n"
+            
+            if 'macd' in detailed_analysis:
+                macd = detailed_analysis['macd']
+                status_emoji = '🟢' if macd['signal'] == 'BULLISH' else '🔴' if macd['signal'] == 'BEARISH' else '🟡'
+                message += f"• {status_emoji} MACD: {macd['signal']} ({macd['strength']:.0f}%)\n"
+            
+            if 'rsi' in detailed_analysis:
+                rsi = detailed_analysis['rsi']
+                status_emoji = '🟢' if rsi['signal'] == 'BULLISH' else '🔴' if rsi['signal'] == 'BEARISH' else '🟡'
+                message += f"• {status_emoji} RSI: {rsi['signal']} ({rsi['strength']:.0f}%)\n"
+            
+            if 'bollinger' in detailed_analysis:
+                bb = detailed_analysis['bollinger']
+                status_emoji = '🟢' if bb['signal'] == 'BULLISH' else '🔴' if bb['signal'] == 'BEARISH' else '🟡'
+                message += f"• {status_emoji} 布林帶: {bb['signal']} ({bb['strength']:.0f}%)\n"
+            
+            if 'volume' in detailed_analysis:
+                vol = detailed_analysis['volume']
+                status_emoji = '🟢' if vol['signal'] == 'BULLISH' else '🔴' if vol['signal'] == 'BEARISH' else '🟡'
+                message += f"• {status_emoji} 成交量: {vol['signal']} ({vol['strength']:.0f}%)\n"
+            
+            # 添加關鍵技術指標數值
+            message += f"""
+📈 <b>關鍵技術數值:</b>
+• MA7: {tech_values.get('ma7', 0):,.1f} TWD
+• MA25: {tech_values.get('ma25', 0):,.1f} TWD
+• MACD: {tech_values.get('macd', 0):.2f}
+• RSI: {tech_values.get('rsi', 0):.1f}
+
+⏰ <b>分析時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
+
+<i>🤖 本警報由AI多重技術指標系統生成，整合MA、MACD、RSI、布林帶、成交量等專業指標</i>
+            """
+            
+            # 發送通知
+            await self.telegram_notifier.bot.send_message(
+                chat_id=self.telegram_notifier.chat_id,
+                text=message.strip(),
+                parse_mode='HTML'
+            )
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ 發送AI分析通知失敗: {e}")
+            return False
     
     async def monitoring_cycle(self):
         """監控循環"""

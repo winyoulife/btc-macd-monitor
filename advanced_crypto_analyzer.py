@@ -484,7 +484,7 @@ class AdvancedCryptoAnalyzer:
             bb_analysis = self.analyze_bollinger_signals(df_with_indicators)
             volume_analysis = self.analyze_volume_signals(df_with_indicators)
             
-            # AI權重計算
+            # AI權重計算 - 修復置信度計算邏輯
             total_bullish_score = 0
             total_bearish_score = 0
             max_possible_score = sum(self.indicator_weights.values())
@@ -497,18 +497,50 @@ class AdvancedCryptoAnalyzer:
                 'volume': volume_analysis
             }
             
+            # 詳細記錄各指標的貢獻
+            indicator_contributions = {}
+            
             for indicator, analysis in analyses.items():
                 weight = self.indicator_weights.get(indicator, 0)
                 strength = analysis['strength']
                 
                 if analysis['signal'] == 'BULLISH':
-                    total_bullish_score += (strength / 100) * weight
+                    contribution = (strength / 100) * weight
+                    total_bullish_score += contribution
+                    indicator_contributions[indicator] = {'type': 'BULLISH', 'contribution': contribution, 'strength': strength}
                 elif analysis['signal'] == 'BEARISH':
-                    total_bearish_score += (strength / 100) * weight
+                    contribution = (strength / 100) * weight
+                    total_bearish_score += contribution
+                    indicator_contributions[indicator] = {'type': 'BEARISH', 'contribution': contribution, 'strength': strength}
+                else:
+                    indicator_contributions[indicator] = {'type': 'NEUTRAL', 'contribution': 0, 'strength': strength}
             
             # 計算最終信號
             net_score = total_bullish_score - total_bearish_score
-            confidence = abs(net_score) / max_possible_score * 100
+            
+            # 修復置信度計算 - 使用有效信號的總強度
+            active_signals_strength = sum([contrib['strength'] for contrib in indicator_contributions.values() 
+                                         if contrib['type'] != 'NEUTRAL'])
+            total_active_indicators = len([contrib for contrib in indicator_contributions.values() 
+                                         if contrib['type'] != 'NEUTRAL'])
+            
+            if total_active_indicators > 0:
+                # 基於實際參與的指標計算置信度
+                avg_signal_strength = active_signals_strength / total_active_indicators
+                indicator_coverage = total_active_indicators / len(analyses)  # 指標覆蓋率
+                confidence = (avg_signal_strength * indicator_coverage * abs(net_score) / max_possible_score) * 100
+                confidence = min(95, max(15, confidence))
+            else:
+                confidence = 15  # 沒有明確信號時的最低置信度
+            
+            # 記錄調試信息
+            self.logger.info(f"📊 指標分析結果:")
+            self.logger.info(f"   看漲分數: {total_bullish_score:.2f}")
+            self.logger.info(f"   看跌分數: {total_bearish_score:.2f}")
+            self.logger.info(f"   淨分數: {net_score:.2f}")
+            self.logger.info(f"   活躍指標: {total_active_indicators}/{len(analyses)}")
+            self.logger.info(f"   平均強度: {avg_signal_strength:.1f}%" if total_active_indicators > 0 else "   平均強度: N/A")
+            self.logger.info(f"   最終置信度: {confidence:.1f}%")
             
             if net_score > 15:
                 final_signal = 'STRONG_BUY'
@@ -531,12 +563,13 @@ class AdvancedCryptoAnalyzer:
             
             return {
                 'recommendation': final_signal,
-                'confidence': min(95, max(15, confidence)),
+                'confidence': confidence,
                 'bullish_score': total_bullish_score,
                 'bearish_score': total_bearish_score,
                 'net_score': net_score,
                 'advice': recommendation,
                 'detailed_analysis': analyses,
+                'indicator_contributions': indicator_contributions,  # 新增詳細貢獻記錄
                 'technical_values': {
                     'macd': latest['macd'],
                     'macd_signal': latest['macd_signal'],
@@ -607,6 +640,7 @@ class AdvancedCryptoAnalyzer:
             'net_score': 0,
             'advice': '資料不足，建議等待',
             'detailed_analysis': {},
+            'indicator_contributions': {},
             'technical_values': {},
             'timestamp': datetime.now()
         }
