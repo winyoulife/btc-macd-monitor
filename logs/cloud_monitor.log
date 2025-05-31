@@ -1,0 +1,323 @@
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-05-31 18:17:35,775 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-05-31 18:17:35,776 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-05-31 18:17:35,776 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-05-31 18:17:35,776 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-05-31 18:17:35,776 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-05-31 18:17:35,777 - CloudMonitor - INFO - 雲端監控系統啟動
+2025-05-31 18:17:35,777 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:35,777 - CloudMonitor - INFO - 🚀 準備啟動Webhook式Telegram處理器...
+2025-05-31 18:17:35,777 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:35,777 - CloudMonitor - ERROR - ❌ 沒有可用的Telegram處理器
+2025-05-31 18:17:35,778 - CloudMonitor - ERROR - ⚠️  所有Telegram處理器都未初始化 - 檢查環境變數和配置
+2025-05-31 18:17:35,778 - CloudMonitor - ERROR - 🔍 診斷原因:
+2025-05-31 18:17:35,778 - CloudMonitor - ERROR -    原因: TELEGRAM_BOT_TOKEN 環境變數未設置
+2025-05-31 18:17:35,778 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:35,778 - CloudMonitor - INFO - 🏁 Telegram處理器啟動流程完成
+2025-05-31 18:17:35,778 - CloudMonitor - INFO -    Webhook狀態: ❌ 未運行
+2025-05-31 18:17:35,778 - CloudMonitor - INFO -    長輪詢狀態: ❌ 未運行
+2025-05-31 18:17:35,778 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:17:36,860 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 18:17:36,862 - CloudMonitor - INFO - ✅ 啟動通知已發送
+2025-05-31 18:17:36,862 - CloudMonitor - INFO - 💓 保活任務已啟動
+2025-05-31 18:17:36,862 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:17:36,862 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:17:36,862 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:17:37,125 - CloudMonitor - INFO - 價格數據獲取成功: 3144829.7
+2025-05-31 18:17:37,125 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:17:37,279 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:17:37,279 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:17:37,285 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:17:37,285 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13231.64, RSI=40.4
+2025-05-31 18:17:37,286 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:17:37,286 - CloudMonitor - INFO - 保活功能已啟動 - 間隔: 300秒 (5分鐘)
+2025-05-31 18:17:37,286 - CloudMonitor - INFO -    目標URL: https://localhost:8080/health
+2025-05-31 18:17:37,286 - CloudMonitor - INFO - 執行初始保活ping...
+2025-05-31 18:17:39,592 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:17:41,893 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:17:41,893 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 18:18:36,869 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:18:36,869 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:18:36,869 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:18:36,984 - CloudMonitor - INFO - 價格數據獲取成功: 3144829.7
+2025-05-31 18:18:36,984 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:18:37,107 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:18:37,107 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:18:37,110 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:18:37,111 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13095.37, RSI=41.4
+2025-05-31 18:18:37,111 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:19:36,878 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:19:36,878 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:19:36,879 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:19:36,990 - CloudMonitor - INFO - 價格數據獲取成功: 3144829.7
+2025-05-31 18:19:36,991 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:19:37,285 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:19:37,285 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:19:37,289 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:19:37,290 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13095.37, RSI=41.4
+2025-05-31 18:19:37,290 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:20:01,278 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-05-31 18:20:01,279 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-05-31 18:20:01,280 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-05-31 18:20:01,280 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-05-31 18:20:01,280 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-05-31 18:20:01,280 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-05-31 18:20:36,889 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:20:36,889 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:20:36,889 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:20:37,008 - CloudMonitor - INFO - 價格數據獲取成功: 3141235.1
+2025-05-31 18:20:37,008 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:20:37,124 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:20:37,124 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:20:37,128 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:20:37,129 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13382.11, RSI=39.3
+2025-05-31 18:20:37,129 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:21:36,890 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:21:36,890 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:21:36,890 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:21:37,013 - CloudMonitor - INFO - 價格數據獲取成功: 3139000.0
+2025-05-31 18:21:37,014 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:21:37,132 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:21:37,132 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:21:37,136 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:21:37,137 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13560.41, RSI=38.4
+2025-05-31 18:21:37,137 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:22:36,897 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:22:36,897 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:22:36,897 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:22:37,009 - CloudMonitor - INFO - 價格數據獲取成功: 3143004.0
+2025-05-31 18:22:37,009 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:22:37,130 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:22:37,130 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:22:37,135 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:22:37,135 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13457.31, RSI=38.9
+2025-05-31 18:22:37,135 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:22:41,893 - CloudMonitor - INFO - 執行第 2 次保活ping...
+2025-05-31 18:22:44,191 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:22:46,486 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:22:46,486 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 18:23:36,890 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:23:36,890 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:23:36,890 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:23:37,017 - CloudMonitor - INFO - 價格數據獲取成功: 3141725.9
+2025-05-31 18:23:37,017 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:23:37,122 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:23:37,122 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:23:37,126 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:23:37,127 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13314.46, RSI=39.8
+2025-05-31 18:23:37,127 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:24:36,896 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:24:36,896 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:24:36,896 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:24:37,038 - CloudMonitor - INFO - 價格數據獲取成功: 3141186.0
+2025-05-31 18:24:37,039 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:24:37,215 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:24:37,215 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:24:37,218 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:24:37,219 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13342.96, RSI=39.6
+2025-05-31 18:24:37,219 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:26:11,817 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-05-31 18:26:11,817 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:11,817 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-05-31 18:26:11,818 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:11,818 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-05-31 18:26:11,818 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-05-31 18:26:11,818 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-05-31 18:26:11,818 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-05-31 18:26:11,818 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-05-31 18:26:11,818 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-05-31 18:26:11,818 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-05-31 18:26:11,819 - CloudMonitor - INFO - 雲端監控系統啟動
+2025-05-31 18:26:11,819 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:11,819 - CloudMonitor - INFO - 🚀 準備啟動Webhook式Telegram處理器...
+2025-05-31 18:26:11,819 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:11,819 - CloudMonitor - ERROR - ❌ 沒有可用的Telegram處理器
+2025-05-31 18:26:11,819 - CloudMonitor - ERROR - ⚠️  所有Telegram處理器都未初始化 - 檢查環境變數和配置
+2025-05-31 18:26:11,820 - CloudMonitor - ERROR - 🔍 診斷原因:
+2025-05-31 18:26:11,820 - CloudMonitor - ERROR -    原因: TELEGRAM_BOT_TOKEN 環境變數未設置
+2025-05-31 18:26:11,820 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:11,820 - CloudMonitor - INFO - 🏁 Telegram處理器啟動流程完成
+2025-05-31 18:26:11,820 - CloudMonitor - INFO -    Webhook狀態: ❌ 未運行
+2025-05-31 18:26:11,820 - CloudMonitor - INFO -    長輪詢狀態: ❌ 未運行
+2025-05-31 18:26:11,820 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:26:12,926 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 18:26:12,927 - CloudMonitor - INFO - ✅ 啟動通知已發送
+2025-05-31 18:26:12,927 - CloudMonitor - INFO - 💓 保活任務已啟動
+2025-05-31 18:26:12,927 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:26:12,927 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:26:12,927 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:26:13,190 - CloudMonitor - INFO - 價格數據獲取成功: 3141000.0
+2025-05-31 18:26:13,191 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:26:13,344 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:26:13,345 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:26:13,348 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:26:13,348 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13400.87, RSI=39.2
+2025-05-31 18:26:13,349 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:26:13,349 - CloudMonitor - INFO - 保活功能已啟動 - 間隔: 300秒 (5分鐘)
+2025-05-31 18:26:13,349 - CloudMonitor - INFO -    目標URL: https://localhost:8080/health
+2025-05-31 18:26:13,349 - CloudMonitor - INFO - 執行初始保活ping...
+2025-05-31 18:26:15,652 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:26:17,954 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 18:26:17,954 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 18:27:12,924 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:27:12,925 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:27:12,925 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:27:13,042 - CloudMonitor - INFO - 價格數據獲取成功: 3140300.7
+2025-05-31 18:27:13,043 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:27:13,158 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:27:13,158 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:27:13,162 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:27:13,163 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13412.90, RSI=39.1
+2025-05-31 18:27:13,163 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:27:42,273 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-05-31 18:27:42,274 - CloudMonitor - INFO -    Bot Token檢查: ✅ 已設置
+2025-05-31 18:27:42,274 - CloudMonitor - INFO -    Bot Token (前10字元): 7323086952...
+2025-05-31 18:27:42,274 - CloudMonitor - INFO -    Chat ID檢查: ✅ 已設置
+2025-05-31 18:27:42,274 - CloudMonitor - INFO -    Chat ID: 8164385222
+2025-05-31 18:27:42,274 - CloudMonitor - INFO - 🚀 正在創建Webhook處理器實例...
+2025-05-31 18:27:42,274 - CloudMonitor - INFO -    使用Bot Token: 7323086952...
+2025-05-31 18:27:42,275 - CloudMonitor - INFO -    使用Chat ID: 8164385222
+2025-05-31 18:27:42,275 - CloudMonitor - INFO -    傳入CloudMonitor實例: CloudMonitor
+2025-05-31 18:27:42,290 - CloudMonitor - INFO - ✅ Webhook處理器實例創建成功
+2025-05-31 18:27:42,290 - CloudMonitor - INFO -    處理器類型: WebhookTelegramHandler
+2025-05-31 18:27:42,290 - CloudMonitor - INFO -    處理器Chat ID: 8164385222
+2025-05-31 18:27:42,290 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,290 - CloudMonitor - INFO - 🏁 Webhook處理器初始化完成
+2025-05-31 18:27:42,290 - CloudMonitor - INFO -    最終狀態: ✅ 成功
+2025-05-31 18:27:42,290 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,291 - CloudMonitor - INFO - 雲端監控系統啟動
+2025-05-31 18:27:42,291 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,291 - CloudMonitor - INFO - 🚀 準備啟動Webhook式Telegram處理器...
+2025-05-31 18:27:42,291 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:42,291 - CloudMonitor - INFO - ✅ Webhook處理器實例存在，開始啟動...
+2025-05-31 18:27:42,292 - CloudMonitor - INFO -    處理器類型: WebhookTelegramHandler
+2025-05-31 18:27:42,292 - CloudMonitor - INFO -    處理器Chat ID: 8164385222
+2025-05-31 18:27:42,292 - CloudMonitor - INFO - 🔄 正在設置Webhook...
+2025-05-31 18:27:42,292 - WebhookTelegram - INFO - 🌐 設置Webhook URL: https://btc-macd-monitor.onrender.com/webhook/7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I
+2025-05-31 18:27:43,189 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/getMe "HTTP/1.1 200 OK"
+2025-05-31 18:27:43,488 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/setWebhook "HTTP/1.1 200 OK"
+2025-05-31 18:27:43,489 - WebhookTelegram - INFO - ✅ Webhook設置成功
+2025-05-31 18:27:43,999 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 18:27:44,000 - WebhookTelegram - INFO - ✅ Webhook啟動通知已發送
+2025-05-31 18:27:44,000 - CloudMonitor - INFO - 🔄 正在啟動Webhook服務器...
+2025-05-31 18:27:44,001 - WebhookTelegram - INFO - 🚀 啟動Webhook服務器於端口 8080
+2025-05-31 18:27:44,001 - WebhookTelegram - INFO - ✅ Webhook服務器已啟動
+2025-05-31 18:27:44,001 - CloudMonitor - INFO - ✅ Webhook式Telegram訊息處理已啟動
+2025-05-31 18:27:44,001 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:44,002 - CloudMonitor - INFO - 🏁 Telegram處理器啟動流程完成
+2025-05-31 18:27:44,002 - CloudMonitor - INFO -    Webhook狀態: ✅ 運行中
+2025-05-31 18:27:44,002 - CloudMonitor - INFO -    長輪詢狀態: ❌ 未運行
+2025-05-31 18:27:44,002 - CloudMonitor - INFO - ============================================================
+2025-05-31 18:27:45,120 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 18:27:45,121 - CloudMonitor - INFO - ✅ 啟動通知已發送
+2025-05-31 18:27:45,122 - CloudMonitor - INFO - 💓 保活任務已啟動
+2025-05-31 18:27:45,122 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:27:45,122 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:27:45,122 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:27:45,326 - CloudMonitor - INFO - 價格數據獲取成功: 3140000.0
+2025-05-31 18:27:45,326 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:27:45,446 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:27:45,447 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:27:45,450 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:27:45,450 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13456.65, RSI=38.9
+2025-05-31 18:27:45,452 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:27:45,452 - CloudMonitor - INFO - 保活功能已啟動 - 間隔: 300秒 (5分鐘)
+2025-05-31 18:27:45,452 - CloudMonitor - INFO -    目標URL: https://localhost:8080/health
+2025-05-31 18:27:45,452 - CloudMonitor - INFO - 執行初始保活ping...
+2025-05-31 18:27:45,704 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:18:27:45 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 18:27:45,705 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 18:27:45,967 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:18:27:45 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 18:27:45,968 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 18:27:45,968 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 18:28:45,126 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:28:45,126 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:28:45,126 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:28:45,260 - CloudMonitor - INFO - 價格數據獲取成功: 3139322.8
+2025-05-31 18:28:45,262 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:28:45,403 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:28:45,403 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:28:45,409 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:28:45,411 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13480.64, RSI=38.8
+2025-05-31 18:28:45,411 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:29:45,130 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:29:45,130 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:29:45,130 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:29:45,248 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:29:45,249 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:29:45,536 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:29:45,536 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:29:45,540 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:29:45,540 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:29:45,541 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:30:45,131 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:30:45,131 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:30:45,131 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:30:45,495 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:30:45,496 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:30:45,877 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:30:45,878 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:30:45,882 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:30:45,882 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:30:45,883 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:31:45,142 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:31:45,142 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:31:45,142 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:31:45,260 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:31:45,261 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:31:45,382 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:31:45,382 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:31:45,386 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:31:45,387 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:31:45,388 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:32:45,147 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:32:45,147 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:32:45,148 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:32:45,401 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:32:45,402 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:32:45,604 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:32:45,605 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:32:45,608 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:32:45,608 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:32:45,609 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:32:45,981 - CloudMonitor - INFO - 執行第 2 次保活ping...
+2025-05-31 18:32:46,248 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:18:32:46 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 18:32:46,249 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 18:32:46,511 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:18:32:46 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 18:32:46,511 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 18:32:46,512 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 18:33:45,156 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:33:45,157 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:33:45,157 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:33:45,282 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:33:45,282 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:33:45,458 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:33:45,458 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:33:45,462 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:33:45,462 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:33:45,463 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 18:34:45,169 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 18:34:45,170 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 18:34:45,170 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 18:34:45,284 - CloudMonitor - INFO - 價格數據獲取成功: 3138777.0
+2025-05-31 18:34:45,285 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 18:34:45,570 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 18:34:45,570 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 18:34:45,574 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 18:34:45,574 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13578.20, RSI=38.3
+2025-05-31 18:34:45,574 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報

@@ -82,7 +82,7 @@ docker compose down
 
 ```bash
 # Windows
-./deploy.bat your-app-name
+./deploy.bat winyoulife
 
 # 設置環境變量
 heroku config:set TELEGRAM_BOT_TOKEN=your_token -a your-app-name
