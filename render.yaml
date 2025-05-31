@@ -3,8 +3,8 @@ services:
     name: btc-macd-monitor
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn youtube_stream_api:app --host 0.0.0.0 --port $PORT
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
