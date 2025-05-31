@@ -127,7 +127,7 @@ class QuickPriceAlert:
                     message = f"""
 🚨 <b>BTC快速變化警報</b>
 
-💰 當前價格: {current_data['price']:,.0f} TWD
+💰 當前價格: ${current_data['price']:,.2f} USD
 ⚡ 變化: {alert['message']}
 ⏰ 時間: {current_data['timestamp'].strftime('%H:%M:%S')}
 🔥 級別: {alert['severity']}
@@ -151,9 +151,9 @@ class QuickPriceAlert:
                 if len(self.price_history) >= 2:
                     last_change = ((current_data['price'] - self.price_history[-2]['price']) / 
                                  self.price_history[-2]['price']) * 100
-                    logger.info(f"💰 BTC: {current_data['price']:,.0f} TWD ({last_change:+.2f}%)")
+                    logger.info(f"💰 BTC: ${current_data['price']:,.2f} USD ({last_change:+.2f}%)")
                 else:
-                    logger.info(f"💰 BTC: {current_data['price']:,.0f} TWD")
+                    logger.info(f"💰 BTC: ${current_data['price']:,.2f} USD")
                 
                 # 等待下次檢查（30秒間隔以捕獲快速變化）
                 await asyncio.sleep(30)

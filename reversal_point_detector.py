@@ -270,8 +270,8 @@ class ReversalPointDetector:
                     message = f"""
 🚀 低點反彈機會 (買進信號)
 
-💰 當前價格: {bounce_signal['current_price']:,.0f} TWD
-📊 支撐位: {bounce_signal['support_level']:,.0f} TWD
+💰 當前價格: ${bounce_signal['current_price']:,.2f} USD
+📊 支撐位: ${bounce_signal['support_level']:,.2f} USD
 📈 反彈強度: {bounce_signal['bounce_strength']:.2f}%
 📍 距離支撐: {bounce_signal['distance_to_support']:.2f}%
 📊 RSI: {rsi_str}
@@ -293,8 +293,8 @@ class ReversalPointDetector:
                     message = f"""
 🔻 高點回測機會 (賣出信號)
 
-💰 當前價格: {pullback_signal['current_price']:,.0f} TWD
-📊 阻力位: {pullback_signal['resistance_level']:,.0f} TWD
+💰 當前價格: ${pullback_signal['current_price']:,.2f} USD
+📊 阻力位: ${pullback_signal['resistance_level']:,.2f} USD
 📉 回測強度: {pullback_signal['pullback_strength']:.2f}%
 📍 距離阻力: {pullback_signal['distance_to_resistance']:.2f}%
 📊 RSI: {rsi_str}

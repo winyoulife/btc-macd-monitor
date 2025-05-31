@@ -76,7 +76,7 @@ class CloudMonitor:
         # 保活功能設置
         self.keep_alive_enabled = os.getenv('KEEP_ALIVE_ENABLED', 'true').lower() == 'true'
         self.keep_alive_interval = int(os.getenv('KEEP_ALIVE_INTERVAL', '300'))  # 5分鐘，確保服務始終活躍
-        self.health_url = f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME', 'localhost:8080')}/health"
+        self.health_url = f"https://btc-macd-monitor.onrender.com/health"  # 修改為正確的域名
         self.last_keep_alive = None
         
         # 初始化交互式Telegram处理器 - 添加詳細日誌

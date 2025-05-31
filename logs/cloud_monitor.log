@@ -2550,3 +2550,58 @@
 2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
 2025-05-31 23:07:53,169 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
 2025-05-31 23:07:53,169 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-06-01 00:13:21,954 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-06-01 00:13:21,954 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:21,954 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-06-01 00:13:21,955 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:21,955 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-06-01 00:13:21,955 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-06-01 00:13:21,955 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-06-01 00:13:21,955 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-06-01 00:13:21,955 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-06-01 00:13:21,955 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-06-01 00:13:21,955 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-06-01 00:13:23,555 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-06-01 00:13:23,556 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:23,556 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-06-01 00:13:23,556 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:23,556 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-06-01 00:13:23,556 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-06-01 00:13:23,557 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-06-01 00:13:23,557 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-06-01 00:13:23,557 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-06-01 00:13:23,557 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-06-01 00:13:23,557 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-06-01 00:13:23,651 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-06-01 00:13:23,652 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:23,652 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-06-01 00:13:23,652 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:23,652 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-06-01 00:13:23,652 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-06-01 00:13:23,653 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-06-01 00:13:23,653 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-06-01 00:13:23,653 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-06-01 00:13:23,653 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-06-01 00:13:23,653 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-06-01 00:13:29,161 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-06-01 00:13:29,162 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-06-01 00:13:29,163 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-06-01 00:13:29,163 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-06-01 00:13:29,163 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-06-01 00:13:29,163 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-06-01 00:13:29,221 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-06-01 00:13:29,222 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:29,222 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-06-01 00:13:29,222 - CloudMonitor - INFO - ============================================================
+2025-06-01 00:13:29,223 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-06-01 00:13:29,223 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-06-01 00:13:29,223 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-06-01 00:13:29,223 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-06-01 00:13:29,223 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-06-01 00:13:29,223 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-06-01 00:13:29,224 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
