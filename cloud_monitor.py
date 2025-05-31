@@ -362,7 +362,8 @@ class CloudMonitor:
                     'macd': safe_get(previous, 'macd'),
                     'macd_signal': safe_get(previous, 'macd_signal'),
                     'macd_histogram': safe_get(previous, 'macd_histogram')
-                }
+                },
+                'df': df_with_macd  # 添加完整的K線數據供高級分析使用
             }
             
             self.logger.info(f"市場條件檢查完成: MACD={market_data['technical']['macd']:.2f}, RSI={market_data['technical']['rsi']:.1f}")
