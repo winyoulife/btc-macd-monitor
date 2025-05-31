@@ -253,17 +253,28 @@ class ReversalPointDetector:
                 
                 current_price = klines_with_indicators['close'].iloc[-1]
                 
-                # 檢測低點反彈
+                # 輸出當前監控狀態
+                if support_resistance:
+                    support = support_resistance.get('support')
+                    resistance = support_resistance.get('resistance')
+                    support_str = f"{support:,.0f}" if support is not None else "N/A"
+                    resistance_str = f"{resistance:,.0f}" if resistance is not None else "N/A"
+                    logger.info(f"💰 BTC: {current_price:,.0f} | 支撐: {support_str} | 阻力: {resistance_str}")
+                else:
+                    logger.info(f"💰 BTC: {current_price:,.0f} | 計算支撐阻力位中...")
+                
+                # 檢測低點反彈機會
                 bounce_signal = self.detect_low_point_bounce(klines_with_indicators, support_resistance)
                 if bounce_signal and self.should_send_alert('LOW_POINT_BOUNCE'):
+                    rsi_str = f"{bounce_signal['rsi']:.1f}" if bounce_signal.get('rsi') is not None else "N/A"
                     message = f"""
-🚀 <b>低點反彈信號！買進機會</b>
+🚀 低點反彈機會 (買進信號)
 
 💰 當前價格: {bounce_signal['current_price']:,.0f} TWD
 📊 支撐位: {bounce_signal['support_level']:,.0f} TWD
 📈 反彈強度: {bounce_signal['bounce_strength']:.2f}%
 📍 距離支撐: {bounce_signal['distance_to_support']:.2f}%
-📊 RSI: {bounce_signal['rsi']:.1f if bounce_signal['rsi'] is not None else 'N/A'}
+📊 RSI: {rsi_str}
 🔥 置信度: {bounce_signal['confidence']:.0f}%
 ✅ 滿足條件: {bounce_signal['conditions_met']}/5
 
@@ -275,17 +286,18 @@ class ReversalPointDetector:
                     self.last_alert_time['LOW_POINT_BOUNCE'] = datetime.now()
                     logger.info(f"🚨 發送低點反彈警報")
                 
-                # 檢測高點回測
+                # 檢測高點回測機會  
                 pullback_signal = self.detect_high_point_pullback(klines_with_indicators, support_resistance)
                 if pullback_signal and self.should_send_alert('HIGH_POINT_PULLBACK'):
+                    rsi_str = f"{pullback_signal['rsi']:.1f}" if pullback_signal.get('rsi') is not None else "N/A"
                     message = f"""
-📉 <b>高點回測信號！賣出機會</b>
+🔻 高點回測機會 (賣出信號)
 
 💰 當前價格: {pullback_signal['current_price']:,.0f} TWD
 📊 阻力位: {pullback_signal['resistance_level']:,.0f} TWD
 📉 回測強度: {pullback_signal['pullback_strength']:.2f}%
 📍 距離阻力: {pullback_signal['distance_to_resistance']:.2f}%
-📊 RSI: {pullback_signal['rsi']:.1f if pullback_signal['rsi'] is not None else 'N/A'}
+📊 RSI: {rsi_str}
 🔥 置信度: {pullback_signal['confidence']:.0f}%
 ✅ 滿足條件: {pullback_signal['conditions_met']}/5
 
@@ -296,16 +308,6 @@ class ReversalPointDetector:
                     await self.send_telegram_alert(message.strip())
                     self.last_alert_time['HIGH_POINT_PULLBACK'] = datetime.now()
                     logger.info(f"🚨 發送高點回測警報")
-                
-                # 輸出當前監控狀態
-                if support_resistance:
-                    support = support_resistance['support']
-                    resistance = support_resistance['resistance']
-                    support_str = f"{support:,.0f}" if support is not None else "N/A"
-                    resistance_str = f"{resistance:,.0f}" if resistance is not None else "N/A"
-                    logger.info(f"💰 BTC: {current_price:,.0f} | 支撐: {support_str} | 阻力: {resistance_str}")
-                else:
-                    logger.info(f"💰 BTC: {current_price:,.0f} | 計算支撐阻力位中...")
                 
                 # 等待下次檢查（2分鐘間隔）
                 await asyncio.sleep(120)
