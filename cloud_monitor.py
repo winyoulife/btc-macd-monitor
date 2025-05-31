@@ -73,7 +73,7 @@ class CloudMonitor:
         
         # 保活功能設置
         self.keep_alive_enabled = os.getenv('KEEP_ALIVE_ENABLED', 'true').lower() == 'true'
-        self.keep_alive_interval = int(os.getenv('KEEP_ALIVE_INTERVAL', '1800'))  # 30分鐘
+        self.keep_alive_interval = int(os.getenv('KEEP_ALIVE_INTERVAL', '300'))  # 5分鐘，確保服務始終活躍
         self.health_url = f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME', 'localhost:8080')}/health"
         self.last_keep_alive = None
         
@@ -625,7 +625,7 @@ class CloudMonitor:
 
 💓 <b>保活功能:</b>
 • 自動保活: {'✅ 已啟用' if self.keep_alive_enabled else '❌ 已禁用'}
-{f'• Ping間隔: {self.keep_alive_interval//60}分鐘' if self.keep_alive_enabled else ''}
+{f'• Ping間隔: {self.keep_alive_interval//60}分鐘 ({self.keep_alive_interval}秒)' if self.keep_alive_enabled else ''}
 
 ⏰ <b>啟動時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
 
@@ -728,13 +728,34 @@ class CloudMonitor:
             return
             
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(self.health_url, timeout=30) as response:
-                    if response.status == 200:
-                        self.last_keep_alive = datetime.now(TAIWAN_TZ)
-                        self.logger.debug(f"💓 保活ping成功: {self.health_url}")
-                    else:
-                        self.logger.warning(f"⚠️  保活ping回應異常: {response.status}")
+            # 添加多個端點ping，確保服務活躍
+            endpoints = [
+                f"{self.health_url}",
+                f"{self.health_url.replace('/health', '/status')}" if '/health' in self.health_url else None
+            ]
+            
+            success_count = 0
+            for endpoint in endpoints:
+                if endpoint is None:
+                    continue
+                    
+                try:
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(endpoint, timeout=10) as response:
+                            if response.status == 200:
+                                success_count += 1
+                                self.last_keep_alive = datetime.now(TAIWAN_TZ)
+                                self.logger.info(f"💓 保活ping成功: {endpoint} (狀態: {response.status})")
+                            else:
+                                self.logger.warning(f"⚠️  保活ping回應異常: {endpoint} (狀態: {response.status})")
+                except Exception as e:
+                    self.logger.warning(f"⚠️  單個端點ping失敗: {endpoint} - {e}")
+            
+            if success_count == 0:
+                self.logger.error("❌ 所有保活ping都失敗了")
+            else:
+                self.logger.info(f"✅ 保活完成 - {success_count}/{len([e for e in endpoints if e])} 個端點成功")
+                
         except Exception as e:
             self.logger.warning(f"⚠️  保活ping失敗: {e}")
     
@@ -744,15 +765,23 @@ class CloudMonitor:
             self.logger.info("💤 保活功能已禁用")
             return
             
-        self.logger.info(f"💓 保活功能已啟動 - 間隔: {self.keep_alive_interval}秒")
+        self.logger.info(f"💓 保活功能已啟動 - 間隔: {self.keep_alive_interval}秒 ({self.keep_alive_interval//60}分鐘)")
         self.logger.info(f"   目標URL: {self.health_url}")
         
+        # 立即執行第一次ping
+        self.logger.info("🚀 執行初始保活ping...")
+        await self.keep_alive_ping()
+        
+        ping_count = 1
         while self.is_running:
             try:
-                await self.keep_alive_ping()
                 await asyncio.sleep(self.keep_alive_interval)
+                if self.is_running:  # 再次檢查，避免停止時執行
+                    ping_count += 1
+                    self.logger.info(f"🔄 執行第 {ping_count} 次保活ping...")
+                    await self.keep_alive_ping()
             except asyncio.CancelledError:
-                self.logger.info("💓 保活任務已取消")
+                self.logger.info(f"💓 保活任務已取消 (共執行了 {ping_count} 次ping)")
                 break
             except Exception as e:
                 self.logger.error(f"❌ 保活任務出錯: {e}")
