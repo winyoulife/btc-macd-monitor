@@ -400,8 +400,8 @@ class CloudMonitor:
             confidence = analysis.get('confidence', 0)
             net_score = analysis.get('net_score', 0)
             
-            # 根據AI分析結果生成警報
-            if recommendation in ['STRONG_BUY', 'BUY'] and confidence >= 60:
+            # 根據AI分析結果生成警報 - 提高觸發門檻
+            if recommendation in ['STRONG_BUY', 'BUY'] and confidence >= 65:
                 alert_strength = min(95, confidence + abs(net_score))
                 alerts.append({
                     'type': 'AI_MULTI_INDICATOR_BUY',
@@ -413,7 +413,7 @@ class CloudMonitor:
                 })
                 self.logger.info(f"✅ 生成AI買進警報: {recommendation}, 置信度: {confidence:.1f}%")
                 
-            elif recommendation in ['STRONG_SELL', 'SELL'] and confidence >= 60:
+            elif recommendation in ['STRONG_SELL', 'SELL'] and confidence >= 65:
                 alert_strength = min(95, confidence + abs(net_score))
                 alerts.append({
                     'type': 'AI_MULTI_INDICATOR_SELL',
@@ -424,6 +424,8 @@ class CloudMonitor:
                     'ai_analysis': analysis
                 })
                 self.logger.info(f"✅ 生成AI賣出警報: {recommendation}, 置信度: {confidence:.1f}%")
+            else:
+                self.logger.info(f"🔄 AI分析結果未達到警報門檻: {recommendation} (置信度: {confidence:.1f}%)")
             
             # 如果AI分析沒有產生警報，則回退到基本MACD分析作為補充
             if not alerts:

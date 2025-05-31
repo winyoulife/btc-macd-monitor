@@ -525,11 +525,21 @@ class AdvancedCryptoAnalyzer:
                                          if contrib['type'] != 'NEUTRAL'])
             
             if total_active_indicators > 0:
-                # 基於實際參與的指標計算置信度
+                # 基於實際參與的指標計算置信度 - 修復過度自信問題
                 avg_signal_strength = active_signals_strength / total_active_indicators
                 indicator_coverage = total_active_indicators / len(analyses)  # 指標覆蓋率
-                confidence = (avg_signal_strength * indicator_coverage * abs(net_score) / max_possible_score) * 100
-                confidence = min(95, max(15, confidence))
+                
+                # 修復公式：需要至少2個指標參與且平均強度>50%才能有高置信度
+                if total_active_indicators >= 2 and avg_signal_strength >= 50:
+                    confidence = (avg_signal_strength * indicator_coverage * abs(net_score) / max_possible_score) * 100
+                    confidence = min(95, max(60, confidence))
+                elif total_active_indicators >= 1 and avg_signal_strength >= 70:
+                    # 單一指標需要很強的信號才能有中等置信度
+                    confidence = (avg_signal_strength * 0.6) * (abs(net_score) / max_possible_score)
+                    confidence = min(75, max(40, confidence))
+                else:
+                    # 信號太弱或指標太少，低置信度
+                    confidence = min(40, avg_signal_strength * 0.4)
             else:
                 confidence = 15  # 沒有明確信號時的最低置信度
             
