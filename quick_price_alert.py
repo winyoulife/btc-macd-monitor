@@ -106,7 +106,7 @@ class QuickPriceAlert:
         while True:
             try:
                 # 獲取當前市場數據
-                ticker = self.max_api.get_ticker('btctwd')
+                ticker = self.max_api.get_ticker('btcusdt')
                 if not ticker:
                     logger.warning("❌ 無法獲取價格數據")
                     await asyncio.sleep(30)

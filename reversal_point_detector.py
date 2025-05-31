@@ -234,7 +234,7 @@ class ReversalPointDetector:
         while True:
             try:
                 # 獲取K線數據（需要足夠的歷史數據）
-                klines_df = self.max_api.get_klines('btctwd', period=60, limit=100)
+                klines_df = self.max_api.get_klines('btcusdt', period=60, limit=100)
                 
                 if klines_df is None or klines_df.empty:
                     logger.warning("❌ 無法獲取K線數據")
