@@ -1105,3 +1105,273 @@
 2025-05-31 19:44:45,987 - CloudMonitor - INFO - 技術指標計算成功
 2025-05-31 19:44:45,987 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
 2025-05-31 19:44:45,987 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:45:45,734 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:45:45,734 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:45:45,735 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:45:45,861 - CloudMonitor - INFO - 價格數據獲取成功: 3141365.8
+2025-05-31 19:45:45,862 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:45:46,142 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:45:46,143 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:45:46,146 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:45:46,147 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
+2025-05-31 19:45:46,147 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:46:45,740 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:46:45,741 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:46:45,741 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:46:45,852 - CloudMonitor - INFO - 價格數據獲取成功: 3141365.8
+2025-05-31 19:46:45,853 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:46:45,967 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:46:45,967 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:46:45,970 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:46:45,970 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
+2025-05-31 19:46:45,972 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:47:45,747 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:47:45,747 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:47:45,747 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:47:45,964 - CloudMonitor - INFO - 價格數據獲取成功: 3141365.8
+2025-05-31 19:47:45,964 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:47:46,087 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:47:46,088 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:47:46,092 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:47:46,092 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
+2025-05-31 19:47:46,093 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:47:53,956 - CloudMonitor - INFO - 執行第 17 次保活ping...
+2025-05-31 19:47:54,219 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:47:54 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:47:54,220 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:47:54,483 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:47:54 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:47:54,483 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:47:54,484 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 19:48:45,749 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:48:45,749 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:48:45,749 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:48:45,867 - CloudMonitor - INFO - 價格數據獲取成功: 3141365.8
+2025-05-31 19:48:45,867 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:48:45,981 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:48:45,982 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:48:45,985 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:48:45,985 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
+2025-05-31 19:48:45,986 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:49:45,756 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:49:45,756 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:49:45,757 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:49:45,875 - CloudMonitor - INFO - 價格數據獲取成功: 3141000.0
+2025-05-31 19:49:45,875 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:49:46,162 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:49:46,162 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:49:46,166 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:49:46,167 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12887.27, RSI=39.5
+2025-05-31 19:49:46,167 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:50:45,764 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:50:45,764 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:50:45,765 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:50:45,890 - CloudMonitor - INFO - 價格數據獲取成功: 3140288.8
+2025-05-31 19:50:45,891 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:50:46,009 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:50:46,009 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:50:46,013 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:50:46,014 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12916.45, RSI=39.2
+2025-05-31 19:50:46,014 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:51:45,775 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:51:45,776 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:51:45,776 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:51:45,894 - CloudMonitor - INFO - 價格數據獲取成功: 3140288.8
+2025-05-31 19:51:45,894 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:51:46,017 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:51:46,018 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:51:46,021 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:51:46,022 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12973.18, RSI=38.9
+2025-05-31 19:51:46,022 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:52:45,789 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:52:45,789 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:52:45,789 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:52:45,906 - CloudMonitor - INFO - 價格數據獲取成功: 3139354.2
+2025-05-31 19:52:45,906 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:52:46,016 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:52:46,016 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:52:46,020 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:52:46,020 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-13047.74, RSI=38.5
+2025-05-31 19:52:46,020 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:52:54,480 - CloudMonitor - INFO - 執行第 18 次保活ping...
+2025-05-31 19:52:54,744 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:52:54 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:52:54,745 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:52:55,010 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:52:55 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:52:55,011 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:52:55,011 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 19:53:45,805 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:53:45,805 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:53:45,805 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:53:45,960 - CloudMonitor - INFO - 價格數據獲取成功: 3141000.0
+2025-05-31 19:53:45,960 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:53:46,151 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:53:46,152 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:53:46,156 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:53:46,156 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12916.45, RSI=39.2
+2025-05-31 19:53:46,156 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:54:45,819 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:54:45,819 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:54:45,819 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:54:45,939 - CloudMonitor - INFO - 價格數據獲取成功: 3141000.0
+2025-05-31 19:54:45,940 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:54:46,056 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:54:46,056 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:54:46,060 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:54:46,060 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12916.45, RSI=39.2
+2025-05-31 19:54:46,060 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:55:45,831 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:55:45,832 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:55:45,832 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:55:45,962 - CloudMonitor - INFO - 價格數據獲取成功: 3141000.0
+2025-05-31 19:55:45,962 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:55:46,171 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:55:46,171 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:55:46,175 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:55:46,175 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12916.45, RSI=39.2
+2025-05-31 19:55:46,175 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:56:45,834 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:56:45,834 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:56:45,834 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:56:46,118 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 19:56:46,119 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:56:46,288 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:56:46,288 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:56:46,292 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:56:46,293 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12836.67, RSI=39.9
+2025-05-31 19:56:46,293 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:57:45,840 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:57:45,840 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:57:45,840 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:57:46,030 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 19:57:46,030 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:57:46,165 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:57:46,166 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:57:46,169 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:57:46,171 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12836.67, RSI=39.9
+2025-05-31 19:57:46,171 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:57:55,004 - CloudMonitor - INFO - 執行第 19 次保活ping...
+2025-05-31 19:57:55,267 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:57:55 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:57:55,268 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:57:55,531 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:19:57:55 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 19:57:55,532 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 19:57:55,532 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 19:58:45,842 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:58:45,842 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:58:45,842 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:58:45,955 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 19:58:45,956 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:58:46,069 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:58:46,069 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:58:46,072 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:58:46,073 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12836.67, RSI=39.9
+2025-05-31 19:58:46,073 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 19:59:45,847 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 19:59:45,848 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 19:59:45,848 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 19:59:45,970 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 19:59:45,971 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 19:59:46,089 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 19:59:46,090 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 19:59:46,093 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 19:59:46,095 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12836.67, RSI=39.9
+2025-05-31 19:59:46,095 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:00:45,855 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:00:45,855 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:00:45,856 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:00:45,972 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 20:00:45,972 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:00:46,096 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:00:46,097 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:00:46,100 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:00:46,100 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12229.56, RSI=39.9
+2025-05-31 20:00:46,100 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:01:45,869 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:01:45,870 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:01:45,870 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:01:45,985 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 20:01:45,986 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:01:46,110 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:01:46,110 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:01:46,114 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:01:46,115 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12229.56, RSI=39.9
+2025-05-31 20:01:46,115 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:02:45,883 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:02:45,884 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:02:45,884 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:02:46,011 - CloudMonitor - INFO - 價格數據獲取成功: 3142000.0
+2025-05-31 20:02:46,011 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:02:46,299 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:02:46,299 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:02:46,303 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:02:46,304 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12229.56, RSI=39.9
+2025-05-31 20:02:46,304 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:02:55,539 - CloudMonitor - INFO - 執行第 20 次保活ping...
+2025-05-31 20:02:55,805 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:20:02:55 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 20:02:55,805 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 20:02:56,068 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:20:02:56 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 20:02:56,069 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 20:02:56,069 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 20:03:45,883 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:03:45,883 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:03:45,883 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:03:45,994 - CloudMonitor - INFO - 價格數據獲取成功: 3141525.6
+2025-05-31 20:03:45,995 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:03:46,132 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:03:46,132 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:03:46,135 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:03:46,135 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12229.56, RSI=39.9
+2025-05-31 20:03:46,136 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:04:45,893 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:04:45,893 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:04:45,893 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:04:46,008 - CloudMonitor - INFO - 價格數據獲取成功: 3141525.6
+2025-05-31 20:04:46,009 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:04:46,143 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:04:46,144 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:04:46,147 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:04:46,147 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12267.40, RSI=39.7
+2025-05-31 20:04:46,148 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:05:45,893 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:05:45,894 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:05:45,894 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:05:46,133 - CloudMonitor - INFO - 價格數據獲取成功: 3143000.0
+2025-05-31 20:05:46,133 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:05:46,256 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:05:46,257 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:05:46,260 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:05:46,261 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12149.78, RSI=40.5
+2025-05-31 20:05:46,261 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:06:45,894 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:06:45,894 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:06:45,894 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:06:46,006 - CloudMonitor - INFO - 價格數據獲取成功: 3144829.7
+2025-05-31 20:06:46,007 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:06:46,143 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:06:46,144 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:06:46,147 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:06:46,148 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-12003.83, RSI=41.7
+2025-05-31 20:06:46,148 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:07:45,905 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:07:45,905 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:07:45,905 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:07:46,024 - CloudMonitor - INFO - 價格數據獲取成功: 3146637.8
+2025-05-31 20:07:46,025 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:07:46,159 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:07:46,159 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:07:46,163 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:07:46,164 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-11910.47, RSI=42.5
+2025-05-31 20:07:46,164 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報
+2025-05-31 20:07:56,060 - CloudMonitor - INFO - 執行第 21 次保活ping...
+2025-05-31 20:07:56,325 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:20:07:56 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 20:07:56,326 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 20:07:56,588 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:20:07:56 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
+2025-05-31 20:07:56,589 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
+2025-05-31 20:07:56,589 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 20:08:45,920 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 20:08:45,920 - CloudMonitor - INFO - 開始檢查 btctwd 市場條件
+2025-05-31 20:08:45,920 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 20:08:46,040 - CloudMonitor - INFO - 價格數據獲取成功: 3146637.8
+2025-05-31 20:08:46,040 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 20:08:46,168 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 20:08:46,168 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 20:08:46,172 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 20:08:46,172 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-11859.59, RSI=42.8
+2025-05-31 20:08:46,173 - CloudMonitor - INFO - btctwd 監控完成 - 發現 0 個警報

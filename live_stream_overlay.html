@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC/TWD AI技術分析 - 直播疊加</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            color: white;
+        }
+        
+        .overlay-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+        
+        .price-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .price-change {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .bullish { color: #00ff88; }
+        .bearish { color: #ff4444; }
+        .neutral { color: #ffaa00; }
+        
+        .analysis-section {
+            margin-bottom: 15px;
+        }
+        
+        .recommendation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+        }
+        
+        .confidence-bar {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ffaa00, #00ff88);
+            transition: width 0.5s ease;
+        }
+        
+        .indicators {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .indicator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .indicator-label {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .indicator-value {
+            font-size: 14px;
+        }
+        
+        .update-time {
+            text-align: center;
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #ffaa00;
+            font-style: italic;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-container">
+        <div class="title">🤖 AI多重技術指標分析</div>
+        
+        <div class="price-section">
+            <div class="price" id="current-price">載入中...</div>
+            <div class="price-change" id="price-change">--</div>
+        </div>
+        
+        <div class="analysis-section">
+            <div class="recommendation">
+                <span><strong>AI建議:</strong> <span id="ai-recommendation">分析中...</span></span>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" id="confidence-fill" style="width: 0%"></div>
+                </div>
+            </div>
+            <div style="text-align: center; font-size: 12px; margin-top: 5px;">
+                置信度: <span id="confidence-text">--%</span>
+            </div>
+        </div>
+        
+        <div class="indicators">
+            <div class="indicator">
+                <div class="indicator-label">MA7</div>
+                <div class="indicator-value" id="ma7">--</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-label">MA25</div>
+                <div class="indicator-value" id="ma25">--</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-label">MACD</div>
+                <div class="indicator-value" id="macd">--</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-label">RSI</div>
+                <div class="indicator-value" id="rsi">--</div>
+            </div>
+        </div>
+        
+        <div class="update-time">
+            最後更新: <span id="last-update">--</span>
+        </div>
+    </div>
+
+    <script>
+        let lastPrice = 0;
+        
+        async function fetchAnalysis() {
+            try {
+                // 調用雲端監控API獲取分析數據
+                const response = await fetch('/api/analysis');
+                const data = await response.json();
+                
+                updateDisplay(data);
+            } catch (error) {
+                console.error('獲取分析數據失敗:', error);
+                document.getElementById('ai-recommendation').textContent = '連線錯誤';
+            }
+        }
+        
+        function updateDisplay(data) {
+            // 更新價格
+            const price = data.price?.current || 0;
+            document.getElementById('current-price').textContent = 
+                `$${price.toLocaleString()} TWD`;
+            
+            // 價格變化
+            const priceChange = document.getElementById('price-change');
+            if (lastPrice > 0) {
+                const change = price - lastPrice;
+                const changePercent = ((change / lastPrice) * 100).toFixed(2);
+                priceChange.textContent = 
+                    `${change >= 0 ? '+' : ''}${change.toLocaleString()} (${changePercent}%)`;
+                priceChange.className = `price-change ${change >= 0 ? 'bullish' : 'bearish'}`;
+            }
+            lastPrice = price;
+            
+            // AI分析結果
+            const analysis = data.ai_analysis || {};
+            const recommendation = analysis.recommendation || 'HOLD';
+            const confidence = analysis.confidence || 0;
+            
+            // 更新建議
+            const recElement = document.getElementById('ai-recommendation');
+            recElement.textContent = getRecommendationText(recommendation);
+            recElement.className = getRecommendationClass(recommendation);
+            
+            // 更新置信度
+            document.getElementById('confidence-text').textContent = `${confidence.toFixed(1)}%`;
+            document.getElementById('confidence-fill').style.width = `${confidence}%`;
+            
+            // 更新技術指標
+            const techValues = analysis.technical_values || {};
+            document.getElementById('ma7').textContent = 
+                techValues.ma7 ? `${(techValues.ma7/1000).toFixed(0)}K` : '--';
+            document.getElementById('ma25').textContent = 
+                techValues.ma25 ? `${(techValues.ma25/1000).toFixed(0)}K` : '--';
+            document.getElementById('macd').textContent = 
+                techValues.macd ? techValues.macd.toFixed(0) : '--';
+            document.getElementById('rsi').textContent = 
+                techValues.rsi ? techValues.rsi.toFixed(1) : '--';
+            
+            // 更新時間
+            document.getElementById('last-update').textContent = 
+                new Date().toLocaleTimeString('zh-TW');
+        }
+        
+        function getRecommendationText(rec) {
+            const texts = {
+                'STRONG_BUY': '🚀 強烈買進',
+                'BUY': '📈 建議買進',
+                'HOLD': '⚖️ 持有觀望',
+                'SELL': '📉 建議賣出',
+                'STRONG_SELL': '💥 強烈賣出'
+            };
+            return texts[rec] || '分析中...';
+        }
+        
+        function getRecommendationClass(rec) {
+            if (rec.includes('BUY')) return 'bullish';
+            if (rec.includes('SELL')) return 'bearish';
+            return 'neutral';
+        }
+        
+        // 每10秒更新一次
+        setInterval(fetchAnalysis, 10000);
+        
+        // 立即執行第一次更新
+        fetchAnalysis();
+        
+        // 添加脈衝動畫到整個容器
+        setInterval(() => {
+            document.querySelector('.overlay-container').classList.add('pulse');
+            setTimeout(() => {
+                document.querySelector('.overlay-container').classList.remove('pulse');
+            }, 1000);
+        }, 30000); // 每30秒脈衝一次
+    </script>
+</body>
+</html> 
