@@ -211,7 +211,7 @@ class CloudMonitor:
             self.config['cloud']['timezone'] = os.getenv('TIMEZONE')
         
         # 監控配置
-        self.monitoring_symbols = os.getenv('MONITORING_SYMBOLS', 'btcusdt').split(',')
+        self.monitoring_symbols = ['btcusdt']  # 強制使用USDT交易對
     
     def load_config(self) -> Dict[str, Any]:
         """載入配置文件"""
