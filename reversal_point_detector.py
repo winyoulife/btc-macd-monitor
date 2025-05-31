@@ -263,7 +263,7 @@ class ReversalPointDetector:
 📊 支撐位: {bounce_signal['support_level']:,.0f} TWD
 📈 反彈強度: {bounce_signal['bounce_strength']:.2f}%
 📍 距離支撐: {bounce_signal['distance_to_support']:.2f}%
-📊 RSI: {bounce_signal['rsi']:.1f}
+📊 RSI: {bounce_signal['rsi']:.1f if bounce_signal['rsi'] is not None else 'N/A'}
 🔥 置信度: {bounce_signal['confidence']:.0f}%
 ✅ 滿足條件: {bounce_signal['conditions_met']}/5
 
@@ -285,7 +285,7 @@ class ReversalPointDetector:
 📊 阻力位: {pullback_signal['resistance_level']:,.0f} TWD
 📉 回測強度: {pullback_signal['pullback_strength']:.2f}%
 📍 距離阻力: {pullback_signal['distance_to_resistance']:.2f}%
-📊 RSI: {pullback_signal['rsi']:.1f}
+📊 RSI: {pullback_signal['rsi']:.1f if pullback_signal['rsi'] is not None else 'N/A'}
 🔥 置信度: {pullback_signal['confidence']:.0f}%
 ✅ 滿足條件: {pullback_signal['conditions_met']}/5
 
@@ -301,7 +301,9 @@ class ReversalPointDetector:
                 if support_resistance:
                     support = support_resistance['support']
                     resistance = support_resistance['resistance']
-                    logger.info(f"💰 BTC: {current_price:,.0f} | 支撐: {support:,.0f if support else 'N/A'} | 阻力: {resistance:,.0f if resistance else 'N/A'}")
+                    support_str = f"{support:,.0f}" if support is not None else "N/A"
+                    resistance_str = f"{resistance:,.0f}" if resistance is not None else "N/A"
+                    logger.info(f"💰 BTC: {current_price:,.0f} | 支撐: {support_str} | 阻力: {resistance_str}")
                 else:
                     logger.info(f"💰 BTC: {current_price:,.0f} | 計算支撐阻力位中...")
                 
