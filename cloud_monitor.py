@@ -271,31 +271,25 @@ class CloudMonitor:
             self.logger.error(f"保存配置文件失敗: {e}")
     
     def setup_logging(self):
-        """設置日誌系統"""
-        log_level = logging.INFO
+        """設置日誌"""
+        # 創建logs目錄
+        if not os.path.exists('logs'):
+            os.makedirs('logs')
+        
+        # 設置日誌格式（移除emoji避免編碼問題）
         log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         
-        # 創建logger
+        logging.basicConfig(
+            level=logging.INFO,
+            format=log_format,
+            handlers=[
+                logging.FileHandler('logs/cloud_monitor.log', encoding='utf-8'),
+                logging.StreamHandler()  # 移除編碼設置，讓系統自動處理
+            ]
+        )
+        
         self.logger = logging.getLogger('CloudMonitor')
-        self.logger.setLevel(log_level)
-        
-        # 移除現有的handlers
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-        
-        # 控制台handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(log_level)
-        console_formatter = logging.Formatter(log_format)
-        console_handler.setFormatter(console_formatter)
-        self.logger.addHandler(console_handler)
-        
-        # 文件handler
-        file_handler = logging.FileHandler('cloud_monitor.log')
-        file_handler.setLevel(log_level)
-        file_formatter = logging.Formatter(log_format)
-        file_handler.setFormatter(file_formatter)
-        self.logger.addHandler(file_handler)
+        self.logger.info("雲端監控系統日誌已啟動")
         
     async def check_market_conditions(self, symbol: str) -> Optional[Dict[str, Any]]:
         """檢查市場條件"""
@@ -745,31 +739,31 @@ class CloudMonitor:
                             if response.status == 200:
                                 success_count += 1
                                 self.last_keep_alive = datetime.now(TAIWAN_TZ)
-                                self.logger.info(f"💓 保活ping成功: {endpoint} (狀態: {response.status})")
+                                self.logger.info(f"保活ping成功: {endpoint} (狀態: {response.status})")
                             else:
-                                self.logger.warning(f"⚠️  保活ping回應異常: {endpoint} (狀態: {response.status})")
+                                self.logger.warning(f"保活ping回應異常: {endpoint} (狀態: {response.status})")
                 except Exception as e:
-                    self.logger.warning(f"⚠️  單個端點ping失敗: {endpoint} - {e}")
+                    self.logger.warning(f"單個端點ping失敗: {endpoint} - {e}")
             
             if success_count == 0:
-                self.logger.error("❌ 所有保活ping都失敗了")
+                self.logger.error("所有保活ping都失敗了")
             else:
-                self.logger.info(f"✅ 保活完成 - {success_count}/{len([e for e in endpoints if e])} 個端點成功")
+                self.logger.info(f"保活完成 - {success_count}/{len([e for e in endpoints if e])} 個端點成功")
                 
         except Exception as e:
-            self.logger.warning(f"⚠️  保活ping失敗: {e}")
+            self.logger.warning(f"保活ping失敗: {e}")
     
     async def keep_alive_task(self):
         """保活任務（背景運行）"""
         if not self.keep_alive_enabled:
-            self.logger.info("💤 保活功能已禁用")
+            self.logger.info("保活功能已禁用")
             return
             
-        self.logger.info(f"💓 保活功能已啟動 - 間隔: {self.keep_alive_interval}秒 ({self.keep_alive_interval//60}分鐘)")
+        self.logger.info(f"保活功能已啟動 - 間隔: {self.keep_alive_interval}秒 ({self.keep_alive_interval//60}分鐘)")
         self.logger.info(f"   目標URL: {self.health_url}")
         
         # 立即執行第一次ping
-        self.logger.info("🚀 執行初始保活ping...")
+        self.logger.info("執行初始保活ping...")
         await self.keep_alive_ping()
         
         ping_count = 1
@@ -778,13 +772,13 @@ class CloudMonitor:
                 await asyncio.sleep(self.keep_alive_interval)
                 if self.is_running:  # 再次檢查，避免停止時執行
                     ping_count += 1
-                    self.logger.info(f"🔄 執行第 {ping_count} 次保活ping...")
+                    self.logger.info(f"執行第 {ping_count} 次保活ping...")
                     await self.keep_alive_ping()
             except asyncio.CancelledError:
-                self.logger.info(f"💓 保活任務已取消 (共執行了 {ping_count} 次ping)")
+                self.logger.info(f"保活任務已取消 (共執行了 {ping_count} 次ping)")
                 break
             except Exception as e:
-                self.logger.error(f"❌ 保活任務出錯: {e}")
+                self.logger.error(f"保活任務出錯: {e}")
                 await asyncio.sleep(60)  # 錯誤時等待1分鐘再試
 
     def get_status(self) -> Dict[str, Any]:

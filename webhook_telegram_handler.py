@@ -277,6 +277,26 @@ class WebhookTelegramHandler:
             news_text = '中性'
             news_color = '🟡'
         
+        # 統計利多利空消息數量
+        bullish_count = 0
+        bearish_count = 0
+        neutral_count = 0
+        
+        if news_list:
+            for news in news_list:
+                title = news.get('title', '').lower()
+                summary = news.get('summary', '').lower()
+                text = title + ' ' + summary
+                
+                # 計算該條新聞的情緒分數
+                score = self.sentiment_analyzer._calculate_sentiment_score(text)
+                if score > 0.5:
+                    bullish_count += 1
+                elif score < -0.5:
+                    bearish_count += 1
+                else:
+                    neutral_count += 1
+        
         # 綜合建議
         action = trading_recommendation['action']
         risk_level = trading_recommendation['risk_level']
@@ -291,6 +311,10 @@ class WebhookTelegramHandler:
         news_confidence = sentiment_analysis['confidence']
         tech_confidence_bar = '█' * (tech_confidence // 10) + '░' * (10 - tech_confidence // 10)
         news_confidence_bar = '█' * (int(news_confidence) // 10) + '░' * (10 - int(news_confidence) // 10)
+        
+        # 市場展望中文化
+        short_term_outlook_cn = self._translate_outlook(tech_analysis['short_term_outlook'])
+        long_term_outlook_cn = self._translate_outlook(tech_analysis['long_term_outlook'])
         
         response = f"""
 🤖 <b>AI綜合交易分析</b> (Webhook模式)
@@ -320,47 +344,27 @@ class WebhookTelegramHandler:
 🎲 <b>漲跌概率:</b> 上漲{sentiment_analysis['bullish_probability']}% vs 下跌{sentiment_analysis['bearish_probability']}%
 💬 <b>情緒分析:</b> {sentiment_analysis['analysis']}
 
+📊 <b>24小時新聞統計:</b>
+• 📈 利多消息: {bullish_count} 筆
+• 📉 利空消息: {bearish_count} 筆
+• ➡️ 中性消息: {neutral_count} 筆
+
 🔍 <b>技術分析依據:</b>
 """
         
         for i, reason in enumerate(tech_analysis['reasons'], 1):
             response += f"   {i}. {reason}\n"
-        
-        # 添加新聞
-        if news_list:
-            response += f"""
-📰 <b>相關新聞資訊:</b>
-"""
-            for i, news in enumerate(news_list, 1):
-                title = news['title']
-                source = news.get('source', '未知來源')
-                time_str = news.get('time', '剛剛')
-                
-                # 限制標題長度避免過長
-                if len(title) > 45:
-                    title = title[:42] + "..."
-                
-                response += f"   {i}. {title}\n"
-                response += f"      <i>📍 來源: {source} • {time_str}</i>\n"
-                
-                # 如果有摘要，也加上
-                if news.get('summary'):
-                    summary = news['summary']
-                    if len(summary) > 60:
-                        summary = summary[:57] + "..."
-                    response += f"      💬 {summary}\n"
-                response += "\n"
-        else:
-            response += f"""
-📰 <b>相關新聞資訊:</b> 暫時無法獲取最新新聞
-"""
 
         response += f"""
 🔮 <b>市場展望:</b>
-• 短期: {tech_analysis['short_term_outlook']}
-• 長期: {tech_analysis['long_term_outlook']}
+• 短期: {short_term_outlook_cn}
+• 長期: {long_term_outlook_cn}
 
 💡 <b>操作建議:</b> {trading_recommendation['reason']}
+
+📈 <b>機率預測:</b>
+• 🚀 上漲機率: {sentiment_analysis['bullish_probability']}%
+• 📉 下跌機率: {sentiment_analysis['bearish_probability']}%
 
 ⏰ <b>分析時間:</b> {datetime.now(TAIWAN_TZ).strftime('%Y-%m-%d %H:%M:%S')} (台灣時間)
 
@@ -368,6 +372,18 @@ class WebhookTelegramHandler:
         """
         
         return response.strip()
+    
+    def _translate_outlook(self, outlook: str) -> str:
+        """將英文市場展望翻譯成中文說明"""
+        outlook_translations = {
+            'BULLISH': '樂觀看漲 - 技術指標顯示上漲趨勢，建議關注買進機會',
+            'BEARISH': '謹慎看跌 - 技術指標顯示下跌趨勢，建議謹慎操作或等待',
+            'NEUTRAL': '中性觀望 - 技術指標方向不明，建議持有觀察市場變化',
+            'WAIT': '等待時機 - 當前不是進出場的最佳時機，建議耐心等待',
+            'STRONG_BULLISH': '強烈看漲 - 多項指標強烈看漲，可考慮適度加碼',
+            'STRONG_BEARISH': '強烈看跌 - 多項指標強烈看跌，建議減倉或止損'
+        }
+        return outlook_translations.get(outlook, '中性觀望 - 技術指標方向不明，建議持有觀察市場變化')
     
     async def webhook_handler(self, request):
         """處理Webhook請求"""
