@@ -11,7 +11,7 @@ class MaxAPI:
         self.session = requests.Session()
         self.logger = logging.getLogger(__name__)
     
-    def get_ticker(self, market='btctwd'):
+    def get_ticker(self, market='btcusdt'):
         """獲取即時價格資訊"""
         try:
             url = f"{self.base_url}/tickers/{market}"
@@ -31,7 +31,7 @@ class MaxAPI:
             self.logger.error(f"獲取價格失敗: {e}")
             return None
     
-    def get_klines(self, market='btctwd', period=1, limit=200):
+    def get_klines(self, market='btcusdt', period=1, limit=200):
         """獲取K線資料"""
         try:
             url = f"{self.base_url}/k"
@@ -70,7 +70,7 @@ class MaxAPI:
             response.raise_for_status()
             markets = response.json()
             
-            btc_market = next((m for m in markets if m['id'] == 'btctwd'), None)
+            btc_market = next((m for m in markets if m['id'] == 'btcusdt'), None)
             return btc_market is not None
             
         except Exception as e:

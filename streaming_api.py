@@ -119,7 +119,7 @@ class StreamingAnalysisAPI:
             self.logger.info("💰 收到價格查詢請求")
             
             # 獲取最新價格
-            ticker = self.max_api.get_ticker('btctwd')
+            ticker = self.max_api.get_ticker('btcusdt')
             if not ticker:
                 raise Exception("無法獲取價格數據")
             
@@ -146,12 +146,12 @@ class StreamingAnalysisAPI:
         """更新AI分析數據"""
         try:
             # 獲取市場數據
-            ticker = self.max_api.get_ticker('btctwd')
+            ticker = self.max_api.get_ticker('btcusdt')
             if not ticker:
                 raise Exception("無法獲取市場數據")
             
             # 獲取K線數據
-            kline_data = self.max_api.get_klines('btctwd', period=60, limit=200)
+            kline_data = self.max_api.get_klines('btcusdt', period=60, limit=200)
             if kline_data is None or kline_data.empty:
                 raise Exception("無法獲取K線數據")
             

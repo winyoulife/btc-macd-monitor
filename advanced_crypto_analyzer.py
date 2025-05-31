@@ -189,7 +189,7 @@ class AdvancedCryptoAnalyzer:
             return None
     
     def analyze_ma_cross_signals(self, df: pd.DataFrame) -> Dict:
-        """分析移動平均線交叉信號"""
+        """根據教學模板分析移動平均線信號 - 重點關注多頭排列和均線交叉"""
         try:
             if len(df) < 3:
                 return {'signal': 'NEUTRAL', 'strength': 0, 'details': '資料不足'}
@@ -204,49 +204,97 @@ class AdvancedCryptoAnalyzer:
             prev_ma7 = prev['ma7']
             prev_ma25 = prev['ma25']
             
+            price = latest['close']
+            
             signals = []
             strength = 0
+            signal_type = 'NEUTRAL'
             
-            # 黃金交叉: MA7向上穿越MA25
+            # 根據教學模板：MA5/MA7向上穿越MA25 - 黃金交叉
             if ma7 > ma25 and prev_ma7 <= prev_ma25:
-                signals.append('MA7向上穿越MA25 (黃金交叉)')
-                strength += 40
-                
-            # 死亡交叉: MA7向下穿越MA25  
-            elif ma7 < ma25 and prev_ma7 >= prev_ma25:
-                signals.append('MA7向下穿越MA25 (死亡交叉)')
-                strength -= 40
-            
-            # 長期趨勢確認
-            if ma7 > ma25 > ma99:
-                signals.append('多頭排列: MA7 > MA25 > MA99')
-                strength += 30
-            elif ma7 < ma25 < ma99:
-                signals.append('空頭排列: MA7 < MA25 < MA99')
-                strength -= 30
-            
-            # 價格與均線關係
-            price = latest['close']
-            if price > ma7 > ma25:
-                signals.append('價格位於短中期均線上方')
-                strength += 15
-            elif price < ma7 < ma25:
-                signals.append('價格位於短中期均線下方')
-                strength -= 15
-            
-            # 判斷信號方向
-            if strength > 20:
+                signals.append('短期均線向上穿越中期均線 (黃金交叉)')
+                strength += 60
                 signal_type = 'BULLISH'
-            elif strength < -20:
-                signal_type = 'BEARISH'
-            else:
-                signal_type = 'NEUTRAL'
                 
+            # MA7向下穿越MA25 - 死亡交叉  
+            elif ma7 < ma25 and prev_ma7 >= prev_ma25:
+                signals.append('短期均線向下穿越中期均線 (死亡交叉)')
+                strength += 60
+                signal_type = 'BEARISH'
+            
+            # 根據教學模板：多頭排列 MA7 > MA25 > MA99
+            if ma7 > ma25 > ma99:
+                signals.append('多頭排列 (MA7 > MA25 > MA99) - 中期趨勢偏多')
+                strength += 40
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BULLISH'
+            
+            # 空頭排列 MA7 < MA25 < MA99
+            elif ma7 < ma25 < ma99:
+                signals.append('空頭排列 (MA7 < MA25 < MA99) - 中期趨勢偏空')
+                strength += 40
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BEARISH'
+            
+            # 根據教學模板：價格與均線關係
+            if price > ma7 > ma25:
+                signals.append('價格站上短期和中期均線')
+                strength += 30
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BULLISH'
+            elif price > ma7:
+                signals.append('價格站上短期均線')
+                strength += 20
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BULLISH'
+            elif price < ma7 < ma25:
+                signals.append('價格跌破短期和中期均線')
+                strength += 30
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BEARISH'
+            elif price < ma7:
+                signals.append('價格跌破短期均線')
+                strength += 20
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BEARISH'
+            
+            # MA25作為支撐壓力位置
+            ma25_distance_pct = abs(price - ma25) / ma25 * 100
+            if ma25_distance_pct < 1:  # 距離MA25很近
+                if price > ma25:
+                    signals.append('價格靠近MA25支撐，觀察能否守穩')
+                else:
+                    signals.append('價格測試MA25壓力，觀察能否突破')
+                strength += 15
+            
+            # 均線斜率判斷趨勢強度
+            if len(df) >= 5:
+                ma7_slope = (ma7 - df.iloc[-5]['ma7']) / 5
+                ma25_slope = (ma25 - df.iloc[-5]['ma25']) / 5
+                
+                if ma7_slope > 0 and ma25_slope > 0:
+                    signals.append('短中期均線向上傾斜')
+                    if signal_type == 'BULLISH':
+                        strength += 15
+                elif ma7_slope < 0 and ma25_slope < 0:
+                    signals.append('短中期均線向下傾斜')
+                    if signal_type == 'BEARISH':
+                        strength += 15
+                        
             return {
                 'signal': signal_type,
-                'strength': abs(strength),
-                'details': '; '.join(signals) if signals else '無明確信號',
-                'ma_values': {'ma7': ma7, 'ma25': ma25, 'ma99': ma99}
+                'strength': min(strength, 100),
+                'details': '; '.join(signals) if signals else '無明確均線信號',
+                'values': {
+                    'ma7': ma7, 
+                    'ma25': ma25, 
+                    'ma99': ma99,
+                    'price': price,
+                    'bullish_alignment': ma7 > ma25 > ma99,
+                    'bearish_alignment': ma7 < ma25 < ma99,
+                    'price_above_ma7': price > ma7,
+                    'price_above_ma25': price > ma25
+                }
             }
             
         except Exception as e:
@@ -254,7 +302,7 @@ class AdvancedCryptoAnalyzer:
             return {'signal': 'NEUTRAL', 'strength': 0, 'details': f'分析錯誤: {e}'}
     
     def analyze_macd_signals(self, df: pd.DataFrame) -> Dict:
-        """增強版MACD分析"""
+        """根據教學模板增強版MACD分析 - 重點關注交叉信號和柱狀圖"""
         try:
             if len(df) < 5:
                 return {'signal': 'NEUTRAL', 'strength': 0, 'details': '資料不足'}
@@ -272,45 +320,71 @@ class AdvancedCryptoAnalyzer:
             
             signals = []
             strength = 0
+            signal_type = 'NEUTRAL'
             
-            # MACD線交叉信號
+            # 根據教學模板：MACD黃金交叉 - 強力買入信號
             if macd > signal and prev_macd <= prev_signal:
-                signals.append('MACD黃金交叉')
-                strength += 35
-            elif macd < signal and prev_macd >= prev_signal:
-                signals.append('MACD死亡交叉')
-                strength -= 35
-            
-            # 直方圖變化
-            if histogram > 0 and prev_histogram <= 0:
-                signals.append('直方圖轉正')
-                strength += 20
-            elif histogram < 0 and prev_histogram >= 0:
-                signals.append('直方圖轉負')
-                strength -= 20
-                
-            # 背離檢測
-            recent_data = df.tail(10)
-            if self._detect_bullish_divergence(recent_data):
-                signals.append('檢測到看漲背離')
-                strength += 25
-            elif self._detect_bearish_divergence(recent_data):
-                signals.append('檢測到看跌背離')
-                strength -= 25
-            
-            # 判斷信號方向
-            if strength > 15:
+                signals.append('MACD黃金交叉 - 動能轉多')
+                strength += 70  # 提高權重
                 signal_type = 'BULLISH'
-            elif strength < -15:
+            
+            # 根據教學模板：MACD死亡交叉 - 強力賣出信號
+            elif macd < signal and prev_macd >= prev_signal:
+                signals.append('MACD死亡交叉 - 空方動能轉強')
+                strength += 70  # 提高權重
                 signal_type = 'BEARISH'
-            else:
-                signal_type = 'NEUTRAL'
-                
+            
+            # 柱狀圖分析 - 動能變化
+            if histogram > 0 and prev_histogram <= 0:
+                signals.append('柱狀圖轉正 - 多頭動能增強')
+                strength += 45
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BULLISH'
+            elif histogram < 0 and prev_histogram >= 0:
+                signals.append('柱狀圖轉負 - 空頭動能增強')
+                strength += 45
+                if signal_type == 'NEUTRAL':
+                    signal_type = 'BEARISH'
+            
+            # 柱狀圖放大 - 動能增強
+            elif abs(histogram) > abs(prev_histogram):
+                if histogram > 0:
+                    signals.append('多頭動能放大')
+                    strength += 25
+                    if signal_type == 'NEUTRAL':
+                        signal_type = 'BULLISH'
+                else:
+                    signals.append('空頭動能放大')
+                    strength += 25
+                    if signal_type == 'NEUTRAL':
+                        signal_type = 'BEARISH'
+            
+            # 柱狀圖縮小 - 動能轉弱
+            elif abs(histogram) < abs(prev_histogram):
+                signals.append('動能轉弱，謹慎觀望')
+                strength += 15
+            
+            # MACD在零軸上下的位置也很重要
+            if macd > 0 and signal > 0:
+                signals.append('MACD位於零軸上方')
+                if signal_type == 'BULLISH':
+                    strength += 10
+            elif macd < 0 and signal < 0:
+                signals.append('MACD位於零軸下方')
+                if signal_type == 'BEARISH':
+                    strength += 10
+                    
             return {
                 'signal': signal_type,
-                'strength': abs(strength),
-                'details': '; '.join(signals) if signals else '無明確信號',
-                'macd_values': {'macd': macd, 'signal': signal, 'histogram': histogram}
+                'strength': min(strength, 100),  # 限制最大強度
+                'details': '; '.join(signals) if signals else '無明確MACD信號',
+                'values': {
+                    'macd': macd,
+                    'signal': signal, 
+                    'histogram': histogram,
+                    'golden_cross': macd > signal and prev_macd <= prev_signal,
+                    'death_cross': macd < signal and prev_macd >= prev_signal
+                }
             }
             
         except Exception as e:
@@ -468,134 +542,199 @@ class AdvancedCryptoAnalyzer:
             return {'signal': 'NEUTRAL', 'strength': 0, 'details': f'成交量分析錯誤: {e}'}
     
     def comprehensive_analysis(self, df: pd.DataFrame, current_price: float) -> Dict:
-        """綜合AI技術分析"""
+        """根據轉折點檢測框架進行多指標交叉確認分析"""
         try:
-            self.logger.info("🤖 開始綜合AI技術分析...")
+            # 計算基礎技術指標
+            df = self.calculate_all_indicators(df)
             
-            # 計算所有技術指標
-            df_with_indicators = self.calculate_all_indicators(df)
-            if df_with_indicators is None:
-                return self._get_default_analysis()
+            if len(df) < 50:
+                return self._empty_analysis()
             
-            # 各項指標分析
-            ma_analysis = self.analyze_ma_cross_signals(df_with_indicators)
-            macd_analysis = self.analyze_macd_signals(df_with_indicators)
-            rsi_analysis = self.analyze_rsi_signals(df_with_indicators)
-            bb_analysis = self.analyze_bollinger_signals(df_with_indicators)
-            volume_analysis = self.analyze_volume_signals(df_with_indicators)
+            # 獲取最新數據
+            latest = df.iloc[-1]
+            prev = df.iloc[-2]
+            prev2 = df.iloc[-3] if len(df) > 3 else prev
             
-            # AI權重計算 - 修復置信度計算邏輯
+            # 初始化信號檢測
+            bullish_reversal_signals = []  # 底部反彈信號
+            bearish_reversal_signals = []  # 高點回測信號
+            
             total_bullish_score = 0
             total_bearish_score = 0
-            max_possible_score = sum(self.indicator_weights.values())
             
-            analyses = {
-                'ma_cross': ma_analysis,
-                'macd': macd_analysis, 
-                'rsi': rsi_analysis,
-                'bollinger': bb_analysis,
-                'volume': volume_analysis
-            }
+            # ================== 底部反彈信號檢測 ==================
             
-            # 詳細記錄各指標的貢獻
-            indicator_contributions = {}
+            # 1. MACD 金叉檢測
+            macd = latest.get('macd', 0)
+            macd_signal = latest.get('macd_signal', 0)
+            macd_hist = latest.get('macd_histogram', 0)
+            prev_macd = prev.get('macd', 0)
+            prev_macd_signal = prev.get('macd_signal', 0)
             
-            for indicator, analysis in analyses.items():
-                weight = self.indicator_weights.get(indicator, 0)
-                strength = analysis['strength']
+            # MACD金叉 + 柱狀圖轉綠
+            if macd > macd_signal and prev_macd <= prev_macd_signal:
+                bullish_reversal_signals.append("MACD金叉出現")
+                total_bullish_score += 30
+            if macd_hist > 0 and prev.get('macd_histogram', 0) <= 0:
+                bullish_reversal_signals.append("MACD柱狀圖轉綠")
+                total_bullish_score += 20
                 
-                if analysis['signal'] == 'BULLISH':
-                    contribution = (strength / 100) * weight
-                    total_bullish_score += contribution
-                    indicator_contributions[indicator] = {'type': 'BULLISH', 'contribution': contribution, 'strength': strength}
-                elif analysis['signal'] == 'BEARISH':
-                    contribution = (strength / 100) * weight
-                    total_bearish_score += contribution
-                    indicator_contributions[indicator] = {'type': 'BEARISH', 'contribution': contribution, 'strength': strength}
-                else:
-                    indicator_contributions[indicator] = {'type': 'NEUTRAL', 'contribution': 0, 'strength': strength}
+            # 2. RSI 超賣反彈檢測
+            rsi = latest.get('rsi', 50)
+            prev_rsi = prev.get('rsi', 50)
             
-            # 計算最終信號
+            if rsi < 30 and rsi > prev_rsi:
+                bullish_reversal_signals.append("RSI超賣區向上反彈")
+                total_bullish_score += 25
+            elif rsi < 35 and rsi > prev_rsi + 2:
+                bullish_reversal_signals.append("RSI接近超賣區反彈")
+                total_bullish_score += 15
+                
+            # 3. 均線支撐檢測
+            ma5 = latest.get('ma7', current_price)  # 使用ma7作為短期均線
+            ma10 = latest.get('ma25', current_price)  # 使用ma25作為中期均線
+            prev_ma5 = prev.get('ma7', current_price)
+            
+            # K線站回均線
+            if current_price > ma5 and prev['close'] <= prev_ma5:
+                bullish_reversal_signals.append("K線站回短期均線")
+                total_bullish_score += 20
+            if ma5 > ma10:  # 短期均線在中期均線之上
+                bullish_reversal_signals.append("短期均線多頭排列")
+                total_bullish_score += 15
+                
+            # 4. 布林通道支撐檢測
+            bb_lower = latest.get('bb_lower', current_price * 0.95)
+            bb_middle = latest.get('bb_middle', current_price)
+            
+            if prev['close'] < bb_lower and current_price > bb_lower:
+                bullish_reversal_signals.append("跌破布林下軌後收回")
+                total_bullish_score += 25
+            elif current_price < bb_middle and current_price > bb_lower:
+                bullish_reversal_signals.append("接近布林下軌支撐")
+                total_bullish_score += 10
+                
+            # 5. 成交量確認（下跌縮量，反彈放量）
+            volume = latest.get('volume', 0)
+            avg_volume = df['volume'].tail(10).mean()
+            
+            if volume > avg_volume * 1.2:  # 放量
+                bullish_reversal_signals.append("反彈伴隨放量")
+                total_bullish_score += 15
+                
+            # ================== 高點回測信號檢測 ==================
+            
+            # 1. MACD 死叉檢測
+            if macd < macd_signal and prev_macd >= prev_macd_signal:
+                bearish_reversal_signals.append("MACD死叉出現")
+                total_bearish_score += 30
+            if macd_hist < 0 and prev.get('macd_histogram', 0) >= 0:
+                bearish_reversal_signals.append("MACD柱狀圖轉紅")
+                total_bearish_score += 20
+                
+            # 2. RSI 超買回調檢測
+            if rsi > 70 and rsi < prev_rsi:
+                bearish_reversal_signals.append("RSI超買區向下回調")
+                total_bearish_score += 25
+            elif rsi > 65 and rsi < prev_rsi - 2:
+                bearish_reversal_signals.append("RSI接近超買區回調")
+                total_bearish_score += 15
+                
+            # 3. 均線壓力檢測
+            if current_price < ma5 and prev['close'] >= prev_ma5:
+                bearish_reversal_signals.append("K線跌破短期均線")
+                total_bearish_score += 20
+            if ma5 < ma10:  # 短期均線在中期均線之下
+                bearish_reversal_signals.append("短期均線空頭排列")
+                total_bearish_score += 15
+                
+            # 4. 布林通道壓力檢測
+            bb_upper = latest.get('bb_upper', current_price * 1.05)
+            
+            if prev['close'] > bb_upper and current_price < bb_upper:
+                bearish_reversal_signals.append("衝破布林上軌後拉回")
+                total_bearish_score += 25
+            elif current_price > bb_middle and current_price < bb_upper:
+                bearish_reversal_signals.append("接近布林上軌壓力")
+                total_bearish_score += 10
+                
+            # 5. 高點爆量檢測
+            if volume > avg_volume * 1.5 and current_price < prev['close']:
+                bearish_reversal_signals.append("高點爆量回調")
+                total_bearish_score += 15
+                
+            # ================== 綜合判斷邏輯 ==================
+            
             net_score = total_bullish_score - total_bearish_score
+            total_signals = len(bullish_reversal_signals) + len(bearish_reversal_signals)
             
-            # 修復置信度計算 - 使用有效信號的總強度
-            active_signals_strength = sum([contrib['strength'] for contrib in indicator_contributions.values() 
-                                         if contrib['type'] != 'NEUTRAL'])
-            total_active_indicators = len([contrib for contrib in indicator_contributions.values() 
-                                         if contrib['type'] != 'NEUTRAL'])
-            
-            if total_active_indicators > 0:
-                # 基於實際參與的指標計算置信度 - 修復過度自信問題
-                avg_signal_strength = active_signals_strength / total_active_indicators
-                indicator_coverage = total_active_indicators / len(analyses)  # 指標覆蓋率
-                
-                # 修復公式：需要至少2個指標參與且平均強度>50%才能有高置信度
-                if total_active_indicators >= 2 and avg_signal_strength >= 50:
-                    confidence = (avg_signal_strength * indicator_coverage * abs(net_score) / max_possible_score) * 100
-                    confidence = min(95, max(60, confidence))
-                elif total_active_indicators >= 1 and avg_signal_strength >= 70:
-                    # 單一指標需要很強的信號才能有中等置信度
-                    confidence = (avg_signal_strength * 0.6) * (abs(net_score) / max_possible_score)
-                    confidence = min(75, max(40, confidence))
+            # 根據多指標交叉確認決定最終信號
+            if len(bullish_reversal_signals) >= 3 and total_bullish_score >= 60:
+                if len(bullish_reversal_signals) >= 4:
+                    final_signal = 'STRONG_BUY'
+                    recommendation = '多指標確認底部反彈 - 強烈建議買進'
                 else:
-                    # 信號太弱或指標太少，低置信度
-                    confidence = min(40, avg_signal_strength * 0.4)
-            else:
-                confidence = 15  # 沒有明確信號時的最低置信度
-            
-            # 記錄調試信息
-            self.logger.info(f"📊 指標分析結果:")
-            self.logger.info(f"   看漲分數: {total_bullish_score:.2f}")
-            self.logger.info(f"   看跌分數: {total_bearish_score:.2f}")
-            self.logger.info(f"   淨分數: {net_score:.2f}")
-            self.logger.info(f"   活躍指標: {total_active_indicators}/{len(analyses)}")
-            self.logger.info(f"   平均強度: {avg_signal_strength:.1f}%" if total_active_indicators > 0 else "   平均強度: N/A")
-            self.logger.info(f"   最終置信度: {confidence:.1f}%")
-            
-            if net_score > 15:
-                final_signal = 'STRONG_BUY'
-                recommendation = '強烈建議買進'
-            elif net_score > 5:
+                    final_signal = 'BUY'
+                    recommendation = '轉折點信號確認 - 建議買進'
+            elif len(bearish_reversal_signals) >= 3 and total_bearish_score >= 60:
+                if len(bearish_reversal_signals) >= 4:
+                    final_signal = 'STRONG_SELL'
+                    recommendation = '多指標確認高點回測 - 強烈建議賣出'
+                else:
+                    final_signal = 'SELL'
+                    recommendation = '轉折點信號確認 - 建議賣出'
+            elif net_score > 20:
                 final_signal = 'BUY'
-                recommendation = '建議買進'
-            elif net_score < -15:
-                final_signal = 'STRONG_SELL'
-                recommendation = '強烈建議賣出'
-            elif net_score < -5:
+                recommendation = '偏多信號 - 建議買進'
+            elif net_score < -20:
                 final_signal = 'SELL'
-                recommendation = '建議賣出'
+                recommendation = '偏空信號 - 建議賣出'
             else:
                 final_signal = 'HOLD'
-                recommendation = '建議持有觀望'
-            
-            # 獲取最新技術指標值
-            latest = df_with_indicators.iloc[-1]
+                recommendation = '信號不明確 - 建議持有觀望'
+                
+            # 置信度計算 - 基於信號數量和強度
+            if total_signals >= 4:
+                confidence = min(90, 40 + (total_signals * 8) + (abs(net_score) / 5))
+            elif total_signals >= 2:
+                confidence = min(75, 30 + (total_signals * 10) + (abs(net_score) / 8))
+            else:
+                confidence = min(50, 20 + (total_signals * 5) + (abs(net_score) / 10))
+                
+            # 交易建議
+            if final_signal in ['STRONG_BUY', 'BUY']:
+                advice = f"檢測到{len(bullish_reversal_signals)}個底部反彈信號：{', '.join(bullish_reversal_signals[:3])}。建議分批進場，設置止損。"
+            elif final_signal in ['STRONG_SELL', 'SELL']:
+                advice = f"檢測到{len(bearish_reversal_signals)}個高點回測信號：{', '.join(bearish_reversal_signals[:3])}。建議減倉或止盈。"
+            else:
+                advice = "轉折點信號不明確，建議觀望等待更明確的多指標確認信號。"
+                
+            self.logger.info(f"📊 轉折點分析結果:")
+            self.logger.info(f"   底部反彈信號: {len(bullish_reversal_signals)}個 (得分: {total_bullish_score})")
+            self.logger.info(f"   高點回測信號: {len(bearish_reversal_signals)}個 (得分: {total_bearish_score})")
+            self.logger.info(f"   淨分數: {net_score}")
+            self.logger.info(f"   最終置信度: {confidence:.1f}%")
             
             return {
-                'recommendation': final_signal,
-                'confidence': confidence,
+                'signal': final_signal,
+                'recommendation': recommendation,
+                'confidence': round(confidence, 1),
+                'advice': advice,
+                'bullish_signals': bullish_reversal_signals,
+                'bearish_signals': bearish_reversal_signals,
                 'bullish_score': total_bullish_score,
                 'bearish_score': total_bearish_score,
                 'net_score': net_score,
-                'advice': recommendation,
-                'detailed_analysis': analyses,
-                'indicator_contributions': indicator_contributions,  # 新增詳細貢獻記錄
-                'technical_values': {
-                    'macd': latest['macd'],
-                    'macd_signal': latest['macd_signal'],
-                    'macd_histogram': latest['macd_histogram'],
-                    'rsi': latest['rsi'],
-                    'ma7': latest['ma7'],
-                    'ma25': latest['ma25'],
-                    'ma99': latest['ma99'],
-                    'bb_position': latest['bb_position'],
-                    'volume_ratio': volume_analysis.get('volume_ratio', 1.0)
-                },
-                'timestamp': datetime.now()
+                'technical_details': {
+                    'macd': f"{macd:.2f}",
+                    'rsi': f"{rsi:.1f}",
+                    'ma_trend': "多頭" if ma5 > ma10 else "空頭",
+                    'bb_position': "上軌" if current_price > bb_upper else "下軌" if current_price < bb_lower else "中軌"
+                }
             }
             
         except Exception as e:
-            self.logger.error(f"❌ 綜合分析失敗: {e}")
+            self.logger.error(f"❌ 轉折點分析錯誤: {e}")
             return self._get_default_analysis()
     
     def _detect_bullish_divergence(self, df: pd.DataFrame) -> bool:

@@ -209,12 +209,15 @@ class CloudMonitor:
         
         if os.getenv('TIMEZONE'):
             self.config['cloud']['timezone'] = os.getenv('TIMEZONE')
+        
+        # 監控配置
+        self.monitoring_symbols = os.getenv('MONITORING_SYMBOLS', 'btcusdt').split(',')
     
     def load_config(self) -> Dict[str, Any]:
         """載入配置文件"""
         default_config = {
             "monitoring": {
-                "symbols": ["btctwd"],
+                "symbols": ["btcusdt"],
                 "periods": [1, 5, 15, 30, 60],
                 "check_interval": 60,
                 "primary_period": 60
@@ -651,7 +654,7 @@ class CloudMonitor:
         """監控循環"""
         self.logger.info("開始監控循環")
         
-        for symbol in self.config['monitoring']['symbols']:
+        for symbol in self.monitoring_symbols:
             try:
                 # 檢查市場條件
                 market_data = await self.check_market_conditions(symbol)
@@ -754,7 +757,7 @@ class CloudMonitor:
 🤖 <b>雲端監控系統啟動</b>
 
 📊 <b>監控設定:</b>
-• 交易對: {', '.join(self.config['monitoring']['symbols'])}
+• 交易對: {', '.join(self.monitoring_symbols)}
 • 週期: {self.config['monitoring']['primary_period']}分鐘
 • 檢查間隔: {self.config['monitoring']['check_interval']}秒
 
@@ -947,7 +950,7 @@ class CloudMonitor:
                     'errors_count': self.stats['errors_count'],
                     'start_time': self.stats['start_time'].isoformat() if self.stats['start_time'] and isinstance(self.stats['start_time'], datetime) else None
                 },
-                'monitoring_symbols': self.config['monitoring']['symbols'],
+                'monitoring_symbols': self.monitoring_symbols,
                 'monitoring_active': len(self.monitoring_data) > 0,
                 'keep_alive': {
                     'enabled': self.keep_alive_enabled,

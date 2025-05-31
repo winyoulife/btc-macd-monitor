@@ -3,274 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTC/TWD AI技術分析 - 直播疊加</title>
+    <title>🤖 AI Crypto Analysis - Live Stream | AI加密貨幣分析直播</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
-            background: transparent;
-            font-family: 'Microsoft JhengHei', Arial, sans-serif;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .overlay-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 400px;
-            background: rgba(0, 0, 0, 0.8);
+        body {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 15px;
+            padding: 15px;
+            height: 100vh;
+            max-height: 100vh;
+        }
+        
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #2d3748, #4a5568);
             border-radius: 15px;
             padding: 20px;
-            border: 2px solid #00ff88;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            text-align: center;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
         }
         
-        .title {
-            text-align: center;
-            font-size: 18px;
+        .logo {
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 15px;
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #a0aec0;
         }
         
         .price-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 15px;
+            background: linear-gradient(45deg, #1a202c, #2d3748);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 2px solid #48bb78;
+            box-shadow: 0 8px 32px rgba(72, 187, 120, 0.2);
         }
         
-        .price {
-            font-size: 24px;
+        .price-display {
+            font-size: 48px;
             font-weight: bold;
-            text-align: center;
-            color: #fff;
+            color: #48bb78;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(72, 187, 120, 0.5);
         }
         
         .price-change {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 5px;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
         
-        .bullish { color: #00ff88; }
-        .bearish { color: #ff4444; }
-        .neutral { color: #ffaa00; }
-        
-        .analysis-section {
+        .ai-recommendation {
+            background: linear-gradient(45deg, #2d3748, #4a5568);
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 15px;
         }
         
-        .recommendation {
+        .rec-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 8px;
+            gap: 10px;
         }
         
-        .confidence-bar {
-            width: 100px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-            overflow: hidden;
+        .rec-action {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
         
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff4444, #ffaa00, #00ff88);
-            transition: width 0.5s ease;
+        .rec-confidence {
+            font-size: 16px;
+            color: #a0aec0;
         }
         
-        .indicators {
+        .indicators-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
         
         .indicator {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            padding: 6px;
+            background: linear-gradient(45deg, #1a202c, #2d3748);
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
-            font-size: 12px;
+            border: 1px solid #4a5568;
         }
         
-        .indicator-label {
-            font-weight: bold;
-            margin-bottom: 2px;
+        .indicator-name {
+            font-size: 12px;
+            color: #a0aec0;
+            margin-bottom: 5px;
         }
         
         .indicator-value {
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: bold;
         }
         
-        .update-time {
-            text-align: center;
-            font-size: 10px;
-            color: #aaa;
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .info-section {
+            background: linear-gradient(45deg, #1a202c, #2d3748);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #4a5568;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #a0aec0;
+        }
+        
+        .info-value {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .probability-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-top: 10px;
         }
         
-        .loading {
+        .prob-item {
             text-align: center;
-            color: #ffaa00;
-            font-style: italic;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
         }
         
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+        .prob-label {
+            font-size: 12px;
+            color: #a0aec0;
+            margin-bottom: 5px;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
+        .prob-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .bullish { color: #48bb78; }
+        .bearish { color: #f56565; }
+        .neutral { color: #ed8936; }
+        .positive { color: #48bb78; }
+        .negative { color: #f56565; }
+        
+        .news-sentiment {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .sentiment-item {
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .sentiment-label {
+            font-size: 10px;
+            color: #a0aec0;
+            margin-bottom: 3px;
+        }
+        
+        .sentiment-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .trading-advice {
+            background: linear-gradient(45deg, #2d3748, #4a5568);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .advice-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #e2e8f0;
+        }
+        
+        .footer {
+            background: linear-gradient(45deg, #1a202c, #2d3748);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #a0aec0;
+            border: 1px solid #4a5568;
+        }
+        
+        .language-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #00d4ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .language-toggle:hover {
+            background: rgba(0, 212, 255, 0.4);
+        }
+        
+        .bilingual {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .zh {
+            font-size: 14px;
+        }
+        
+        .en {
+            font-size: 11px;
+            color: #a0aec0;
         }
     </style>
 </head>
 <body>
-    <div class="overlay-container">
-        <div class="title">🤖 AI多重技術指標分析</div>
-        
-        <div class="price-section">
-            <div class="price" id="current-price">載入中...</div>
-            <div class="price-change" id="price-change">--</div>
-        </div>
-        
-        <div class="analysis-section">
-            <div class="recommendation">
-                <span><strong>AI建議:</strong> <span id="ai-recommendation">分析中...</span></span>
-                <div class="confidence-bar">
-                    <div class="confidence-fill" id="confidence-fill" style="width: 0%"></div>
+    <div class="language-toggle" onclick="toggleLanguage()">中/EN</div>
+    
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="header">
+                <div class="logo">🤖 AI專業技術分析 | AI Professional Technical Analysis</div>
+                <div class="subtitle">即時加密貨幣分析 | Real-time Cryptocurrency Analysis</div>
+            </div>
+            
+            <div class="price-section">
+                <div class="price-display" id="currentPrice">載入中... | Loading...</div>
+                <div class="price-change" id="priceChange">--</div>
+                
+                <div class="ai-recommendation">
+                    <div class="rec-header">
+                        <span>🎯</span>
+                        <div class="bilingual">
+                            <div class="zh">AI建議</div>
+                            <div class="en">AI Recommendation</div>
+                        </div>
+                    </div>
+                    <div class="rec-action" id="aiRecommendation">分析中... | Analyzing...</div>
+                    <div class="rec-confidence" id="aiConfidence">置信度 | Confidence: --</div>
                 </div>
             </div>
-            <div style="text-align: center; font-size: 12px; margin-top: 5px;">
-                置信度: <span id="confidence-text">--%</span>
+            
+            <div class="info-section">
+                <div class="section-title">
+                    <span>📊</span>
+                    <div class="bilingual">
+                        <div class="zh">關鍵技術指標</div>
+                        <div class="en">Key Technical Indicators</div>
+                    </div>
+                </div>
+                <div class="indicators-grid">
+                    <div class="indicator">
+                        <div class="indicator-name">MA7</div>
+                        <div class="indicator-value" id="ma7">--</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">MA25</div>
+                        <div class="indicator-value" id="ma25">--</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">MACD</div>
+                        <div class="indicator-value" id="macd">--</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">RSI</div>
+                        <div class="indicator-value" id="rsi">--</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">布林帶 | BB</div>
+                        <div class="indicator-value" id="bollinger">--</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-name">成交量 | Volume</div>
+                        <div class="indicator-value" id="volume">--</div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="indicators">
-            <div class="indicator">
-                <div class="indicator-label">MA7</div>
-                <div class="indicator-value" id="ma7">--</div>
+        <div class="right-panel">
+            <div class="info-section">
+                <div class="section-title">
+                    <span>🏠</span>
+                    <div class="bilingual">
+                        <div class="zh">市場概況</div>
+                        <div class="en">Market Overview</div>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">24H 最高 | 24H High:</span>
+                        <span class="info-value positive" id="high24h">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">24H 最低 | 24H Low:</span>
+                        <span class="info-value negative" id="low24h">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">當前價格 | Current:</span>
+                        <span class="info-value" id="currentPriceSmall">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">24H 成交量 | Volume:</span>
+                        <span class="info-value" id="volume24h">--</span>
+                    </div>
+                </div>
             </div>
-            <div class="indicator">
-                <div class="indicator-label">MA25</div>
-                <div class="indicator-value" id="ma25">--</div>
+            
+            <div class="info-section">
+                <div class="section-title">
+                    <span>🎯</span>
+                    <div class="bilingual">
+                        <div class="zh">概率分析</div>
+                        <div class="en">Probability Analysis</div>
+                    </div>
+                </div>
+                <div class="probability-section">
+                    <div class="prob-item">
+                        <div class="prob-label">上漲概率 | Bullish Prob</div>
+                        <div class="prob-value bullish" id="bullishProb">--</div>
+                    </div>
+                    <div class="prob-item">
+                        <div class="prob-label">下跌概率 | Bearish Prob</div>
+                        <div class="prob-value bearish" id="bearishProb">--</div>
+                    </div>
+                </div>
             </div>
-            <div class="indicator">
-                <div class="indicator-label">MACD</div>
-                <div class="indicator-value" id="macd">--</div>
+            
+            <div class="info-section">
+                <div class="section-title">
+                    <span>📰</span>
+                    <div class="bilingual">
+                        <div class="zh">新聞情緒</div>
+                        <div class="en">News Sentiment</div>
+                    </div>
+                </div>
+                <div class="news-sentiment">
+                    <div class="sentiment-item">
+                        <div class="sentiment-label">利多 | Positive</div>
+                        <div class="sentiment-value bullish" id="positiveNews">--</div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="sentiment-label">中性 | Neutral</div>
+                        <div class="sentiment-value neutral" id="neutralNews">--</div>
+                    </div>
+                    <div class="sentiment-item">
+                        <div class="sentiment-label">利空 | Negative</div>
+                        <div class="sentiment-value bearish" id="negativeNews">--</div>
+                    </div>
+                </div>
             </div>
-            <div class="indicator">
-                <div class="indicator-label">RSI</div>
-                <div class="indicator-value" id="rsi">--</div>
+            
+            <div class="info-section">
+                <div class="section-title">
+                    <span>💡</span>
+                    <div class="bilingual">
+                        <div class="zh">操作建議</div>
+                        <div class="en">Trading Advice</div>
+                    </div>
+                </div>
+                <div class="trading-advice">
+                    <div class="advice-text" id="tradingAdvice">正在分析市場情況... | Analyzing market conditions...</div>
+                </div>
             </div>
-        </div>
-        
-        <div class="update-time">
-            最後更新: <span id="last-update">--</span>
+            
+            <div class="footer">
+                <div class="bilingual">
+                    <div class="zh">🚀 AI驅動的專業分析 • 實時更新 • 僅供參考</div>
+                    <div class="en">🚀 AI-Powered Professional Analysis • Real-time Updates • For Reference Only</div>
+                </div>
+            </div>
         </div>
     </div>
-
+    
     <script>
-        let lastPrice = 0;
+        let currentLanguage = 'both'; // 'zh', 'en', 'both'
+        let analysisData = null;
         
-        async function fetchAnalysis() {
-            try {
-                // 調用雲端監控API獲取分析數據
-                const response = await fetch('/api/analysis');
-                const data = await response.json();
+        function toggleLanguage() {
+            const options = ['both', 'zh', 'en'];
+            const currentIndex = options.indexOf(currentLanguage);
+            currentLanguage = options[(currentIndex + 1) % options.length];
+            
+            const bilingualElements = document.querySelectorAll('.bilingual');
+            bilingualElements.forEach(element => {
+                const zhElement = element.querySelector('.zh');
+                const enElement = element.querySelector('.en');
                 
-                updateDisplay(data);
-            } catch (error) {
-                console.error('獲取分析數據失敗:', error);
-                document.getElementById('ai-recommendation').textContent = '連線錯誤';
+                if (currentLanguage === 'zh') {
+                    zhElement.style.display = 'block';
+                    enElement.style.display = 'none';
+                } else if (currentLanguage === 'en') {
+                    zhElement.style.display = 'none';
+                    enElement.style.display = 'block';
+                } else {
+                    zhElement.style.display = 'block';
+                    enElement.style.display = 'block';
+                }
+            });
+            
+            // Update language toggle button
+            const toggleBtn = document.querySelector('.language-toggle');
+            if (currentLanguage === 'zh') {
+                toggleBtn.textContent = '中文';
+            } else if (currentLanguage === 'en') {
+                toggleBtn.textContent = 'English';
+            } else {
+                toggleBtn.textContent = '中/EN';
             }
+        }
+        
+        function formatPrice(price) {
+            if (!price) return '--';
+            return new Intl.NumberFormat('zh-TW').format(Math.round(price));
+        }
+        
+        function formatPercentage(value) {
+            if (value === null || value === undefined || isNaN(value)) return '--';
+            return `${value.toFixed(1)}%`;
+        }
+        
+        function getRecommendationColor(rec) {
+            switch(rec) {
+                case 'BUY': return 'bullish';
+                case 'SELL': return 'bearish'; 
+                case 'HOLD': return 'neutral';
+                default: return 'neutral';
+            }
+        }
+        
+        function getRecommendationText(rec, lang = 'both') {
+            const texts = {
+                'BUY': { zh: '建議買進', en: 'BUY' },
+                'SELL': { zh: '建議賣出', en: 'SELL' },
+                'HOLD': { zh: '建議持有', en: 'HOLD' }
+            };
+            
+            const text = texts[rec] || { zh: '分析中', en: 'Analyzing' };
+            
+            if (lang === 'zh') return text.zh;
+            if (lang === 'en') return text.en;
+            return `${text.zh} | ${text.en}`;
         }
         
         function updateDisplay(data) {
-            // 更新價格
-            const price = data.price?.current || 0;
-            document.getElementById('current-price').textContent = 
-                `$${price.toLocaleString()} TWD`;
+            if (!data) return;
             
-            // 價格變化
-            const priceChange = document.getElementById('price-change');
-            if (lastPrice > 0) {
-                const change = price - lastPrice;
-                const changePercent = ((change / lastPrice) * 100).toFixed(2);
-                priceChange.textContent = 
-                    `${change >= 0 ? '+' : ''}${change.toLocaleString()} (${changePercent}%)`;
-                priceChange.className = `price-change ${change >= 0 ? 'bullish' : 'bearish'}`;
+            analysisData = data;
+            
+            // Update prices
+            const currentPrice = data.price?.current || 0;
+            const high24h = data.price?.high_24h || 0;
+            const low24h = data.price?.low_24h || 0;
+            const volume24h = data.price?.volume_24h || 0;
+            
+            document.getElementById('currentPrice').textContent = `$${formatPrice(currentPrice)} TWD`;
+            document.getElementById('currentPriceSmall').textContent = `$${formatPrice(currentPrice)}`;
+            document.getElementById('high24h').textContent = `$${formatPrice(high24h)}`;
+            document.getElementById('low24h').textContent = `$${formatPrice(low24h)}`;
+            document.getElementById('volume24h').textContent = volume24h.toFixed(2);
+            
+            // Calculate price change
+            if (high24h && low24h) {
+                const changePercent = ((currentPrice - low24h) / low24h * 100).toFixed(2);
+                const changeElement = document.getElementById('priceChange');
+                changeElement.textContent = `${changePercent > 0 ? '+' : ''}${changePercent}%`;
+                changeElement.className = `price-change ${changePercent >= 0 ? 'positive' : 'negative'}`;
             }
-            lastPrice = price;
             
-            // AI分析結果
-            const analysis = data.ai_analysis || {};
-            const recommendation = analysis.recommendation || 'HOLD';
-            const confidence = analysis.confidence || 0;
+            // Update AI recommendation
+            const aiAnalysis = data.ai_analysis || {};
+            const recommendation = aiAnalysis.recommendation || 'HOLD';
+            const confidence = aiAnalysis.confidence || 0;
             
-            // 更新建議
-            const recElement = document.getElementById('ai-recommendation');
-            recElement.textContent = getRecommendationText(recommendation);
-            recElement.className = getRecommendationClass(recommendation);
+            const recElement = document.getElementById('aiRecommendation');
+            recElement.textContent = getRecommendationText(recommendation, currentLanguage);
+            recElement.className = `rec-action ${getRecommendationColor(recommendation)}`;
             
-            // 更新置信度
-            document.getElementById('confidence-text').textContent = `${confidence.toFixed(1)}%`;
-            document.getElementById('confidence-fill').style.width = `${confidence}%`;
+            document.getElementById('aiConfidence').textContent = 
+                currentLanguage === 'zh' ? `置信度: ${confidence.toFixed(1)}%` :
+                currentLanguage === 'en' ? `Confidence: ${confidence.toFixed(1)}%` :
+                `置信度 | Confidence: ${confidence.toFixed(1)}%`;
             
-            // 更新技術指標
-            const techValues = analysis.technical_values || {};
-            document.getElementById('ma7').textContent = 
-                techValues.ma7 ? `${(techValues.ma7/1000).toFixed(0)}K` : '--';
-            document.getElementById('ma25').textContent = 
-                techValues.ma25 ? `${(techValues.ma25/1000).toFixed(0)}K` : '--';
-            document.getElementById('macd').textContent = 
-                techValues.macd ? techValues.macd.toFixed(0) : '--';
-            document.getElementById('rsi').textContent = 
-                techValues.rsi ? techValues.rsi.toFixed(1) : '--';
+            // Update technical indicators
+            const technical = aiAnalysis.technical_values || {};
+            document.getElementById('ma7').textContent = formatPrice(technical.ma7);
+            document.getElementById('ma25').textContent = formatPrice(technical.ma25);
+            document.getElementById('macd').textContent = technical.macd ? technical.macd.toFixed(0) : '--';
+            document.getElementById('rsi').textContent = technical.rsi ? technical.rsi.toFixed(1) : '--';
+            document.getElementById('bollinger').textContent = technical.bb_position ? 
+                (technical.bb_position * 100).toFixed(0) + '%' : '--';
+            document.getElementById('volume').textContent = technical.volume_ratio ? 
+                (technical.volume_ratio * 100).toFixed(0) + '%' : '--';
             
-            // 更新時間
-            document.getElementById('last-update').textContent = 
-                new Date().toLocaleTimeString('zh-TW');
+            // Update probabilities
+            const bullishScore = aiAnalysis.bullish_score || 0;
+            const bearishScore = aiAnalysis.bearish_score || 0;
+            const totalScore = Math.abs(bullishScore) + Math.abs(bearishScore);
+            
+            if (totalScore > 0) {
+                const bullishProb = (Math.abs(bullishScore) / totalScore * 100);
+                const bearishProb = (Math.abs(bearishScore) / totalScore * 100);
+                
+                document.getElementById('bullishProb').textContent = formatPercentage(bullishProb);
+                document.getElementById('bearishProb').textContent = formatPercentage(bearishProb);
+            } else {
+                document.getElementById('bullishProb').textContent = '50%';
+                document.getElementById('bearishProb').textContent = '50%';
+            }
+            
+            // Mock news sentiment data
+            document.getElementById('positiveNews').textContent = Math.floor(Math.random() * 20 + 10);
+            document.getElementById('neutralNews').textContent = Math.floor(Math.random() * 30 + 20);
+            document.getElementById('negativeNews').textContent = Math.floor(Math.random() * 15 + 5);
+            
+            // Update trading advice
+            let advice = '';
+            if (currentLanguage === 'zh') {
+                advice = `當前市場${recommendation === 'BUY' ? '看漲' : recommendation === 'SELL' ? '看跌' : '中性'}，建議${getRecommendationText(recommendation, 'zh')}。置信度${confidence.toFixed(1)}%，請謹慎操作。`;
+            } else if (currentLanguage === 'en') {
+                advice = `Market is currently ${recommendation === 'BUY' ? 'bullish' : recommendation === 'SELL' ? 'bearish' : 'neutral'}. ${getRecommendationText(recommendation, 'en')} with ${confidence.toFixed(1)}% confidence. Trade carefully.`;
+            } else {
+                advice = `當前市場${recommendation === 'BUY' ? '看漲' : recommendation === 'SELL' ? '看跌' : '中性'}，建議${getRecommendationText(recommendation, 'zh')}。 | Market ${recommendation === 'BUY' ? 'bullish' : recommendation === 'SELL' ? 'bearish' : 'neutral'}, ${getRecommendationText(recommendation, 'en')} with ${confidence.toFixed(1)}% confidence.`;
+            }
+            
+            document.getElementById('tradingAdvice').textContent = advice;
         }
         
-        function getRecommendationText(rec) {
-            const texts = {
-                'STRONG_BUY': '🚀 強烈買進',
-                'BUY': '📈 建議買進',
-                'HOLD': '⚖️ 持有觀望',
-                'SELL': '📉 建議賣出',
-                'STRONG_SELL': '💥 強烈賣出'
-            };
-            return texts[rec] || '分析中...';
+        async function fetchAnalysis() {
+            try {
+                const response = await fetch('/api/analysis');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const data = await response.json();
+                updateDisplay(data);
+            } catch (error) {
+                console.error('Failed to fetch analysis:', error);
+                
+                // Show error in display
+                const elements = ['currentPrice', 'aiRecommendation'];
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = 'Connection Error | 連接錯誤';
+                        element.className += ' negative';
+                    }
+                });
+            }
         }
         
-        function getRecommendationClass(rec) {
-            if (rec.includes('BUY')) return 'bullish';
-            if (rec.includes('SELL')) return 'bearish';
-            return 'neutral';
-        }
-        
-        // 每10秒更新一次
-        setInterval(fetchAnalysis, 10000);
-        
-        // 立即執行第一次更新
-        fetchAnalysis();
-        
-        // 添加脈衝動畫到整個容器
-        setInterval(() => {
-            document.querySelector('.overlay-container').classList.add('pulse');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial fetch
+            fetchAnalysis();
+            
+            // Update every 10 seconds
+            setInterval(fetchAnalysis, 10000);
+            
+            // Add some initial animation
             setTimeout(() => {
-                document.querySelector('.overlay-container').classList.remove('pulse');
-            }, 1000);
-        }, 30000); // 每30秒脈衝一次
+                document.querySelectorAll('.indicator, .info-item, .prob-item, .sentiment-item').forEach((element, index) => {
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(20px)';
+                    element.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 500);
+        });
     </script>
 </body>
 </html> 

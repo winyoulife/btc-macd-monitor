@@ -2205,3 +2205,348 @@
 2025-05-31 21:23:04,604 - aiohttp.access - INFO - 127.0.0.1 [31/May/2025:21:23:04 +0800] "UNKNOWN / HTTP/1.0" 400 240 "-" "-"
 2025-05-31 21:23:04,605 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [[SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:997)]
 2025-05-31 21:23:04,605 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 22:54:51,662 - CloudMonitor - INFO - 雲端監控系統日誌已啟動
+2025-05-31 22:54:51,662 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:51,663 - CloudMonitor - INFO - 🔧 開始初始化Webhook式Telegram處理器...
+2025-05-31 22:54:51,663 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:51,663 - CloudMonitor - INFO - ✅ Webhook模組可用: WEBHOOK_AVAILABLE = True
+2025-05-31 22:54:51,663 - CloudMonitor - INFO - ✅ Telegram通知已啟用: True
+2025-05-31 22:54:51,663 - CloudMonitor - INFO - 📱 環境變數檢查:
+2025-05-31 22:54:51,663 - CloudMonitor - INFO -    Bot Token檢查: ❌ 未設置
+2025-05-31 22:54:51,663 - CloudMonitor - INFO -    Chat ID檢查: ❌ 未設置
+2025-05-31 22:54:51,663 - CloudMonitor - ERROR - ❌ TELEGRAM_BOT_TOKEN 環境變數未設置，無法啟動Webhook功能
+2025-05-31 22:54:51,663 - CloudMonitor - ERROR -    請在Render.com控制台確認環境變數設置
+2025-05-31 22:54:51,664 - CloudMonitor - INFO - 雲端監控系統啟動
+2025-05-31 22:54:51,664 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:51,665 - CloudMonitor - INFO - 🚀 準備啟動Webhook式Telegram處理器...
+2025-05-31 22:54:51,665 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:51,665 - CloudMonitor - ERROR - ❌ 沒有可用的Telegram處理器
+2025-05-31 22:54:51,665 - CloudMonitor - ERROR - ⚠️  所有Telegram處理器都未初始化 - 檢查環境變數和配置
+2025-05-31 22:54:51,665 - CloudMonitor - ERROR - 🔍 診斷原因:
+2025-05-31 22:54:51,666 - CloudMonitor - ERROR -    原因: TELEGRAM_BOT_TOKEN 環境變數未設置
+2025-05-31 22:54:51,666 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:51,666 - CloudMonitor - INFO - 🏁 Telegram處理器啟動流程完成
+2025-05-31 22:54:51,666 - CloudMonitor - INFO -    Webhook狀態: ❌ 未運行
+2025-05-31 22:54:51,666 - CloudMonitor - INFO -    長輪詢狀態: ❌ 未運行
+2025-05-31 22:54:51,666 - CloudMonitor - INFO - ============================================================
+2025-05-31 22:54:52,826 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 22:54:52,827 - CloudMonitor - INFO - ✅ 啟動通知已發送
+2025-05-31 22:54:52,827 - CloudMonitor - INFO - 💓 保活任務已啟動
+2025-05-31 22:54:52,828 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:54:52,828 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:54:52,828 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:54:53,038 - CloudMonitor - INFO - 價格數據獲取成功: 104385.7
+2025-05-31 22:54:53,038 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:54:53,167 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:54:53,168 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:54:53,172 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:54:53,173 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-334.56, RSI=51.5
+2025-05-31 22:54:53,173 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:54:53,173 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:54:53,193 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:54:53,194 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:54:53,196 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:54:53,196 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:54:53,196 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:54:53,196 - CloudMonitor - INFO - 保活功能已啟動 - 間隔: 300秒 (5分鐘)
+2025-05-31 22:54:53,196 - CloudMonitor - INFO -    目標URL: https://localhost:8080/health
+2025-05-31 22:54:53,196 - CloudMonitor - INFO - 執行初始保活ping...
+2025-05-31 22:54:55,512 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 22:54:57,805 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 22:54:57,805 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 22:55:52,835 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:55:52,835 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:55:52,835 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:55:52,969 - CloudMonitor - INFO - 價格數據獲取成功: 104491.52
+2025-05-31 22:55:52,969 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:55:53,134 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:55:53,134 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:55:53,138 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:55:53,138 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-326.12, RSI=52.9
+2025-05-31 22:55:53,138 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:55:53,139 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:55:53,157 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:55:53,158 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:55:53,158 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:55:53,158 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:55:53,158 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:55:53,159 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:55:53,159 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:55:53,159 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:55:53,159 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:55:53,159 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:55:53,159 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:56:52,835 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:56:52,835 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:56:52,835 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:56:52,959 - CloudMonitor - INFO - 價格數據獲取成功: 104499.0
+2025-05-31 22:56:52,959 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:56:53,083 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:56:53,083 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:56:53,087 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:56:53,087 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-325.52, RSI=53.0
+2025-05-31 22:56:53,088 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:56:53,088 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:56:53,106 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:56:53,107 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:56:53,108 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:56:53,109 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:56:53,109 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:56:53,109 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:57:52,839 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:57:52,839 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:57:52,839 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:57:52,974 - CloudMonitor - INFO - 價格數據獲取成功: 104499.0
+2025-05-31 22:57:52,975 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:57:53,090 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:57:53,090 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:57:53,093 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:57:53,094 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-325.52, RSI=53.0
+2025-05-31 22:57:53,094 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:57:53,094 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:57:53,111 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:57:53,113 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:57:53,114 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:57:53,114 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:57:53,114 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:57:53,114 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:58:52,848 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:58:52,848 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:58:52,848 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:58:52,972 - CloudMonitor - INFO - 價格數據獲取成功: 104499.0
+2025-05-31 22:58:52,972 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:58:53,124 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:58:53,124 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:58:53,128 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:58:53,128 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-325.52, RSI=53.0
+2025-05-31 22:58:53,129 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:58:53,129 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:58:53,146 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:58:53,147 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:58:53,147 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:58:53,148 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:58:53,148 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:58:53,148 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:58:53,148 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:58:53,148 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:58:53,148 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:58:53,148 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:58:53,149 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:59:52,856 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 22:59:52,856 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 22:59:52,857 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 22:59:52,990 - CloudMonitor - INFO - 價格數據獲取成功: 104542.37
+2025-05-31 22:59:52,990 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 22:59:53,109 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 22:59:53,109 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 22:59:53,112 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 22:59:53,113 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-323.41, RSI=53.3
+2025-05-31 22:59:53,113 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 22:59:53,114 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 22:59:53,132 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 22:59:53,134 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 22:59:53,134 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 6.50
+2025-05-31 22:59:53,134 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 22:59:53,135 - AdvancedCryptoAnalyzer - INFO -    淨分數: -12.25
+2025-05-31 22:59:53,135 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 3/5
+2025-05-31 22:59:53,135 - AdvancedCryptoAnalyzer - INFO -    平均強度: 38.3%
+2025-05-31 22:59:53,135 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 52.9%
+2025-05-31 22:59:53,135 - CloudMonitor - INFO - 🔄 AI分析結果未達到警報門檻: STRONG_SELL (置信度: 52.9%)
+2025-05-31 22:59:53,136 - CloudMonitor - INFO - 🔄 AI分析未產生警報，執行基本MACD檢查...
+2025-05-31 22:59:53,136 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 0 個警報
+2025-05-31 22:59:57,804 - CloudMonitor - INFO - 執行第 2 次保活ping...
+2025-05-31 23:00:00,107 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 23:00:02,410 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 23:00:02,410 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 23:00:52,875 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:00:52,875 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:00:52,875 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:00:52,991 - CloudMonitor - INFO - 價格數據獲取成功: 104598.48
+2025-05-31 23:00:52,991 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:00:53,128 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:00:53,128 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:00:53,132 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:00:53,132 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-250.69, RSI=53.5
+2025-05-31 23:00:53,133 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:00:53,133 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:00:53,153 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:00:53,155 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:00:53,155 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:00:53,155 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:00:53,156 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:00:53,156 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:00:53,156 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:00:53,156 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:00:53,156 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:00:54,688 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 23:00:54,689 - CloudMonitor - INFO - ✅ 已發送Telegram警報: AI_MULTI_INDICATOR_SELL
+2025-05-31 23:00:54,689 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:01:52,875 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:01:52,875 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:01:52,876 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:01:53,010 - CloudMonitor - INFO - 價格數據獲取成功: 104525.08
+2025-05-31 23:01:53,010 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:01:53,127 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:01:53,128 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:01:53,132 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:01:53,132 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-252.07, RSI=53.3
+2025-05-31 23:01:53,132 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:01:53,132 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:01:53,156 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:01:53,158 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:01:53,158 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:01:53,158 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:01:53,158 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:01:53,158 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:01:53,159 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:01:53,159 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:01:53,159 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:01:53,159 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:02:52,879 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:02:52,879 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:02:52,880 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:02:52,998 - CloudMonitor - INFO - 價格數據獲取成功: 104536.75
+2025-05-31 23:02:52,999 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:02:53,138 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:02:53,138 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:02:53,142 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:02:53,142 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-255.02, RSI=52.7
+2025-05-31 23:02:53,142 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:02:53,144 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:02:53,162 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:02:53,164 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:02:53,164 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:02:53,164 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:02:53,165 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:02:53,165 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:02:53,165 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:02:53,165 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:02:53,165 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:02:53,167 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:03:52,881 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:03:52,881 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:03:52,881 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:03:52,996 - CloudMonitor - INFO - 價格數據獲取成功: 104536.75
+2025-05-31 23:03:52,998 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:03:53,137 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:03:53,138 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:03:53,141 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:03:53,142 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-251.14, RSI=53.4
+2025-05-31 23:03:53,142 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:03:53,142 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:03:53,160 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:03:53,162 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:03:53,162 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:03:53,162 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:03:53,162 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:03:53,163 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:03:53,163 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:03:53,163 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:03:53,163 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:03:53,163 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:04:52,882 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:04:52,882 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:04:52,883 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:04:53,009 - CloudMonitor - INFO - 價格數據獲取成功: 104521.54
+2025-05-31 23:04:53,009 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:04:54,155 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:04:54,155 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:04:54,159 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:04:54,159 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-252.35, RSI=53.2
+2025-05-31 23:04:54,159 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:04:54,159 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:04:54,179 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:04:54,180 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:04:54,180 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:04:54,180 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:04:54,181 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:04:54,181 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:04:54,181 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:04:54,181 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:04:54,182 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:04:54,182 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:05:02,406 - CloudMonitor - INFO - 執行第 3 次保活ping...
+2025-05-31 23:05:04,701 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/health - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 23:05:07,003 - CloudMonitor - WARNING - 單個端點ping失敗: https://localhost:8080/status - Cannot connect to host localhost:8080 ssl:default [遠端電腦拒絕網路連線。]
+2025-05-31 23:05:07,004 - CloudMonitor - ERROR - 所有保活ping都失敗了
+2025-05-31 23:05:52,886 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:05:52,886 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:05:52,887 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:05:53,124 - CloudMonitor - INFO - 價格數據獲取成功: 104453.55
+2025-05-31 23:05:53,124 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:05:53,274 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:05:53,275 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:05:53,278 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:05:53,279 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-252.35, RSI=53.2
+2025-05-31 23:05:53,279 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:05:53,280 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:05:53,298 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:05:53,300 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:05:53,301 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:05:53,301 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:05:53,301 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:06:52,899 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:06:52,899 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:06:52,899 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:06:53,029 - CloudMonitor - INFO - 價格數據獲取成功: 104468.94
+2025-05-31 23:06:53,029 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:06:53,164 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:06:53,164 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:06:53,168 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:06:53,168 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-256.55, RSI=52.4
+2025-05-31 23:06:53,168 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:06:53,168 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:06:53,187 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:06:53,188 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:06:53,189 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:06:53,189 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:06:54,285 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot7323086952:AAE5fkQp8n98TOYnPpj2KPyrCI6hX5R2n2I/sendMessage "HTTP/1.1 200 OK"
+2025-05-31 23:06:54,287 - CloudMonitor - INFO - ✅ 已發送Telegram警報: AI_MULTI_INDICATOR_SELL
+2025-05-31 23:06:54,287 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
+2025-05-31 23:07:52,905 - CloudMonitor - INFO - 開始監控循環
+2025-05-31 23:07:52,905 - CloudMonitor - INFO - 開始檢查 btcusdt 市場條件
+2025-05-31 23:07:52,905 - CloudMonitor - INFO - 正在獲取價格數據...
+2025-05-31 23:07:53,026 - CloudMonitor - INFO - 價格數據獲取成功: 104502.78
+2025-05-31 23:07:53,026 - CloudMonitor - INFO - 正在獲取 60 分鐘K線數據...
+2025-05-31 23:07:53,145 - CloudMonitor - INFO - K線數據獲取成功，共 200 條記錄
+2025-05-31 23:07:53,145 - CloudMonitor - INFO - 正在計算技術指標...
+2025-05-31 23:07:53,148 - CloudMonitor - INFO - 技術指標計算成功
+2025-05-31 23:07:53,148 - CloudMonitor - INFO - 市場條件檢查完成: MACD=-253.85, RSI=52.9
+2025-05-31 23:07:53,148 - CloudMonitor - INFO - 🔍 使用AI多重技術指標系統分析警報...
+2025-05-31 23:07:53,149 - AdvancedCryptoAnalyzer - INFO - 🤖 開始綜合AI技術分析...
+2025-05-31 23:07:53,165 - AdvancedCryptoAnalyzer - INFO - ✅ 成功計算 69 條記錄的所有技術指標
+2025-05-31 23:07:53,167 - AdvancedCryptoAnalyzer - INFO - 📊 指標分析結果:
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    看漲分數: 5.00
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    看跌分數: 18.75
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    淨分數: -13.75
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    活躍指標: 2/5
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    平均強度: 50.0%
+2025-05-31 23:07:53,168 - AdvancedCryptoAnalyzer - INFO -    最終置信度: 65.6%
+2025-05-31 23:07:53,169 - CloudMonitor - INFO - ✅ 生成AI賣出警報: STRONG_SELL, 置信度: 65.6%
+2025-05-31 23:07:53,169 - CloudMonitor - INFO - btcusdt 監控完成 - 發現 1 個警報
