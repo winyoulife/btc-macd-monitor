@@ -3,8 +3,8 @@ services:
     name: btc-macd-monitor
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python start_cloud_monitor.py
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app:app --host 0.0.0.0 --port 10000"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
@@ -33,4 +33,6 @@ services:
       - key: COOLDOWN_PERIOD
         value: "300"
       - key: MAX_ALERTS_PER_HOUR
-        value: "10" 
+        value: "10"
+      - key: PORT
+        value: 10000 
