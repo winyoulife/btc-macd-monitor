@@ -324,7 +324,7 @@
         
         .update-info {
             position: fixed;
-            top: 10px;
+            top: 60px;
             right: 20px;
             background: rgba(0,0,0,0.8);
             padding: 6px 10px;
@@ -761,8 +761,8 @@
                 </div>
 
                 <div style="margin-top: 12px; font-size: 0.9em; color: #aaa;">
-                    <div>✅ Bull Signals | 多頭信號: <span id="bullSignals">0</span>/9</div>
-                    <div>❌ Bear Signals | 空頭信號: <span id="bearSignals">0</span>/9</div>
+                    <div>✅ Bottom Signals | 底部訊號: <span id="bullSignals">0</span>/6</div>
+                    <div>❌ Top Signals | 高點訊號: <span id="bearSignals">0</span>/6</div>
                 </div>
             </div>
 
@@ -999,105 +999,132 @@
             };
         }
 
-        // 多指標交叉確認分析 - 核心邏輯
+        // 多指標交叉確認分析 - 專注於重要反轉點
         function analyzeMultiIndicatorSignals(indicators) {
             const { macd, rsi, ma5, ma10, ma25, bollinger, stochastic, williamsR, cci, currentPrice } = indicators;
             
-            let bullishSignals = 0;
-            let bearishSignals = 0;
+            let bottomBounceSignals = 0;
+            let topReversalSignals = 0;
             let signalDetails = [];
             
-            // === 底部反彈訊號檢測 ===
+            // === 底部反彈訊號檢測 (需要多個強烈確認) ===
             
-            // 1. MACD金叉 + 柱狀圖轉綠
-            if (macd.histogram > 0 && macd.line > macd.signal) {
-                bullishSignals++;
-                signalDetails.push('MACD金叉');
+            // 1. MACD金叉 + 柱狀圖明顯轉綠
+            if (macd.histogram > 0 && macd.line > macd.signal && Math.abs(macd.histogram) > 10) {
+                bottomBounceSignals++;
+                signalDetails.push('MACD強勢金叉');
             }
             
-            // 2. RSI < 30 開始向上彎
-            if (rsi < 30) {
-                bullishSignals++;
-                signalDetails.push('RSI超賣反彈');
+            // 2. RSI深度超賣後反彈 (< 25)
+            if (rsi < 25) {
+                bottomBounceSignals++;
+                signalDetails.push('RSI深度超賣');
             }
             
-            // 3. K線站回MA5/MA10
-            if (currentPrice > ma5 && ma5 > ma10) {
-                bullishSignals++;
-                signalDetails.push('突破短期均線');
+            // 3. 價格突破短期均線且均線轉多
+            if (currentPrice > ma5 && ma5 > ma10 && ma10 > ma25) {
+                bottomBounceSignals++;
+                signalDetails.push('均線系統轉多');
             }
             
-            // 4. 布林通道下軌反彈
-            if (currentPrice > bollinger.lower && currentPrice < bollinger.middle) {
-                bullishSignals++;
+            // 4. 布林下軌強烈反彈
+            if (currentPrice > bollinger.lower * 1.005 && currentPrice < bollinger.middle) {
+                bottomBounceSignals++;
                 signalDetails.push('布林下軌反彈');
             }
             
-            // 5. Stochastic超賣反彈
-            if (stochastic.k < 20) {
-                bullishSignals++;
-                signalDetails.push('隨機指標超賣');
+            // 5. Stochastic深度超賣 (< 15)
+            if (stochastic.k < 15) {
+                bottomBounceSignals++;
+                signalDetails.push('隨機指標深度超賣');
             }
             
-            // === 高點回測訊號檢測 ===
-            
-            // 1. MACD死叉 + 柱狀圖轉紅
-            if (macd.histogram < 0 && macd.line < macd.signal) {
-                bearishSignals++;
-                signalDetails.push('MACD死叉');
+            // 6. Williams %R深度超賣 (< -85)
+            if (williamsR < -85) {
+                bottomBounceSignals++;
+                signalDetails.push('威廉指標深度超賣');
             }
             
-            // 2. RSI > 70 出現下彎
-            if (rsi > 70) {
-                bearishSignals++;
-                signalDetails.push('RSI超買回調');
+            // === 高點回測訊號檢測 (需要多個強烈確認) ===
+            
+            // 1. MACD死叉 + 柱狀圖明顯轉紅
+            if (macd.histogram < 0 && macd.line < macd.signal && Math.abs(macd.histogram) > 10) {
+                topReversalSignals++;
+                signalDetails.push('MACD強勢死叉');
             }
             
-            // 3. K線跌破MA5/MA10
-            if (currentPrice < ma5 || ma5 < ma10) {
-                bearishSignals++;
-                signalDetails.push('跌破短期均線');
+            // 2. RSI深度超買後回調 (> 75)
+            if (rsi > 75) {
+                topReversalSignals++;
+                signalDetails.push('RSI深度超買');
             }
             
-            // 4. 布林通道上軌回調
-            if (currentPrice < bollinger.upper && currentPrice > bollinger.middle) {
-                bearishSignals++;
+            // 3. 價格跌破短期均線且均線轉空
+            if (currentPrice < ma5 && ma5 < ma10 && ma10 < ma25) {
+                topReversalSignals++;
+                signalDetails.push('均線系統轉空');
+            }
+            
+            // 4. 布林上軌回調
+            if (currentPrice < bollinger.upper * 0.995 && currentPrice > bollinger.middle) {
+                topReversalSignals++;
                 signalDetails.push('布林上軌回調');
             }
             
-            // 5. Stochastic超買回調
-            if (stochastic.k > 80) {
-                bearishSignals++;
-                signalDetails.push('隨機指標超買');
+            // 5. Stochastic深度超買 (> 85)
+            if (stochastic.k > 85) {
+                topReversalSignals++;
+                signalDetails.push('隨機指標深度超買');
             }
             
-            // === 綜合判斷 ===
-            let overallSignal = 'Hold | 觀望';
-            let confidence = 40;
-            let tradingAdvice = '等待更多確認訊號';
+            // 6. Williams %R深度超買 (> -15)
+            if (williamsR > -15) {
+                topReversalSignals++;
+                signalDetails.push('威廉指標深度超買');
+            }
             
-            if (bullishSignals >= 3) {
-                overallSignal = bullishSignals >= 4 ? '🚀 Strong BUY | 強力買入' : '📈 BUY Signal | 買入信號';
-                confidence = Math.min(95, 60 + bullishSignals * 8);
-                tradingAdvice = bullishSignals >= 4 ? 
-                    '多指標確認底部，可考慮分批進場' : 
-                    '短線看多，可小倉位試探';
-            } else if (bearishSignals >= 3) {
-                overallSignal = bearishSignals >= 4 ? '📉 Strong SELL | 強力賣出' : '⬇️ SELL Signal | 賣出信號';
-                confidence = Math.min(95, 60 + bearishSignals * 8);
-                tradingAdvice = bearishSignals >= 4 ? 
-                    '多指標確認高點，建議減倉' : 
-                    '短線轉弱，注意風控';
+            // === 反轉點判斷 (更嚴格的條件) ===
+            let overallSignal = 'Normal | 正常交易';
+            let confidence = 30;
+            let tradingAdvice = '市場正常波動，暫無明顯反轉訊號';
+            
+            // 底部反彈 - 需要至少4個強烈訊號確認
+            if (bottomBounceSignals >= 4) {
+                overallSignal = bottomBounceSignals >= 5 ? 
+                    '🚀 BOTTOM BOUNCE | 底部強力反彈' : 
+                    '📈 Bottom Signal | 底部反彈訊號';
+                confidence = Math.min(95, 70 + bottomBounceSignals * 5);
+                tradingAdvice = bottomBounceSignals >= 5 ? 
+                    '多指標確認底部，強烈反彈訊號' : 
+                    '底部反彈訊號出現，注意確認';
+                    
+            // 高點回測 - 需要至少4個強烈訊號確認
+            } else if (topReversalSignals >= 4) {
+                overallSignal = topReversalSignals >= 5 ? 
+                    '📉 TOP REVERSAL | 高點強力回測' : 
+                    '⬇️ Top Signal | 高點回測訊號';
+                confidence = Math.min(95, 70 + topReversalSignals * 5);
+                tradingAdvice = topReversalSignals >= 5 ? 
+                    '多指標確認高點，強烈回測訊號' : 
+                    '高點回測訊號出現，注意確認';
+                    
+            // 部分訊號但不足以構成反轉
+            } else if (bottomBounceSignals >= 2 || topReversalSignals >= 2) {
+                overallSignal = 'Watch | 觀察中';
+                confidence = 50 + Math.max(bottomBounceSignals, topReversalSignals) * 5;
+                tradingAdvice = bottomBounceSignals > topReversalSignals ? 
+                    '部分底部訊號出現，繼續觀察' : 
+                    '部分高點訊號出現，繼續觀察';
             }
             
             return {
-                bullishSignals,
-                bearishSignals,
+                bullishSignals: bottomBounceSignals,
+                bearishSignals: topReversalSignals,
                 overallSignal,
                 confidence,
                 tradingAdvice,
                 signalDetails: signalDetails.slice(0, 3), // 最多顯示3個主要訊號
-                analysisType: 'Multi-Indicator Cross-Confirmation'
+                analysisType: 'Reversal Point Detection'
             };
         }
 
