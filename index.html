@@ -36,18 +36,18 @@
         
         .price-main-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
-            gap: 30px;
+            gap: 40px;
             padding: 0 20px;
         }
         
         .price-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
         
         .stats-right {
@@ -57,18 +57,18 @@
         }
         
         .main-price {
-            font-size: 2.0em;
+            font-size: 1.8em;
             font-weight: bold;
             text-shadow: 0 0 20px #00ff88;
             animation: priceGlow 2s ease-in-out infinite alternate;
-            margin: 5px 0;
+            margin: 3px 0;
         }
         
         .price-change-header {
-            font-size: 1.3em;
-            margin: 5px 0;
-            padding: 5px 12px;
-            border-radius: 6px;
+            font-size: 1.1em;
+            margin: 3px 0;
+            padding: 4px 10px;
+            border-radius: 5px;
             font-weight: bold;
             display: inline-block;
         }
@@ -91,11 +91,11 @@
         .main-dashboard {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 12px;
-            padding: 12px;
+            gap: 10px;
+            padding: 10px;
             max-width: 1400px;
             margin: 0 auto;
-            height: calc(100vh - 310px);
+            height: calc(100vh - 290px);
             overflow: hidden;
         }
         
@@ -157,39 +157,39 @@
         
         .indicators-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            height: calc(100% - 50px);
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            height: calc(100% - 40px);
         }
         
         .indicator-group {
             background: rgba(255,255,255,0.05);
             border: 1px solid #333;
-            border-radius: 6px;
-            padding: 8px;
+            border-radius: 5px;
+            padding: 6px;
             overflow: hidden;
         }
         
         .indicator-title {
-            font-size: 1.0em;
-            margin-bottom: 6px;
+            font-size: 0.85em;
+            margin-bottom: 4px;
             color: #00ff88;
             border-bottom: 1px solid #333;
-            padding-bottom: 3px;
+            padding-bottom: 2px;
         }
         
         .indicator-value {
-            margin: 4px 0;
+            margin: 2px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em;
+            font-size: 0.7em;
         }
         
         .indicator-status {
-            padding: 2px 5px;
+            padding: 1px 4px;
             border-radius: 3px;
-            font-size: 0.75em;
+            font-size: 0.65em;
             font-weight: bold;
         }
         
@@ -208,10 +208,11 @@
             background: rgba(0,0,0,0.9);
             border: 2px solid #aa00ff;
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             box-shadow: 0 5px 20px rgba(170,0,255,0.2);
-            max-height: 280px;
+            height: auto;
+            max-height: none;
         }
         
         .signal-title {
@@ -492,20 +493,16 @@
                     <div class="indicator-group">
                         <div class="indicator-title">📈 MACD (12,26,9)</div>
                         <div class="indicator-value">
-                            <span>MACD Line | MACD線:</span>
+                            <span>MACD:</span>
                             <span id="macdLine">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Signal Line | 信號線:</span>
+                            <span>Signal:</span>
                             <span id="macdSignal">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Histogram | 柱狀圖:</span>
-                            <span id="macdHistogram">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Status | 狀態:</span>
-                            <span class="indicator-status" id="macdStatus">Analyzing | 分析中</span>
+                            <span>Status:</span>
+                            <span class="indicator-status" id="macdStatus">Loading</span>
                         </div>
                     </div>
 
@@ -513,62 +510,139 @@
                     <div class="indicator-group">
                         <div class="indicator-title">⚡ RSI (14)</div>
                         <div class="indicator-value">
-                            <span>RSI Value | RSI值:</span>
+                            <span>Value:</span>
                             <span id="rsiValue">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Zone | 區間:</span>
+                            <span>Zone:</span>
                             <span id="rsiZone">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Status | 狀態:</span>
-                            <span class="indicator-status" id="rsiStatus">Analyzing | 分析中</span>
+                            <span>Status:</span>
+                            <span class="indicator-status" id="rsiStatus">Loading</span>
                         </div>
                     </div>
 
-                    <!-- 移動平均線 -->
+                    <!-- Stochastic Oscillator -->
                     <div class="indicator-group">
-                        <div class="indicator-title">📊 Moving Averages | 移動平均線</div>
+                        <div class="indicator-title">🎯 Stochastic (14,3,3)</div>
+                        <div class="indicator-value">
+                            <span>%K:</span>
+                            <span id="stochK">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>%D:</span>
+                            <span id="stochD">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="stochStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- Williams %R -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📊 Williams %R (14)</div>
+                        <div class="indicator-value">
+                            <span>%R Value:</span>
+                            <span id="williamsR">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Zone:</span>
+                            <span id="williamsZone">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="williamsStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- ATR (Average True Range) -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📏 ATR (14)</div>
+                        <div class="indicator-value">
+                            <span>ATR:</span>
+                            <span id="atrValue">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Volatility:</span>
+                            <span id="volatility">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Trend:</span>
+                            <span class="indicator-status" id="atrStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- CCI (Commodity Channel Index) -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">⚙️ CCI (20)</div>
+                        <div class="indicator-value">
+                            <span>CCI:</span>
+                            <span id="cciValue">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Zone:</span>
+                            <span id="cciZone">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="cciStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- Moving Averages -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📊 Moving Averages</div>
                         <div class="indicator-value">
                             <span>MA5:</span>
                             <span id="ma5">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>MA10:</span>
-                            <span id="ma10">--</span>
+                            <span>MA20:</span>
+                            <span id="ma20">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>MA25:</span>
-                            <span id="ma25">--</span>
+                            <span>MA50:</span>
+                            <span id="ma50">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>MA99:</span>
-                            <span id="ma99">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Trend | 趨勢:</span>
-                            <span class="indicator-status" id="maStatus">Analyzing | 分析中</span>
+                            <span>Trend:</span>
+                            <span class="indicator-status" id="maStatus">Loading</span>
                         </div>
                     </div>
 
-                    <!-- 布林帶 -->
+                    <!-- Bollinger Bands -->
                     <div class="indicator-group">
-                        <div class="indicator-title">🌊 Bollinger Bands | 布林帶 (20,2)</div>
+                        <div class="indicator-title">🌊 Bollinger Bands (20,2)</div>
                         <div class="indicator-value">
-                            <span>Upper | 上軌:</span>
+                            <span>Upper:</span>
                             <span id="bbUpper">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Middle | 中軌:</span>
-                            <span id="bbMiddle">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Lower | 下軌:</span>
+                            <span>Lower:</span>
                             <span id="bbLower">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Position | 位置:</span>
-                            <span class="indicator-status" id="bbStatus">Analyzing | 分析中</span>
+                            <span>Position:</span>
+                            <span class="indicator-status" id="bbStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- Volume Analysis -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📈 Volume Analysis</div>
+                        <div class="indicator-value">
+                            <span>Volume:</span>
+                            <span id="volumeValue">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Avg Volume:</span>
+                            <span id="avgVolume">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Status:</span>
+                            <span class="indicator-status" id="volumeStatus">Loading</span>
                         </div>
                     </div>
                 </div>
@@ -643,14 +717,24 @@
             return {
                 macd: macd,
                 rsi: 30 + Math.random() * 40, // 30-70 range
+                stochastic: {
+                    k: Math.random() * 100,
+                    d: Math.random() * 100
+                },
+                williamsR: -Math.random() * 100, // -100 to 0
+                atr: currentPrice * (0.01 + Math.random() * 0.02), // 1-3% of price
+                cci: (Math.random() - 0.5) * 400, // -200 to +200
                 ma5: currentPrice * (0.98 + Math.random() * 0.04),
-                ma10: currentPrice * (0.97 + Math.random() * 0.04),
-                ma25: currentPrice * (0.95 + Math.random() * 0.06),
-                ma99: currentPrice * (0.90 + Math.random() * 0.15),
+                ma20: currentPrice * (0.96 + Math.random() * 0.06),
+                ma50: currentPrice * (0.94 + Math.random() * 0.08),
                 bb: {
                     upper: currentPrice * 1.02,
                     middle: currentPrice,
                     lower: currentPrice * 0.98
+                },
+                volume: {
+                    current: Math.random() * 50000 + 20000,
+                    average: Math.random() * 40000 + 25000
                 }
             };
         }
@@ -740,25 +824,125 @@
 
             // 更新移動平均線
             if (indicators.ma5) document.getElementById('ma5').textContent = `$${indicators.ma5.toFixed(0)}`;
-            if (indicators.ma10) document.getElementById('ma10').textContent = `$${indicators.ma10.toFixed(0)}`;
-            if (indicators.ma25) document.getElementById('ma25').textContent = `$${indicators.ma25.toFixed(0)}`;
-            if (indicators.ma99) document.getElementById('ma99').textContent = `$${indicators.ma99.toFixed(0)}`;
+            if (indicators.ma20) document.getElementById('ma20').textContent = `$${indicators.ma20.toFixed(0)}`;
+            if (indicators.ma50) document.getElementById('ma50').textContent = `$${indicators.ma50.toFixed(0)}`;
 
             const maStatus = currentPrice > indicators.ma5 ? 'bullish' : 'bearish';
-            document.getElementById('maStatus').textContent = maStatus === 'bullish' ? 'Bullish | 多頭' : 'Bearish | 空頭';
+            document.getElementById('maStatus').textContent = maStatus === 'bullish' ? 'Bullish' : 'Bearish';
             document.getElementById('maStatus').className = `indicator-status ${maStatus}`;
+
+            // 更新Stochastic
+            if (indicators.stochastic) {
+                document.getElementById('stochK').textContent = indicators.stochastic.k.toFixed(1);
+                document.getElementById('stochD').textContent = indicators.stochastic.d.toFixed(1);
+                
+                let stochStatus = 'neutral';
+                if (indicators.stochastic.k < 20) stochStatus = 'bullish';
+                else if (indicators.stochastic.k > 80) stochStatus = 'bearish';
+                
+                document.getElementById('stochStatus').textContent = 
+                    stochStatus === 'bullish' ? 'Oversold' : stochStatus === 'bearish' ? 'Overbought' : 'Normal';
+                document.getElementById('stochStatus').className = `indicator-status ${stochStatus}`;
+            }
+
+            // 更新Williams %R
+            if (indicators.williamsR) {
+                document.getElementById('williamsR').textContent = indicators.williamsR.toFixed(1);
+                
+                let williamsZone = 'Normal';
+                let williamsStatus = 'neutral';
+                if (indicators.williamsR < -80) {
+                    williamsZone = 'Oversold';
+                    williamsStatus = 'bullish';
+                } else if (indicators.williamsR > -20) {
+                    williamsZone = 'Overbought';
+                    williamsStatus = 'bearish';
+                }
+                
+                document.getElementById('williamsZone').textContent = williamsZone;
+                document.getElementById('williamsStatus').textContent = williamsZone;
+                document.getElementById('williamsStatus').className = `indicator-status ${williamsStatus}`;
+            }
+
+            // 更新ATR
+            if (indicators.atr) {
+                document.getElementById('atrValue').textContent = `$${indicators.atr.toFixed(2)}`;
+                
+                const volatilityPercent = (indicators.atr / currentPrice) * 100;
+                let volatilityLevel = 'Normal';
+                let atrStatus = 'neutral';
+                
+                if (volatilityPercent > 2) {
+                    volatilityLevel = 'High';
+                    atrStatus = 'bearish';
+                } else if (volatilityPercent < 1) {
+                    volatilityLevel = 'Low';
+                    atrStatus = 'bullish';
+                }
+                
+                document.getElementById('volatility').textContent = volatilityLevel;
+                document.getElementById('atrStatus').textContent = volatilityLevel;
+                document.getElementById('atrStatus').className = `indicator-status ${atrStatus}`;
+            }
+
+            // 更新CCI
+            if (indicators.cci) {
+                document.getElementById('cciValue').textContent = indicators.cci.toFixed(1);
+                
+                let cciZone = 'Normal';
+                let cciStatus = 'neutral';
+                
+                if (indicators.cci < -100) {
+                    cciZone = 'Oversold';
+                    cciStatus = 'bullish';
+                } else if (indicators.cci > 100) {
+                    cciZone = 'Overbought';
+                    cciStatus = 'bearish';
+                }
+                
+                document.getElementById('cciZone').textContent = cciZone;
+                document.getElementById('cciStatus').textContent = cciZone;
+                document.getElementById('cciStatus').className = `indicator-status ${cciStatus}`;
+            }
 
             // 更新布林帶
             if (indicators.bb) {
                 document.getElementById('bbUpper').textContent = `$${indicators.bb.upper.toFixed(0)}`;
-                document.getElementById('bbMiddle').textContent = `$${indicators.bb.middle.toFixed(0)}`;
                 document.getElementById('bbLower').textContent = `$${indicators.bb.lower.toFixed(0)}`;
                 
-                let bbPosition = 'Middle Band | 中軌';
-                if (currentPrice > indicators.bb.upper) bbPosition = 'Above Upper | 上軌突破';
-                else if (currentPrice < indicators.bb.lower) bbPosition = 'Below Lower | 下軌跌破';
+                let bbPosition = 'Middle';
+                let bbStatus = 'neutral';
+                if (currentPrice > indicators.bb.upper) {
+                    bbPosition = 'Above Upper';
+                    bbStatus = 'bearish';
+                } else if (currentPrice < indicators.bb.lower) {
+                    bbPosition = 'Below Lower';
+                    bbStatus = 'bullish';
+                }
                 
                 document.getElementById('bbStatus').textContent = bbPosition;
+                document.getElementById('bbStatus').className = `indicator-status ${bbStatus}`;
+            }
+
+            // 更新Volume分析
+            if (indicators.volume) {
+                document.getElementById('volumeValue').textContent = `${(indicators.volume.current/1000).toFixed(1)}K BTC`;
+                document.getElementById('avgVolume').textContent = `${(indicators.volume.average/1000).toFixed(1)}K BTC`;
+                
+                const volumeRatio = indicators.volume.current / indicators.volume.average;
+                let volumeStatus = 'neutral';
+                let volumeText = 'Normal';
+                
+                if (volumeRatio > 1.5) {
+                    volumeStatus = 'bullish';
+                    volumeText = 'High Volume';
+                } else if (volumeRatio < 0.7) {
+                    volumeStatus = 'bearish';
+                    volumeText = 'Low Volume';
+                }
+                
+                document.getElementById('volumeStatus').textContent = volumeText;
+                document.getElementById('volumeStatus').className = `indicator-status ${volumeStatus}`;
             }
 
             // 更新交易信號
