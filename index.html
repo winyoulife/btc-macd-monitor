@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>🚀 BTC Live Analysis | BTC即時分析</title>
+    <title>🚀 BTC Live Analysis | BTC即時分析 - 15:50</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -90,12 +90,12 @@
         
         .main-dashboard {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1.2fr 1fr;
             gap: 3px;
             padding: 15px;
             max-width: 1400px;
             margin: 0 auto;
-            height: calc(100vh - 180px);
+            height: calc(100vh - 150px);
             overflow: hidden;
         }
         
@@ -157,21 +157,23 @@
         
         .indicators-grid {
             display: grid;
-            grid-template-columns: repeat(3, 150px);
-            gap: 2px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
             height: calc(100% - 25px);
             overflow: visible;
-            justify-content: start;
+            justify-content: space-around;
+            align-content: space-around;
         }
         
         .indicator-group {
             background: rgba(255,255,255,0.05);
             border: 1px solid #333;
             border-radius: 3px;
-            padding: 2px;
+            padding: 4px;
             overflow: hidden;
-            min-height: 70px;
-            max-height: 85px;
+            min-height: 85px;
+            max-height: 95px;
         }
         
         .indicator-title {
@@ -499,7 +501,7 @@
 
     <!-- BTC價格頂部區域 -->
     <div class="price-header">
-        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 15:30 更新</div>
+        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 15:50 更新</div>
         
         <!-- 主要價格和24H數據區域 -->
         <div class="price-main-row">
