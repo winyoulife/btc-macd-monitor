@@ -3,8 +3,8 @@ services:
     name: btc-macd-monitor
     env: python
     plan: free
-    buildCommand: "echo 'No external dependencies needed'"
-    startCommand: "python working_btc_display.py"
+    buildCommand: "echo 'Pure Python - No dependencies needed'"
+    startCommand: "python cloud_btc_display.py"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
