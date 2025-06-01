@@ -142,24 +142,24 @@
             background: rgba(0,0,0,0.9);
             border: 2px solid #ffaa00;
             border-radius: 8px;
-            padding: 12px;
+            padding: 8px;
             box-shadow: 0 5px 20px rgba(255,170,0,0.2);
             flex: 1;
             overflow: hidden;
         }
         
         .indicators-title {
-            font-size: 1.2em;
+            font-size: 1.1em;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             color: #ffaa00;
         }
         
         .indicators-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            height: calc(100% - 40px);
+            gap: 4px;
+            height: calc(100% - 30px);
             overflow: visible;
         }
         
@@ -167,35 +167,37 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid #333;
             border-radius: 5px;
-            padding: 8px;
+            padding: 4px;
             overflow: hidden;
-            min-height: 100px;
-            max-height: 120px;
+            min-height: 85px;
+            max-height: 100px;
         }
         
         .indicator-title {
-            font-size: 0.9em;
-            margin-bottom: 6px;
+            font-size: 0.85em;
+            margin-bottom: 3px;
             color: #00ff88;
             border-bottom: 1px solid #333;
-            padding-bottom: 2px;
+            padding-bottom: 1px;
             text-align: center;
         }
         
         .indicator-value {
-            margin: 2px 0;
+            margin: 1px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75em;
-            line-height: 1.2;
+            font-size: 0.7em;
+            line-height: 1.1;
         }
         
         .indicator-status {
-            padding: 1px 4px;
+            padding: 1px 3px;
             border-radius: 3px;
-            font-size: 0.7em;
+            font-size: 0.65em;
             font-weight: bold;
+            margin-top: 2px;
+            text-align: center;
         }
         
         .bullish { background: rgba(0,255,0,0.2); color: #00ff00; }
@@ -495,7 +497,7 @@
 
     <!-- BTC價格頂部區域 -->
     <div class="price-header">
-        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - <span id="lastUpdateTitle">更新中...</span></div>
+        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 14:35 更新</div>
         
         <!-- 主要價格和24H數據區域 -->
         <div class="price-main-row">
@@ -820,18 +822,6 @@
 
             const indicators = calculateMockIndicators();
             updateTechnicalIndicators(indicators);
-
-            // 更新標題時間
-            const now = new Date();
-            const timeString = now.toLocaleString('zh-TW', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('lastUpdateTitle').textContent = `已更新 ${timeString}`;
 
             // 更新時間
             document.getElementById('updateTime').innerHTML = 
@@ -1199,18 +1189,6 @@
 
             const indicators = calculateMockIndicators();
             updateTechnicalIndicators(indicators);
-
-            // 更新標題時間（演示模式）
-            const now = new Date();
-            const timeString = now.toLocaleString('zh-TW', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('lastUpdateTitle').textContent = `演示模式 ${timeString}`;
 
             // 更新時間
             document.getElementById('updateTime').innerHTML = 
