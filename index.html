@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>🚀 BTC Live Analysis | BTC即時分析 - 15:55</title>
+    <title>🚀 BTC Live Analysis | BTC即時分析 - 16:00</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -212,7 +212,7 @@
         .right-panel {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 2px;
             overflow: hidden;
         }
         
@@ -458,7 +458,7 @@
             background: rgba(0,0,0,0.9);
             border: 2px solid #ff6600;
             border-radius: 8px;
-            padding: 8px;
+            padding: 6px;
             box-shadow: 0 5px 20px rgba(255,102,0,0.2);
             flex: 0.9;
             min-height: 180px;
@@ -468,19 +468,20 @@
         .levels-title {
             font-size: 0.9em;
             color: #ff6600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-align: center;
         }
         
         .levels-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 4px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 6px 8px;
         }
         
         .level-item {
             background: rgba(255,255,255,0.05);
-            padding: 4px;
+            padding: 6px 4px;
             border-radius: 4px;
             text-align: center;
         }
@@ -495,6 +496,22 @@
             font-size: 1.0em;
             font-weight: bold;
         }
+        
+        .trading-advice-item {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,0.05);
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .risk-warning-item {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,0.05);
+            padding: 4px;
+            border-radius: 4px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -505,7 +522,7 @@
 
     <!-- BTC價格頂部區域 -->
     <div class="price-header">
-        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 15:55 更新</div>
+        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 16:00 更新</div>
         
         <!-- 主要價格和24H數據區域 -->
         <div class="price-main-row">
@@ -735,15 +752,15 @@
                         <div class="level-label">Strong Resistance | 強阻力位</div>
                         <div class="level-value" id="strongResistance" style="color: #ff4444;">--</div>
                     </div>
-                    <div class="level-item">
+                    <div class="trading-advice-item">
                         <div class="level-label">Trading Advice | 交易建議</div>
-                        <div id="tradingAdvice" style="font-size: 0.8em; color: #00ff88; margin-top: 5px;">
+                        <div id="tradingAdvice" style="font-size: 0.8em; color: #00ff88; margin-top: 3px; line-height: 1.2;">
                             Waiting for confirmation... | 等待技術指標確認...
                         </div>
                     </div>
-                    <div class="level-item">
+                    <div class="risk-warning-item">
                         <div class="level-label">⚠️ Risk Warning | 風險提示</div>
-                        <div style="font-size: 0.75em; color: #ccc; margin-top: 5px; line-height: 1.3;">
+                        <div style="font-size: 0.7em; color: #ccc; margin-top: 2px; line-height: 1.2;">
                             For reference only. Trading involves risk. | 僅供參考，投資有風險，入市需謹慎。
                         </div>
                     </div>
