@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>🚀 专业BTC直播监控站 🚀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(45deg, #0a0a23, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: rgba(0,0,0,0.8);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 2px solid #00ff88;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 2.5em;
+            text-shadow: 0 0 20px #00ff88;
+            animation: titlePulse 3s infinite;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 20px #00ff88; }
+            50% { text-shadow: 0 0 30px #00ff88, 0 0 40px #00ff88; }
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            height: calc(100vh - 120px);
+        }
+        
+        .price-section {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0,255,136,0.1), transparent);
+            animation: rotateBg 10s linear infinite;
+        }
+        
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .current-price {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+            animation: priceGlow 2s infinite;
+        }
+        
+        @keyframes priceGlow {
+            0%, 100% { text-shadow: 0 0 20px #00ff88; }
+            50% { text-shadow: 0 0 40px #00ff88, 0 0 60px #00ff88; }
+        }
+        
+        .price-change {
+            font-size: 1.8em;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .price-up { color: #00ff00; }
+        .price-down { color: #ff0040; }
+        
+        .price-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-box {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .chart-section {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .chart-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ffaa00;
+        }
+        
+        .chart-container {
+            height: 350px;
+            position: relative;
+        }
+        
+        .bottom-info {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            border-top: 2px solid #00ff88;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #ff0040;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: liveBlink 1s infinite;
+        }
+        
+        @keyframes liveBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .market-sentiment {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+        
+        .fear-greed {
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .volume-bar {
+            height: 8px;
+            background: rgba(0,255,136,0.3);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .volume-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #ffaa00);
+            width: 0%;
+            animation: volumeGrow 2s ease-out;
+        }
+        
+        @keyframes volumeGrow {
+            from { width: 0%; }
+            to { width: var(--volume-width); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">🚀 专业BTC实时监控站 📈</div>
+        <div class="market-sentiment">
+            <div>市场情绪</div>
+            <div class="fear-greed" id="sentiment">分析中...</div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="price-section">
+            <h2>💰 当前价格</h2>
+            <div class="current-price" id="btc-price">载入中...</div>
+            <div class="price-change" id="price-change">📊 计算中...</div>
+            
+            <div class="volume-bar">
+                <div class="volume-fill" id="volume-bar"></div>
+            </div>
+            
+            <div class="price-stats">
+                <div class="stat-box">
+                    <div class="stat-label">24H 最高</div>
+                    <div class="stat-value" id="high-24h">--</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">24H 最低</div>
+                    <div class="stat-value" id="low-24h">--</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">24H 交易量</div>
+                    <div class="stat-value" id="volume-24h">--</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">市值</div>
+                    <div class="stat-value" id="market-cap">--</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; position: relative; z-index: 2;">
+                <div>⏰ 更新时间: <span id="update-time">--</span></div>
+                <div>🔄 每30秒自动更新</div>
+            </div>
+        </div>
+        
+        <div class="chart-section">
+            <div class="chart-title">📈 价格走势图 (实时)</div>
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-info">
+        <span class="live-indicator"></span>
+        <span>🔴 LIVE</span> | 
+        <span>☁️ GitHub Pages 专业直播服务</span> | 
+        <span>💎 适用于 Restream Studio</span> | 
+        <span id="status">正在连接...</span>
+    </div>
+
+    <script>
+        let updateCount = 0;
+        let priceChart;
+        let priceHistory = [];
+        let timeHistory = [];
+        let lastPrice = 0;
+
+        // 初始化图表
+        function initChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeHistory,
+                    datasets: [{
+                        label: 'BTC价格 (USD)',
+                        data: priceHistory,
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0,255,136,0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00ff88',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#00ff88',
+                                font: {
+                                    family: 'Courier New',
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#00ff88' },
+                            grid: { color: 'rgba(0,255,136,0.2)' }
+                        },
+                        y: {
+                            ticks: { 
+                                color: '#00ff88',
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            },
+                            grid: { color: 'rgba(0,255,136,0.2)' }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        // 更新图表
+        function updateChart(price, time) {
+            priceHistory.push(price);
+            timeHistory.push(time);
+            
+            // 保持最近20个数据点
+            if (priceHistory.length > 20) {
+                priceHistory.shift();
+                timeHistory.shift();
+            }
+            
+            priceChart.data.labels = timeHistory;
+            priceChart.data.datasets[0].data = priceHistory;
+            priceChart.update('active');
+        }
+
+        // 格式化大数字
+        function formatLargeNumber(num) {
+            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+            return num.toFixed(2);
+        }
+
+        // 获取市场情绪
+        function getMarketSentiment(priceChange) {
+            if (priceChange > 3) return '🚀 极度贪婪';
+            if (priceChange > 1) return '😊 贪婪';
+            if (priceChange > -1) return '😐 中性';
+            if (priceChange > -3) return '😰 恐惧';
+            return '😱 极度恐惧';
+        }
+
+        async function updateBTCData() {
+            try {
+                // 获取详细市场数据
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false');
+                const data = await response.json();
+                
+                if (data && data.market_data) {
+                    const price = data.market_data.current_price.usd;
+                    const priceChange24h = data.market_data.price_change_percentage_24h;
+                    const high24h = data.market_data.high_24h.usd;
+                    const low24h = data.market_data.low_24h.usd;
+                    const volume24h = data.market_data.total_volume.usd;
+                    const marketCap = data.market_data.market_cap.usd;
+                    
+                    // 更新价格显示
+                    const formattedPrice = '$' + price.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    
+                    document.getElementById('btc-price').textContent = formattedPrice;
+                    
+                    // 价格变化
+                    const changeElement = document.getElementById('price-change');
+                    const changeText = (priceChange24h >= 0 ? '📈 +' : '📉 ') + 
+                                     priceChange24h.toFixed(2) + '%';
+                    changeElement.textContent = changeText;
+                    changeElement.className = 'price-change ' + (priceChange24h >= 0 ? 'price-up' : 'price-down');
+                    
+                    // 更新统计数据
+                    document.getElementById('high-24h').textContent = '$' + high24h.toLocaleString();
+                    document.getElementById('low-24h').textContent = '$' + low24h.toLocaleString();
+                    document.getElementById('volume-24h').textContent = '$' + formatLargeNumber(volume24h);
+                    document.getElementById('market-cap').textContent = '$' + formatLargeNumber(marketCap);
+                    
+                    // 更新交易量条
+                    const volumeBar = document.getElementById('volume-bar');
+                    const volumePercent = Math.min((volume24h / 50000000000) * 100, 100);
+                    volumeBar.style.setProperty('--volume-width', volumePercent + '%');
+                    
+                    // 更新图表
+                    const currentTime = new Date().toLocaleTimeString();
+                    updateChart(price, currentTime);
+                    
+                    // 市场情绪
+                    document.getElementById('sentiment').textContent = getMarketSentiment(priceChange24h);
+                    
+                    // 更新时间
+                    document.getElementById('update-time').textContent = currentTime;
+                    document.getElementById('status').textContent = '✅ 数据更新成功 (#' + (++updateCount) + ')';
+                    
+                    // 价格变化动画
+                    if (lastPrice > 0) {
+                        const priceElement = document.getElementById('btc-price');
+                        if (price > lastPrice) {
+                            priceElement.style.color = '#00ff00';
+                        } else if (price < lastPrice) {
+                            priceElement.style.color = '#ff0040';
+                        }
+                        setTimeout(() => {
+                            priceElement.style.color = '#00ff88';
+                        }, 2000);
+                    }
+                    lastPrice = price;
+                    
+                } else {
+                    throw new Error('API数据格式错误');
+                }
+            } catch (error) {
+                console.error('获取BTC数据失败:', error);
+                document.getElementById('status').textContent = '❌ 连接失败: ' + error.message;
+            }
+        }
+
+        // 初始化
+        window.addEventListener('load', function() {
+            initChart();
+            updateBTCData();
+            setInterval(updateBTCData, 30000); // 每30秒更新
+            
+            document.getElementById('status').textContent = '✅ 专业监控系统已启动';
+        });
+    </script>
+</body>
+</html> 
