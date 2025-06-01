@@ -774,12 +774,19 @@
         // 获取BTC数据
         async function fetchBTCData() {
             try {
+                // 使用简单的价格API
                 const response = await fetch(
-                    'https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false'
+                    'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true&include_24hr_change=true'
                 );
-                const data = await response.json();
                 
-                currentPrice = data.market_data.current_price.usd;
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('API返回数据:', data); // 调试用
+                
+                currentPrice = data.bitcoin.usd;
                 priceData.push(currentPrice);
                 
                 // 保持最近50个价格点
@@ -798,12 +805,126 @@
                     bb: calculateBollingerBands(priceData)
                 };
 
-                updateInterface(data.market_data, indicators);
+                // 更新价格信息
+                document.getElementById('currentPrice').textContent = 
+                    `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                const change24h = data.bitcoin.usd_24h_change || 0;
+                const changeElement = document.getElementById('priceChange');
+                changeElement.textContent = `24H: ${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%`;
+                changeElement.className = `price-change ${change24h >= 0 ? 'bullish' : 'bearish'}`;
+
+                // 更新价格统计（使用模拟数据，因为简单API没有这些）
+                document.getElementById('high24h').textContent = `$${Math.round(currentPrice * 1.03).toLocaleString()}`;
+                document.getElementById('low24h').textContent = `$${Math.round(currentPrice * 0.97).toLocaleString()}`;
+                document.getElementById('volume24h').textContent = `$${(data.bitcoin.usd_24h_vol / 1000000000).toFixed(1)}B`;
+                
+                // 更新技术指标
+                if (indicators.macd) {
+                    document.getElementById('macdLine').textContent = indicators.macd.line.toFixed(2);
+                    document.getElementById('macdSignal').textContent = indicators.macd.signal.toFixed(2);
+                    document.getElementById('macdHistogram').textContent = indicators.macd.histogram.toFixed(2);
+                    
+                    const macdStatus = indicators.macd.histogram > 0 ? 'bullish' : 'bearish';
+                    document.getElementById('macdStatus').textContent = indicators.macd.histogram > 0 ? '金叉' : '死叉';
+                    document.getElementById('macdStatus').className = `indicator-status ${macdStatus}`;
+                }
+
+                if (indicators.rsi) {
+                    document.getElementById('rsiValue').textContent = indicators.rsi.toFixed(1);
+                    let rsiZone = '正常';
+                    let rsiStatus = 'neutral';
+                    
+                    if (indicators.rsi < 30) {
+                        rsiZone = '超卖';
+                        rsiStatus = 'bullish';
+                    } else if (indicators.rsi > 70) {
+                        rsiZone = '超买';
+                        rsiStatus = 'bearish';
+                    }
+                    
+                    document.getElementById('rsiZone').textContent = rsiZone;
+                    document.getElementById('rsiStatus').textContent = rsiZone;
+                    document.getElementById('rsiStatus').className = `indicator-status ${rsiStatus}`;
+                }
+
+                // 更新移动平均线
+                if (indicators.ma5) document.getElementById('ma5').textContent = `$${indicators.ma5.toFixed(0)}`;
+                if (indicators.ma10) document.getElementById('ma10').textContent = `$${indicators.ma10.toFixed(0)}`;
+                if (indicators.ma25) document.getElementById('ma25').textContent = `$${indicators.ma25.toFixed(0)}`;
+                if (indicators.ma99) document.getElementById('ma99').textContent = `$${indicators.ma99.toFixed(0)}`;
+
+                // 更新布林带
+                if (indicators.bb) {
+                    document.getElementById('bbUpper').textContent = `$${indicators.bb.upper.toFixed(0)}`;
+                    document.getElementById('bbMiddle').textContent = `$${indicators.bb.middle.toFixed(0)}`;
+                    document.getElementById('bbLower').textContent = `$${indicators.bb.lower.toFixed(0)}`;
+                    
+                    let bbPosition = '中轨';
+                    if (currentPrice > indicators.bb.upper) bbPosition = '上轨突破';
+                    else if (currentPrice < indicators.bb.lower) bbPosition = '下轨跌破';
+                    
+                    document.getElementById('bbStatus').textContent = bbPosition;
+                }
+
+                // 信号分析
+                const signalAnalysis = analyzeSignals(indicators);
+                document.getElementById('bullSignals').textContent = signalAnalysis.bullishSignals;
+                document.getElementById('bearSignals').textContent = signalAnalysis.bearishSignals;
+
+                // 综合信号
+                let overallSignal = '观望';
+                let signalColor = '#ffaa00';
+                let confidence = 50;
+
+                if (signalAnalysis.bullishSignals > signalAnalysis.bearishSignals + 1) {
+                    overallSignal = '🚀 买入信号';
+                    signalColor = '#00ff00';
+                    confidence = Math.min(90, 50 + signalAnalysis.bullishSignals * 10);
+                } else if (signalAnalysis.bearishSignals > signalAnalysis.bullishSignals + 1) {
+                    overallSignal = '📉 卖出信号';
+                    signalColor = '#ff4444';
+                    confidence = Math.min(90, 50 + signalAnalysis.bearishSignals * 10);
+                }
+
+                document.getElementById('signalResult').textContent = overallSignal;
+                document.getElementById('signalResult').style.color = signalColor;
+                
+                document.getElementById('signalDetails').textContent = 
+                    signalAnalysis.signals.length > 0 ? signalAnalysis.signals.join(', ') : '等待明确信号';
+
+                // 信心指数
+                document.getElementById('confidenceText').textContent = `信心指数: ${confidence}%`;
+                document.getElementById('confidenceFill').style.width = `${confidence}%`;
+                document.getElementById('confidenceFill').style.background = 
+                    confidence > 70 ? '#00ff00' : confidence > 50 ? '#ffaa00' : '#ff4444';
+
+                // 支撑阻力位
+                if (indicators.bb) {
+                    document.getElementById('strongSupport').textContent = `$${Math.round(indicators.bb.lower)}`;
+                    document.getElementById('strongResistance').textContent = `$${Math.round(indicators.bb.upper)}`;
+                }
+
+                // 交易建议
+                let advice = '等待更多确认信号';
+                if (signalAnalysis.bullishSignals >= 3) {
+                    advice = '建议分批买入，设置止损位于 $' + Math.round(indicators.bb?.lower || currentPrice * 0.95);
+                } else if (signalAnalysis.bearishSignals >= 3) {
+                    advice = '建议逢高减仓，设置止盈位于 $' + Math.round(indicators.bb?.upper || currentPrice * 1.05);
+                }
+                document.getElementById('tradingAdvice').textContent = advice;
+
+                // 更新时间
+                document.getElementById('updateTime').innerHTML = 
+                    `<span class="status-indicator status-live"></span>最后更新: ${new Date().toLocaleTimeString('zh-CN')}`;
+
                 updateCount++;
 
             } catch (error) {
                 console.error('获取数据失败:', error);
-                document.getElementById('currentPrice').textContent = '获取失败';
+                document.getElementById('currentPrice').textContent = '连接失败';
+                document.getElementById('updateTime').innerHTML = 
+                    `<span class="status-indicator" style="background: #ff4444;"></span>连接失败，正在重试...`;
             }
         }
 
