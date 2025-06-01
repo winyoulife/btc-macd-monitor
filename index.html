@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>BTC 雲端直播監控 - 重定向中...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="2;url=btc_static.html">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            background: rgba(0,0,0,0.7);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 30px rgba(0,255,136,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 0 0 20px 0;
+            text-shadow: 0 0 20px #00ff88;
+        }
+        .message {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(0,255,136,0.3);
+            border-radius: 50%;
+            border-top: 4px solid #00ff88;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: #ffaa00;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 BTC 雲端監控系統 🚀</h1>
+        <div class="spinner"></div>
+        <div class="message">正在重定向到監控頁面...</div>
+        <div class="message">
+            <a href="btc_static.html">如果沒有自動跳轉，請點這裡</a>
+        </div>
+        <div style="margin-top: 30px; font-size: 1em; opacity: 0.8;">
+            ☁️ GitHub Pages 雲端服務 ☁️<br>
+            適用於 Restream Studio 直播
+        </div>
+    </div>
+    
+    <script>
+        // 2秒後自動跳轉
+        setTimeout(function() {
+            window.location.href = 'btc_static.html';
+        }, 2000);
+    </script>
+</body>
+</html> 
