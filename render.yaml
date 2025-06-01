@@ -3,8 +3,8 @@ services:
     name: btc-macd-monitor
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn simple_btc_api:app --host 0.0.0.0 --port $PORT"
+    buildCommand: "echo 'No external dependencies needed'"
+    startCommand: "python working_btc_display.py"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
