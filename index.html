@@ -91,11 +91,11 @@
         .main-dashboard {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 10px;
-            padding: 10px;
+            gap: 12px;
+            padding: 12px;
             max-width: 1400px;
             margin: 0 auto;
-            height: calc(100vh - 290px);
+            height: calc(100vh - 280px);
             overflow: hidden;
         }
         
@@ -157,39 +157,41 @@
         
         .indicators-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
             height: calc(100% - 40px);
+            overflow-y: auto;
         }
         
         .indicator-group {
             background: rgba(255,255,255,0.05);
             border: 1px solid #333;
             border-radius: 5px;
-            padding: 6px;
+            padding: 8px;
             overflow: hidden;
+            min-height: 120px;
         }
         
         .indicator-title {
-            font-size: 0.85em;
-            margin-bottom: 4px;
+            font-size: 0.9em;
+            margin-bottom: 6px;
             color: #00ff88;
             border-bottom: 1px solid #333;
-            padding-bottom: 2px;
+            padding-bottom: 3px;
         }
         
         .indicator-value {
-            margin: 2px 0;
+            margin: 3px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.7em;
+            font-size: 0.75em;
         }
         
         .indicator-status {
-            padding: 1px 4px;
+            padding: 2px 6px;
             border-radius: 3px;
-            font-size: 0.65em;
+            font-size: 0.7em;
             font-weight: bold;
         }
         
@@ -493,12 +495,16 @@
                     <div class="indicator-group">
                         <div class="indicator-title">📈 MACD (12,26,9)</div>
                         <div class="indicator-value">
-                            <span>MACD:</span>
+                            <span>MACD Line:</span>
                             <span id="macdLine">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Signal:</span>
+                            <span>Signal Line:</span>
                             <span id="macdSignal">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Histogram:</span>
+                            <span id="macdHistogram">--</span>
                         </div>
                         <div class="indicator-value">
                             <span>Status:</span>
@@ -510,7 +516,7 @@
                     <div class="indicator-group">
                         <div class="indicator-title">⚡ RSI (14)</div>
                         <div class="indicator-value">
-                            <span>Value:</span>
+                            <span>RSI Value:</span>
                             <span id="rsiValue">--</span>
                         </div>
                         <div class="indicator-value">
@@ -520,74 +526,6 @@
                         <div class="indicator-value">
                             <span>Status:</span>
                             <span class="indicator-status" id="rsiStatus">Loading</span>
-                        </div>
-                    </div>
-
-                    <!-- Stochastic Oscillator -->
-                    <div class="indicator-group">
-                        <div class="indicator-title">🎯 Stochastic (14,3,3)</div>
-                        <div class="indicator-value">
-                            <span>%K:</span>
-                            <span id="stochK">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>%D:</span>
-                            <span id="stochD">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Signal:</span>
-                            <span class="indicator-status" id="stochStatus">Loading</span>
-                        </div>
-                    </div>
-
-                    <!-- Williams %R -->
-                    <div class="indicator-group">
-                        <div class="indicator-title">📊 Williams %R (14)</div>
-                        <div class="indicator-value">
-                            <span>%R Value:</span>
-                            <span id="williamsR">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Zone:</span>
-                            <span id="williamsZone">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Signal:</span>
-                            <span class="indicator-status" id="williamsStatus">Loading</span>
-                        </div>
-                    </div>
-
-                    <!-- ATR (Average True Range) -->
-                    <div class="indicator-group">
-                        <div class="indicator-title">📏 ATR (14)</div>
-                        <div class="indicator-value">
-                            <span>ATR:</span>
-                            <span id="atrValue">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Volatility:</span>
-                            <span id="volatility">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Trend:</span>
-                            <span class="indicator-status" id="atrStatus">Loading</span>
-                        </div>
-                    </div>
-
-                    <!-- CCI (Commodity Channel Index) -->
-                    <div class="indicator-group">
-                        <div class="indicator-title">⚙️ CCI (20)</div>
-                        <div class="indicator-value">
-                            <span>CCI:</span>
-                            <span id="cciValue">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Zone:</span>
-                            <span id="cciZone">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Signal:</span>
-                            <span class="indicator-status" id="cciStatus">Loading</span>
                         </div>
                     </div>
 
@@ -616,11 +554,15 @@
                     <div class="indicator-group">
                         <div class="indicator-title">🌊 Bollinger Bands (20,2)</div>
                         <div class="indicator-value">
-                            <span>Upper:</span>
+                            <span>Upper Band:</span>
                             <span id="bbUpper">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Lower:</span>
+                            <span>Middle Band:</span>
+                            <span id="bbMiddle">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Lower Band:</span>
                             <span id="bbLower">--</span>
                         </div>
                         <div class="indicator-value">
@@ -629,16 +571,37 @@
                         </div>
                     </div>
 
+                    <!-- Stochastic Oscillator -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">🎯 Stochastic (14,3,3)</div>
+                        <div class="indicator-value">
+                            <span>%K Value:</span>
+                            <span id="stochK">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>%D Value:</span>
+                            <span id="stochD">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="stochStatus">Loading</span>
+                        </div>
+                    </div>
+
                     <!-- Volume Analysis -->
                     <div class="indicator-group">
                         <div class="indicator-title">📈 Volume Analysis</div>
                         <div class="indicator-value">
-                            <span>Volume:</span>
+                            <span>Current Vol:</span>
                             <span id="volumeValue">--</span>
                         </div>
                         <div class="indicator-value">
                             <span>Avg Volume:</span>
                             <span id="avgVolume">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Volatility:</span>
+                            <span id="volatility">--</span>
                         </div>
                         <div class="indicator-value">
                             <span>Status:</span>
@@ -799,7 +762,7 @@
                 document.getElementById('macdHistogram').textContent = indicators.macd.histogram.toFixed(2);
                 
                 const macdStatus = indicators.macd.histogram > 0 ? 'bullish' : 'bearish';
-                document.getElementById('macdStatus').textContent = indicators.macd.histogram > 0 ? 'Golden Cross | 金叉' : 'Death Cross | 死叉';
+                document.getElementById('macdStatus').textContent = indicators.macd.histogram > 0 ? 'Golden Cross' : 'Death Cross';
                 document.getElementById('macdStatus').className = `indicator-status ${macdStatus}`;
             }
 
@@ -908,6 +871,7 @@
             // 更新布林帶
             if (indicators.bb) {
                 document.getElementById('bbUpper').textContent = `$${indicators.bb.upper.toFixed(0)}`;
+                document.getElementById('bbMiddle').textContent = `$${indicators.bb.middle.toFixed(0)}`;
                 document.getElementById('bbLower').textContent = `$${indicators.bb.lower.toFixed(0)}`;
                 
                 let bbPosition = 'Middle';
@@ -928,6 +892,13 @@
             if (indicators.volume) {
                 document.getElementById('volumeValue').textContent = `${(indicators.volume.current/1000).toFixed(1)}K BTC`;
                 document.getElementById('avgVolume').textContent = `${(indicators.volume.average/1000).toFixed(1)}K BTC`;
+                
+                // 計算波動性
+                const volatilityPercent = (indicators.atr / currentPrice) * 100;
+                let volatilityLevel = 'Normal';
+                if (volatilityPercent > 2) volatilityLevel = 'High';
+                else if (volatilityPercent < 1) volatilityLevel = 'Low';
+                document.getElementById('volatility').textContent = volatilityLevel;
                 
                 const volumeRatio = indicators.volume.current / indicators.volume.average;
                 let volumeStatus = 'neutral';
