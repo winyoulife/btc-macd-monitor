@@ -512,12 +512,40 @@
             border-radius: 4px;
             text-align: center;
         }
+
+        /* 免責聲明面板 */
+        .disclaimer-panel {
+            background: rgba(255,102,0,0.15);
+            border: 2px solid #ff6600;
+            border-radius: 8px;
+            padding: 8px;
+            max-width: 1400px;
+            margin: 5px auto;
+            box-shadow: 0 3px 15px rgba(255,102,0,0.3);
+            z-index: 999;
+        }
+        
+        .disclaimer-content {
+            font-size: 0.85em;
+            color: #ff6600;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="update-info" id="updateTime">
         <span class="status-indicator status-live"></span>
         Live Update | 即時更新
+    </div>
+
+    <!-- 免責聲明面板 -->
+    <div class="disclaimer-panel">
+        <div class="disclaimer-content">
+            ⚠️ <strong>重要聲明 | Important Notice:</strong> 
+            技術指標為簡化計算，僅供參考演示 | Technical indicators are simplified calculations for demonstration only. 
+            專業交易請使用專業平台 | Use professional platforms for actual trading.
+        </div>
     </div>
 
     <!-- BTC價格頂部區域 -->
@@ -784,12 +812,12 @@
             
             console.log(`📈 Calculating real indicators based on price: $${currentPrice}`);
             
-            // 基於真實價格數據計算技術指標
-            // 注意：這些是簡化計算，真實環境建議使用專業的技術分析庫
+            // ⚠️ 重要說明：這些是簡化計算，用於演示目的
+            // 專業交易建議使用專業平台的技術指標
             const priceHistory = priceData.slice(-20); // 最近20個價格點
             const currentPricePoint = currentPrice;
             
-            // 真實MACD計算（簡化版）
+            // 真實MACD計算（簡化版 - 僅供參考）
             const macd = {
                 line: priceHistory.length > 1 ? 
                     (currentPricePoint - priceHistory[Math.max(0, priceHistory.length - 12)]) / 12 : 0,
@@ -799,7 +827,7 @@
             };
             macd.histogram = macd.line - macd.signal;
 
-            // 真實RSI計算（簡化版）
+            // 真實RSI計算（簡化版 - 僅供參考）
             let rsi = 50;
             if (priceHistory.length > 14) {
                 let gains = 0, losses = 0;
@@ -816,14 +844,14 @@
                 }
             }
 
-            // 真實移動平均線
+            // 真實移動平均線（基於有限數據點）
             const ma5 = priceHistory.length >= 5 ? 
                 priceHistory.slice(-5).reduce((a, b) => a + b, 0) / 5 : currentPricePoint;
             const ma20 = priceHistory.length >= 20 ? 
                 priceHistory.reduce((a, b) => a + b, 0) / priceHistory.length : currentPricePoint;
             const ma50 = currentPricePoint; // 簡化為當前價格
 
-            // 真實布林帶計算
+            // 真實布林帶計算（簡化版）
             const bb = {
                 upper: ma20 * 1.02, // 簡化：+2%
                 middle: ma20,
@@ -850,7 +878,9 @@
                 volume: {
                     current: Math.abs(currentPricePoint - (priceHistory[priceHistory.length - 2] || currentPricePoint)) * 1000,
                     average: 30000 // 基準值
-                }
+                },
+                dataSource: window.currentDataSource || 'Calculated',
+                calculationNote: 'Simplified calculation for demo purposes'
             };
         }
 
@@ -858,16 +888,19 @@
         function updateInterface(data, source) {
             console.log(`📊 Updating with ${source} data:`, data);
             
+            // 記錄當前數據源
+            window.currentDataSource = source;
+            
             if (source === 'local') {
                 // 本地API服務器的真實數據
                 if (data.btc_price_raw && data.btc_price_raw > 0) {
                     currentPrice = data.btc_price_raw;
-                    document.getElementById('currentPrice').textContent = data.btc_price;
+                    document.getElementById('currentPrice').textContent = data.btc_price + ' (Local API)';
                     document.getElementById('currentPrice').style.color = '#00ff88';
                     
                     // 本地API暫時沒有24H變化數據，顯示狀態
                     const changeElement = document.getElementById('priceChange');
-                    changeElement.textContent = `Status: ${data.status || 'LIVE'}`;
+                    changeElement.textContent = `Local Server: ${data.status || 'LIVE'}`;
                     changeElement.className = 'price-change-header bullish';
                 }
                 
@@ -875,12 +908,12 @@
                 if (data.bpi && data.bpi.USD && data.bpi.USD.rate) {
                     currentPrice = parseFloat(data.bpi.USD.rate.replace(/,/g, ''));
                     document.getElementById('currentPrice').textContent = 
-                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (CoinDesk)`;
                     document.getElementById('currentPrice').style.color = '#00ff88';
                     
                     // CoinDesk 沒有變化數據，使用實時狀態
                     const changeElement = document.getElementById('priceChange');
-                    changeElement.textContent = 'LIVE DATA | 即時數據';
+                    changeElement.textContent = 'CoinDesk API | 即時數據';
                     changeElement.className = 'price-change-header bullish';
                 }
                 
@@ -888,12 +921,12 @@
                 if (data.bitcoin && data.bitcoin.usd) {
                     currentPrice = data.bitcoin.usd;
                     document.getElementById('currentPrice').textContent = 
-                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (CoinGecko)`;
                     document.getElementById('currentPrice').style.color = '#00ff88';
                     
                     const change24h = data.bitcoin.usd_24h_change || 0;
                     const changeElement = document.getElementById('priceChange');
-                    changeElement.textContent = `24H: ${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%`;
+                    changeElement.textContent = `CoinGecko: ${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%`;
                     changeElement.className = `price-change-header ${change24h >= 0 ? 'bullish' : 'bearish'}`;
                 }
                 
@@ -901,14 +934,23 @@
                 if (data.lastPrice) {
                     currentPrice = parseFloat(data.lastPrice);
                     document.getElementById('currentPrice').textContent = 
-                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (Binance)`;
                     document.getElementById('currentPrice').style.color = '#00ff88';
                     
                     const changePercent = parseFloat(data.priceChangePercent || 0);
                     const changeElement = document.getElementById('priceChange');
-                    changeElement.textContent = `24H: ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+                    changeElement.textContent = `Binance: ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
                     changeElement.className = `price-change-header ${changePercent >= 0 ? 'bullish' : 'bearish'}`;
                 }
+            } else if (source === 'reference') {
+                // 參考模式
+                document.getElementById('currentPrice').textContent = 
+                    `~$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (Reference)`;
+                document.getElementById('currentPrice').style.color = '#ffaa00';
+                
+                const changeElement = document.getElementById('priceChange');
+                changeElement.textContent = 'Reference Mode | 參考模式';
+                changeElement.className = 'price-change-header neutral';
             }
 
             // 只有成功獲取真實價格數據後才繼續更新其他指標
@@ -921,9 +963,17 @@
                 const indicators = calculateRealIndicators();
                 updateTechnicalIndicators(indicators);
 
-                // 更新時間 - 標示為真實數據
+                // 更新時間 - 標示數據源
+                const sourceLabels = {
+                    'local': 'Local API | 本地服務器',
+                    'coingecko': 'CoinGecko API',
+                    'binance': 'Binance API', 
+                    'coindesk': 'CoinDesk API',
+                    'reference': 'Reference Mode | 參考模式'
+                };
+                
                 document.getElementById('updateTime').innerHTML = 
-                    `<span class="status-indicator status-live"></span>LIVE Real Data | 真實即時數據: ${new Date().toLocaleTimeString('zh-TW')}`;
+                    `<span class="status-indicator status-live"></span>${sourceLabels[source] || source}: ${new Date().toLocaleTimeString('zh-TW')}`;
                     
                 console.log(`✅ Successfully updated with real data from ${source}: $${currentPrice}`);
             }
@@ -931,6 +981,9 @@
 
         // 更新技術指標
         function updateTechnicalIndicators(indicators) {
+            // 在指標標題中添加數據源說明
+            const dataSourceNote = indicators.dataSource ? ` (${indicators.dataSource})` : '';
+            
             // 更新價格統計
             document.getElementById('high24h').textContent = `$${Math.round(currentPrice * 1.03).toLocaleString()}`;
             document.getElementById('low24h').textContent = `$${Math.round(currentPrice * 0.97).toLocaleString()}`;
@@ -938,9 +991,8 @@
             
             // 更新MACD
             if (indicators.macd) {
-                document.getElementById('macdLine').textContent = indicators.macd.line.toFixed(2);
+                document.getElementById('macdLine').textContent = indicators.macd.line.toFixed(2) + dataSourceNote;
                 document.getElementById('macdSignal').textContent = indicators.macd.signal.toFixed(2);
-                document.getElementById('macdHistogram').textContent = indicators.macd.histogram.toFixed(2);
                 
                 const macdStatus = indicators.macd.histogram > 0 ? 'bullish' : 'bearish';
                 document.getElementById('macdStatus').textContent = indicators.macd.histogram > 0 ? 'Golden Cross' : 'Death Cross';
@@ -949,7 +1001,7 @@
 
             // 更新RSI
             if (indicators.rsi) {
-                document.getElementById('rsiValue').textContent = indicators.rsi.toFixed(1);
+                document.getElementById('rsiValue').textContent = indicators.rsi.toFixed(1) + dataSourceNote;
                 let rsiZone = 'Normal | 正常';
                 let rsiStatus = 'neutral';
                 
@@ -1365,15 +1417,6 @@
                     const referencePrice = 104500;
                     currentPrice = referencePrice;
                     
-                    // 更新價格顯示
-                    document.getElementById('currentPrice').textContent = 
-                        `~$${referencePrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} (Ref)`;
-                    document.getElementById('currentPrice').style.color = '#ffaa00';
-                    
-                    const changeElement = document.getElementById('priceChange');
-                    changeElement.textContent = 'Reference Mode | 參考模式';
-                    changeElement.className = 'price-change-header neutral';
-
                     // 初始化價格歷史並計算指標
                     priceData = [
                         referencePrice * 0.999,
@@ -1383,12 +1426,12 @@
                         referencePrice
                     ];
                     
-                    const indicators = calculateMockIndicators();
-                    updateTechnicalIndicators(indicators);
+                    // 使用參考模式更新界面
+                    updateInterface({}, 'reference');
                     
-                    // 更新狀態
-                    document.getElementById('updateTime').innerHTML = 
-                        `<span class="status-indicator" style="background: #ffaa00;"></span>Reference Mode | 參考模式: ${new Date().toLocaleTimeString('zh-TW')}`;
+                    // 計算並更新指標
+                    const indicators = calculateRealIndicators();
+                    updateTechnicalIndicators(indicators);
                 }
             }, 3000);
             
