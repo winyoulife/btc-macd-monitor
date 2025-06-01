@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: "echo 'Pure Python - No dependencies needed'"
-    startCommand: "python cloud_btc_display.py"
+    startCommand: "python simple_test.py"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
