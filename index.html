@@ -17,7 +17,7 @@
             font-family: 'Courier New', monospace;
             overflow-x: auto;
             min-height: 100vh;
-            padding-bottom: 120px;
+            padding-bottom: 20px;
         }
         
         .price-header {
@@ -90,19 +90,19 @@
         
         .main-dashboard {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 12px;
-            padding: 12px;
+            grid-template-columns: 3fr 1fr;
+            gap: 15px;
+            padding: 15px;
             max-width: 1400px;
             margin: 0 auto;
-            height: calc(100vh - 280px);
+            height: calc(100vh - 200px);
             overflow: hidden;
         }
         
         .left-panel {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 0;
             overflow: hidden;
         }
         
@@ -157,8 +157,8 @@
         
         .indicators-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
             height: calc(100% - 40px);
             overflow-y: auto;
         }
@@ -167,31 +167,31 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid #333;
             border-radius: 5px;
-            padding: 8px;
+            padding: 10px;
             overflow: hidden;
-            min-height: 120px;
+            min-height: 140px;
         }
         
         .indicator-title {
-            font-size: 0.9em;
-            margin-bottom: 6px;
+            font-size: 1.0em;
+            margin-bottom: 8px;
             color: #00ff88;
             border-bottom: 1px solid #333;
-            padding-bottom: 3px;
+            padding-bottom: 4px;
         }
         
         .indicator-value {
-            margin: 3px 0;
+            margin: 4px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75em;
+            font-size: 0.8em;
         }
         
         .indicator-status {
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.7em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
             font-weight: bold;
         }
         
@@ -202,7 +202,7 @@
         .right-panel {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             overflow: hidden;
         }
         
@@ -210,11 +210,10 @@
             background: rgba(0,0,0,0.9);
             border: 2px solid #aa00ff;
             border-radius: 8px;
-            padding: 8px;
+            padding: 12px;
             text-align: center;
             box-shadow: 0 5px 20px rgba(170,0,255,0.2);
-            height: auto;
-            max-height: none;
+            flex: 1;
         }
         
         .signal-title {
@@ -443,6 +442,46 @@
             color: #ccc;
             line-height: 1.3;
         }
+
+        .key-levels-panel {
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #ff6600;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 5px 20px rgba(255,102,0,0.2);
+            flex: 1;
+        }
+        
+        .levels-title {
+            font-size: 1.0em;
+            color: #ff6600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .levels-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        .level-item {
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .level-label {
+            font-size: 0.8em;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+        
+        .level-value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -529,6 +568,74 @@
                         </div>
                     </div>
 
+                    <!-- Stochastic Oscillator -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">🎯 Stochastic (14,3,3)</div>
+                        <div class="indicator-value">
+                            <span>%K Value:</span>
+                            <span id="stochK">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>%D Value:</span>
+                            <span id="stochD">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="stochStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- Williams %R -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📊 Williams %R (14)</div>
+                        <div class="indicator-value">
+                            <span>%R Value:</span>
+                            <span id="williamsR">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Zone:</span>
+                            <span id="williamsZone">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="williamsStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- CCI指標 -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">⚙️ CCI (20)</div>
+                        <div class="indicator-value">
+                            <span>CCI Value:</span>
+                            <span id="cciValue">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Zone:</span>
+                            <span id="cciZone">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Signal:</span>
+                            <span class="indicator-status" id="cciStatus">Loading</span>
+                        </div>
+                    </div>
+
+                    <!-- ATR指標 -->
+                    <div class="indicator-group">
+                        <div class="indicator-title">📏 ATR (14)</div>
+                        <div class="indicator-value">
+                            <span>ATR Value:</span>
+                            <span id="atrValue">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Volatility:</span>
+                            <span id="volatility">--</span>
+                        </div>
+                        <div class="indicator-value">
+                            <span>Trend:</span>
+                            <span class="indicator-status" id="atrStatus">Loading</span>
+                        </div>
+                    </div>
+
                     <!-- Moving Averages -->
                     <div class="indicator-group">
                         <div class="indicator-title">📊 Moving Averages</div>
@@ -571,23 +678,6 @@
                         </div>
                     </div>
 
-                    <!-- Stochastic Oscillator -->
-                    <div class="indicator-group">
-                        <div class="indicator-title">🎯 Stochastic (14,3,3)</div>
-                        <div class="indicator-value">
-                            <span>%K Value:</span>
-                            <span id="stochK">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>%D Value:</span>
-                            <span id="stochD">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Signal:</span>
-                            <span class="indicator-status" id="stochStatus">Loading</span>
-                        </div>
-                    </div>
-
                     <!-- Volume Analysis -->
                     <div class="indicator-group">
                         <div class="indicator-title">📈 Volume Analysis</div>
@@ -600,11 +690,7 @@
                             <span id="avgVolume">--</span>
                         </div>
                         <div class="indicator-value">
-                            <span>Volatility:</span>
-                            <span id="volatility">--</span>
-                        </div>
-                        <div class="indicator-value">
-                            <span>Status:</span>
+                            <span>Vol Status:</span>
                             <span class="indicator-status" id="volumeStatus">Loading</span>
                         </div>
                     </div>
@@ -626,38 +712,35 @@
                     <div class="confidence-text" id="confidenceText">Confidence | 信心指數: 0%</div>
                 </div>
 
-                <div style="margin-top: 15px; font-size: 1em; color: #aaa;">
-                    <div>✅ Bull Signals | 多頭信號: <span id="bullSignals">0</span>/6</div>
-                    <div>❌ Bear Signals | 空頭信號: <span id="bearSignals">0</span>/6</div>
+                <div style="margin-top: 12px; font-size: 0.9em; color: #aaa;">
+                    <div>✅ Bull Signals | 多頭信號: <span id="bullSignals">0</span>/9</div>
+                    <div>❌ Bear Signals | 空頭信號: <span id="bearSignals">0</span>/9</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- 底部關鍵位分析橫幅 -->
-    <div class="bottom-analysis">
-        <div class="analysis-header">📊 Key Levels & Trading Analysis | 關鍵位分析與交易建議</div>
-        
-        <div class="analysis-content">
-            <div class="support-resistance-row">
-                <div class="sr-item">
-                    <div class="sr-label">Strong Support<br>強支撐位</div>
-                    <div class="sr-value" id="strongSupport" style="color: #00ff00;">--</div>
-                </div>
-                <div class="sr-item">
-                    <div class="sr-label">Strong Resistance<br>強阻力位</div>
-                    <div class="sr-value" id="strongResistance" style="color: #ff4444;">--</div>
-                </div>
-                <div class="trading-advice-container">
-                    <div class="advice-label">📈 Trading Advice | 交易建議</div>
-                    <div id="tradingAdvice" class="advice-text">
-                        Waiting for confirmation... | 等待技術指標確認...
+            <!-- 關鍵位分析面板 -->
+            <div class="key-levels-panel">
+                <div class="levels-title">📊 Key Levels | 關鍵位分析</div>
+                <div class="levels-grid">
+                    <div class="level-item">
+                        <div class="level-label">Strong Support | 強支撐位</div>
+                        <div class="level-value" id="strongSupport" style="color: #00ff00;">--</div>
                     </div>
-                </div>
-                <div class="risk-warning-container">
-                    <div class="warning-label">⚠️ Risk Warning | 風險提示</div>
-                    <div class="warning-text">
-                        For reference only. Trading involves risk. | 僅供參考，投資有風險，入市需謹慎。
+                    <div class="level-item">
+                        <div class="level-label">Strong Resistance | 強阻力位</div>
+                        <div class="level-value" id="strongResistance" style="color: #ff4444;">--</div>
+                    </div>
+                    <div class="level-item">
+                        <div class="level-label">Trading Advice | 交易建議</div>
+                        <div id="tradingAdvice" style="font-size: 0.8em; color: #00ff88; margin-top: 5px;">
+                            Waiting for confirmation... | 等待技術指標確認...
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div class="level-label">⚠️ Risk Warning | 風險提示</div>
+                        <div style="font-size: 0.75em; color: #ccc; margin-top: 5px; line-height: 1.3;">
+                            For reference only. Trading involves risk. | 僅供參考，投資有風險，入市需謹慎。
+                        </div>
                     </div>
                 </div>
             </div>
@@ -925,43 +1008,85 @@
             let bullishSignals = 0;
             let bearishSignals = 0;
 
-            // 簡化的信號邏輯
-            if (indicators.macd && indicators.macd.histogram > 0) bullishSignals++;
-            if (indicators.rsi && indicators.rsi < 35) bullishSignals++;
-            if (currentPrice > indicators.ma5) bullishSignals++;
+            // 9個技術指標的信號邏輯
             
+            // 1. MACD
+            if (indicators.macd && indicators.macd.histogram > 0) bullishSignals++;
             if (indicators.macd && indicators.macd.histogram < 0) bearishSignals++;
-            if (indicators.rsi && indicators.rsi > 65) bearishSignals++;
-            if (currentPrice < indicators.ma5) bearishSignals++;
+            
+            // 2. RSI
+            if (indicators.rsi && indicators.rsi < 30) bullishSignals++;
+            if (indicators.rsi && indicators.rsi > 70) bearishSignals++;
+            
+            // 3. Stochastic
+            if (indicators.stochastic && indicators.stochastic.k < 20) bullishSignals++;
+            if (indicators.stochastic && indicators.stochastic.k > 80) bearishSignals++;
+            
+            // 4. Williams %R
+            if (indicators.williamsR && indicators.williamsR < -80) bullishSignals++;
+            if (indicators.williamsR && indicators.williamsR > -20) bearishSignals++;
+            
+            // 5. CCI
+            if (indicators.cci && indicators.cci < -100) bullishSignals++;
+            if (indicators.cci && indicators.cci > 100) bearishSignals++;
+            
+            // 6. MA Trend
+            if (currentPrice > indicators.ma5 && indicators.ma5 > indicators.ma20) bullishSignals++;
+            if (currentPrice < indicators.ma5 && indicators.ma5 < indicators.ma20) bearishSignals++;
+            
+            // 7. Bollinger Bands
+            if (currentPrice < indicators.bb.lower) bullishSignals++;
+            if (currentPrice > indicators.bb.upper) bearishSignals++;
+            
+            // 8. Volume
+            if (indicators.volume && indicators.volume.current > indicators.volume.average * 1.5) bullishSignals++;
+            if (indicators.volume && indicators.volume.current < indicators.volume.average * 0.7) bearishSignals++;
+            
+            // 9. ATR (Volatility)
+            const volatilityPercent = (indicators.atr / currentPrice) * 100;
+            if (volatilityPercent < 1.5) bullishSignals++; // Low volatility = stability
+            if (volatilityPercent > 3) bearishSignals++; // High volatility = risk
 
             document.getElementById('bullSignals').textContent = bullishSignals;
             document.getElementById('bearSignals').textContent = bearishSignals;
 
-            // 綜合信號
+            // 綜合信號分析
             let overallSignal = 'Hold | 觀望';
             let signalColor = '#ffaa00';
             let confidence = 50;
 
-            if (bullishSignals > bearishSignals) {
-                overallSignal = '🚀 BUY Signal | 買入信號';
+            if (bullishSignals >= 6) {
+                overallSignal = '🚀 Strong BUY | 強力買入';
                 signalColor = '#00ff00';
-                confidence = Math.min(90, 50 + bullishSignals * 15);
-            } else if (bearishSignals > bullishSignals) {
-                overallSignal = '📉 SELL Signal | 賣出信號';
+                confidence = Math.min(95, 60 + bullishSignals * 5);
+            } else if (bullishSignals >= 4) {
+                overallSignal = '📈 BUY Signal | 買入信號';
+                signalColor = '#00ff88';
+                confidence = Math.min(85, 50 + bullishSignals * 7);
+            } else if (bearishSignals >= 6) {
+                overallSignal = '📉 Strong SELL | 強力賣出';
                 signalColor = '#ff4444';
-                confidence = Math.min(90, 50 + bearishSignals * 15);
+                confidence = Math.min(95, 60 + bearishSignals * 5);
+            } else if (bearishSignals >= 4) {
+                overallSignal = '⬇️ SELL Signal | 賣出信號';
+                signalColor = '#ff6666';
+                confidence = Math.min(85, 50 + bearishSignals * 7);
+            } else {
+                confidence = 40 + Math.abs(bullishSignals - bearishSignals) * 3;
             }
 
             document.getElementById('signalResult').textContent = overallSignal;
             document.getElementById('signalResult').style.color = signalColor;
-            document.getElementById('signalDetails').textContent = 
-                'Technical analysis based on multiple indicators | 基於多項技術指標分析';
+            
+            // 詳細信號說明
+            let signalDetails = `Based on ${bullishSignals + bearishSignals}/9 active signals | 基於${bullishSignals + bearishSignals}/9個活躍信號`;
+            document.getElementById('signalDetails').textContent = signalDetails;
 
             // 信心指數
             document.getElementById('confidenceText').textContent = `Confidence | 信心指數: ${confidence}%`;
             document.getElementById('confidenceFill').style.width = `${confidence}%`;
             document.getElementById('confidenceFill').style.background = 
-                confidence > 70 ? '#00ff00' : confidence > 50 ? '#ffaa00' : '#ff4444';
+                confidence > 80 ? '#00ff00' : confidence > 60 ? '#ffaa00' : '#ff4444';
 
             // 支撐阻力位
             if (indicators.bb) {
@@ -970,11 +1095,15 @@
             }
 
             // 交易建議
-            let advice = 'Wait for more confirmation | 等待更多確認信號';
-            if (bullishSignals >= 2) {
-                advice = 'Consider buying on dips | 考慮逢低買入';
-            } else if (bearishSignals >= 2) {
-                advice = 'Consider taking profits | 考慮獲利了結';
+            let advice = 'Wait for stronger confirmation signals | 等待更強確認信號';
+            if (bullishSignals >= 6) {
+                advice = 'Strong buy opportunity - Consider position entry | 強力買入機會 - 考慮建倉';
+            } else if (bullishSignals >= 4) {
+                advice = 'Consider buying on dips with stop-loss | 考慮逢低買入並設止損';
+            } else if (bearishSignals >= 6) {
+                advice = 'Strong sell signal - Consider profit taking | 強力賣出信號 - 考慮獲利了結';
+            } else if (bearishSignals >= 4) {
+                advice = 'Consider reducing positions | 考慮減倉';
             }
             document.getElementById('tradingAdvice').textContent = advice;
         }
