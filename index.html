@@ -495,7 +495,7 @@
 
     <!-- BTC價格頂部區域 -->
     <div class="price-header">
-        <div class="price-title">💎 Bitcoin (BTC) | 比特幣</div>
+        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - <span id="lastUpdateTitle">更新中...</span></div>
         
         <!-- 主要價格和24H數據區域 -->
         <div class="price-main-row">
@@ -820,6 +820,18 @@
 
             const indicators = calculateMockIndicators();
             updateTechnicalIndicators(indicators);
+
+            // 更新標題時間
+            const now = new Date();
+            const timeString = now.toLocaleString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('lastUpdateTitle').textContent = `已更新 ${timeString}`;
 
             // 更新時間
             document.getElementById('updateTime').innerHTML = 
@@ -1187,6 +1199,18 @@
 
             const indicators = calculateMockIndicators();
             updateTechnicalIndicators(indicators);
+
+            // 更新標題時間（演示模式）
+            const now = new Date();
+            const timeString = now.toLocaleString('zh-TW', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('lastUpdateTitle').textContent = `演示模式 ${timeString}`;
 
             // 更新時間
             document.getElementById('updateTime').innerHTML = 
