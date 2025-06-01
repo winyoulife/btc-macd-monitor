@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>🚀 BTC投资直播间 - 实时买卖信号 🚀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a23, #1a1a2e, #16213e);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(0,0,0,0.95);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 3px solid #00ff88;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 2.8em;
+            text-shadow: 0 0 30px #00ff88;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: #ffaa00;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 30px #00ff88; }
+            to { text-shadow: 0 0 50px #00ff88, 0 0 60px #00ff88; }
+        }
+        
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .price-section {
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            border: 3px solid #00ff88;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .price-label {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #ffaa00;
+        }
+        
+        .current-price {
+            font-size: 4.5em;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 0 0 20px #00ff88;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .price-change {
+            font-size: 2em;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .trend-indicator {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        
+        .action-section {
+            background: rgba(0,20,40,0.9);
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .buy-action {
+            border-color: #00ff00;
+            background: rgba(0,255,0,0.1);
+        }
+        
+        .sell-action {
+            border-color: #ff4444;
+            background: rgba(255,68,68,0.1);
+        }
+        
+        .action-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .action-status {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 15px 0;
+            animation: flash 1.5s ease-in-out infinite;
+        }
+        
+        .action-reason {
+            font-size: 1.3em;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+        
+        .confidence-level {
+            font-size: 1.5em;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .prediction-section {
+            background: rgba(20,0,40,0.9);
+            border: 3px solid #aa00ff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .prediction-title {
+            font-size: 2em;
+            color: #aa00ff;
+            margin-bottom: 15px;
+        }
+        
+        .target-price {
+            font-size: 3em;
+            color: #aa00ff;
+            margin: 15px 0;
+            text-shadow: 0 0 15px #aa00ff;
+        }
+        
+        .timeframe {
+            font-size: 1.4em;
+            color: #ffaa00;
+            margin: 10px 0;
+        }
+        
+        .market-sentiment {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .sentiment-item {
+            background: rgba(0,0,0,0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+        
+        .bottom-panel {
+            background: rgba(0,0,0,0.95);
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            border-top: 2px solid #00ff88;
+        }
+        
+        .info-card {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0,20,40,0.6);
+        }
+        
+        .info-label {
+            font-size: 1em;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .update-time {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #00ff88;
+            font-size: 1em;
+        }
+        
+        .alert-banner {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            animation: bounce 1s ease-in-out infinite;
+            display: none;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* 强调颜色 */
+        .green { color: #00ff00; background: rgba(0,255,0,0.1); }
+        .red { color: #ff4444; background: rgba(255,68,68,0.1); }
+        .yellow { color: #ffaa00; background: rgba(255,170,0,0.1); }
+        .purple { color: #aa00ff; background: rgba(170,0,255,0.1); }
+        
+        .bullish-border { border-color: #00ff00; }
+        .bearish-border { border-color: #ff4444; }
+        .neutral-border { border-color: #ffaa00; }
+    </style>
+</head>
+<body>
+    <div class="update-time" id="updateTime">
+        实时更新中...
+    </div>
+
+    <div class="alert-banner" id="alertBanner">
+        🚨 重要信号出现！
+    </div>
+
+    <div class="header">
+        <div class="title">💰 BTC投资直播间 💰</div>
+        <div class="subtitle">🎯 实时买卖信号 | 📈 价格预测 | 💡 投资建议</div>
+    </div>
+
+    <div class="main-content">
+        <!-- 当前价格 -->
+        <div class="price-section">
+            <div class="price-label">💎 BTC当前价格</div>
+            <div class="current-price" id="currentPrice">载入中...</div>
+            <div class="price-change" id="priceChange">--</div>
+            <div class="trend-indicator" id="trendIndicator">📊 分析中...</div>
+        </div>
+
+        <!-- 买卖建议 -->
+        <div class="action-section" id="actionSection">
+            <div class="action-title" id="actionTitle">
+                🎯 投资建议
+            </div>
+            <div class="action-status" id="actionStatus">
+                分析中...
+            </div>
+            <div class="action-reason" id="actionReason">
+                正在分析市场数据...
+            </div>
+            <div class="confidence-level" id="confidenceLevel">
+                信心指数: --
+            </div>
+        </div>
+
+        <!-- 价格预测 -->
+        <div class="prediction-section">
+            <div class="prediction-title">🔮 价格预测</div>
+            <div class="target-price" id="targetPrice">计算中...</div>
+            <div class="timeframe" id="timeframe">预测时间: --</div>
+            
+            <div class="market-sentiment">
+                <div class="sentiment-item bullish-border">
+                    <div style="color: #00ff00;">🐂 多头力量</div>
+                    <div id="bullishStrength">--</div>
+                </div>
+                <div class="sentiment-item bearish-border">
+                    <div style="color: #ff4444;">🐻 空头力量</div>
+                    <div id="bearishStrength">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-panel">
+        <div class="info-card">
+            <div class="info-label">24H涨跌</div>
+            <div class="info-value" id="change24h">--</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">交易量</div>
+            <div class="info-value" id="volume24h">--</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">技术信号</div>
+            <div class="info-value" id="technicalSignal">--</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">支撑位</div>
+            <div class="info-value" id="supportLevel">--</div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">阻力位</div>
+            <div class="info-value" id="resistanceLevel">--</div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let priceData = [];
+        let currentPrice = 0;
+        let previousPrice = 0;
+        let alertShown = false;
+
+        // 计算技术指标
+        function calculateIndicators(prices) {
+            if (prices.length < 26) return null;
+            
+            const macd = calculateMACD(prices);
+            const rsi = calculateRSI(prices, 14);
+            const bb = calculateBollingerBands(prices, 20, 2);
+            const ma5 = calculateMA(prices, 5);
+            const ma10 = calculateMA(prices, 10);
+            
+            return { macd, rsi, bb, ma5, ma10 };
+        }
+
+        function calculateMACD(prices) {
+            const ema12 = calculateEMA(prices, 12);
+            const ema26 = calculateEMA(prices, 26);
+            
+            if (!ema12 || !ema26) return null;
+            
+            const macdLine = ema12 - ema26;
+            const signal = calculateEMA([macdLine], 9);
+            const histogram = macdLine - (signal || 0);
+            
+            return { macdLine, signal, histogram };
+        }
+
+        function calculateRSI(prices, period) {
+            if (prices.length < period + 1) return null;
+            
+            let gains = 0, losses = 0;
+            
+            for (let i = prices.length - period; i < prices.length; i++) {
+                const change = prices[i] - prices[i-1];
+                if (change > 0) gains += change;
+                else losses -= change;
+            }
+            
+            const avgGain = gains / period;
+            const avgLoss = losses / period;
+            
+            if (avgLoss === 0) return 100;
+            
+            const rs = avgGain / avgLoss;
+            return 100 - (100 / (1 + rs));
+        }
+
+        function calculateBollingerBands(prices, period, multiplier) {
+            if (prices.length < period) return null;
+            
+            const recentPrices = prices.slice(-period);
+            const sma = recentPrices.reduce((a, b) => a + b) / period;
+            
+            const variance = recentPrices.reduce((sum, price) => {
+                return sum + Math.pow(price - sma, 2);
+            }, 0) / period;
+            
+            const stdDev = Math.sqrt(variance);
+            
+            return {
+                upper: sma + (stdDev * multiplier),
+                middle: sma,
+                lower: sma - (stdDev * multiplier)
+            };
+        }
+
+        function calculateEMA(prices, period) {
+            if (prices.length < period) return null;
+            
+            const multiplier = 2 / (period + 1);
+            let ema = prices[0];
+            
+            for (let i = 1; i < prices.length; i++) {
+                ema = (prices[i] * multiplier) + (ema * (1 - multiplier));
+            }
+            
+            return ema;
+        }
+
+        function calculateMA(prices, period) {
+            if (prices.length < period) return null;
+            
+            const recentPrices = prices.slice(-period);
+            return recentPrices.reduce((a, b) => a + b) / period;
+        }
+
+        // 生成投资建议
+        function generateTradingAdvice(indicators) {
+            if (!indicators) {
+                return {
+                    action: '分析中',
+                    status: '⏳ 等待',
+                    reason: '收集更多数据中...',
+                    confidence: 0,
+                    prediction: currentPrice
+                };
+            }
+
+            let buySignals = 0;
+            let sellSignals = 0;
+            let reasons = [];
+
+            // MACD分析
+            if (indicators.macd) {
+                if (indicators.macd.histogram > 0) {
+                    buySignals++;
+                    reasons.push('MACD金叉信号');
+                } else {
+                    sellSignals++;
+                    reasons.push('MACD死叉信号');
+                }
+            }
+
+            // RSI分析
+            if (indicators.rsi) {
+                if (indicators.rsi < 30) {
+                    buySignals++;
+                    reasons.push('RSI超卖反弹');
+                } else if (indicators.rsi > 70) {
+                    sellSignals++;
+                    reasons.push('RSI超买回调');
+                }
+            }
+
+            // 移动平均分析
+            if (indicators.ma5 && indicators.ma10) {
+                if (currentPrice > indicators.ma5 && indicators.ma5 > indicators.ma10) {
+                    buySignals++;
+                    reasons.push('均线多头排列');
+                } else if (currentPrice < indicators.ma5 && indicators.ma5 < indicators.ma10) {
+                    sellSignals++;
+                    reasons.push('均线空头排列');
+                }
+            }
+
+            // 布林带分析
+            if (indicators.bb) {
+                if (currentPrice < indicators.bb.lower) {
+                    buySignals++;
+                    reasons.push('跌破布林下轨');
+                } else if (currentPrice > indicators.bb.upper) {
+                    sellSignals++;
+                    reasons.push('突破布林上轨');
+                }
+            }
+
+            // 生成建议
+            let action, status, reason, confidence, prediction;
+
+            if (buySignals > sellSignals) {
+                action = 'buy';
+                status = '🚀 建议买入';
+                reason = reasons.slice(0, 2).join(' + ');
+                confidence = Math.min(90, (buySignals / 4) * 100);
+                prediction = currentPrice * (1 + Math.random() * 0.05 + 0.02); // 2-7%上涨
+            } else if (sellSignals > buySignals) {
+                action = 'sell';
+                status = '📉 建议卖出';
+                reason = reasons.slice(0, 2).join(' + ');
+                confidence = Math.min(90, (sellSignals / 4) * 100);
+                prediction = currentPrice * (1 - Math.random() * 0.05 - 0.02); // 2-7%下跌
+            } else {
+                action = 'hold';
+                status = '⏸️ 建议观望';
+                reason = '信号混杂，等待明确方向';
+                confidence = 50;
+                prediction = currentPrice * (1 + (Math.random() - 0.5) * 0.02); // ±1%
+            }
+
+            return { action, status, reason, confidence, prediction, buySignals, sellSignals };
+        }
+
+        // 更新界面
+        function updateInterface(advice, indicators) {
+            // 更新投资建议
+            document.getElementById('actionStatus').textContent = advice.status;
+            document.getElementById('actionReason').textContent = advice.reason;
+            document.getElementById('confidenceLevel').textContent = `信心指数: ${Math.round(advice.confidence)}%`;
+
+            // 设置建议区域样式
+            const actionSection = document.getElementById('actionSection');
+            actionSection.className = `action-section ${advice.action === 'buy' ? 'buy-action' : advice.action === 'sell' ? 'sell-action' : 'neutral-action'}`;
+
+            // 更新价格预测
+            document.getElementById('targetPrice').textContent = `$${Math.round(advice.prediction).toLocaleString()}`;
+            document.getElementById('timeframe').textContent = '预测时间: 24小时内';
+
+            // 更新多空力量
+            document.getElementById('bullishStrength').textContent = `${advice.buySignals || 0}/4`;
+            document.getElementById('bearishStrength').textContent = `${advice.sellSignals || 0}/4`;
+
+            // 更新支撑阻力位
+            if (indicators && indicators.bb) {
+                document.getElementById('supportLevel').textContent = `$${Math.round(indicators.bb.lower).toLocaleString()}`;
+                document.getElementById('resistanceLevel').textContent = `$${Math.round(indicators.bb.upper).toLocaleString()}`;
+            }
+
+            // 技术信号
+            let technicalSignal = '中性';
+            if (advice.buySignals > advice.sellSignals) {
+                technicalSignal = '看涨';
+            } else if (advice.sellSignals > advice.buySignals) {
+                technicalSignal = '看跌';
+            }
+            document.getElementById('technicalSignal').textContent = technicalSignal;
+
+            // 显示重要信号警报
+            if (advice.confidence > 80 && !alertShown) {
+                showAlert();
+                alertShown = true;
+                setTimeout(() => { alertShown = false; }, 10000);
+            }
+        }
+
+        function showAlert() {
+            const alertBanner = document.getElementById('alertBanner');
+            alertBanner.style.display = 'block';
+            setTimeout(() => {
+                alertBanner.style.display = 'none';
+            }, 5000);
+        }
+
+        // 获取BTC价格
+        async function fetchBTCPrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_high_low_24h=true');
+                const data = await response.json();
+                
+                previousPrice = currentPrice;
+                currentPrice = data.bitcoin.usd;
+                
+                // 更新价格显示
+                document.getElementById('currentPrice').textContent = 
+                    `$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+                
+                // 更新价格变化
+                const change = data.bitcoin.usd_24h_change;
+                const changeElement = document.getElementById('priceChange');
+                changeElement.textContent = 
+                    `24H: ${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
+                
+                if (change >= 0) {
+                    changeElement.className = 'price-change green';
+                } else {
+                    changeElement.className = 'price-change red';
+                }
+
+                // 更新趋势指示器
+                const trendElement = document.getElementById('trendIndicator');
+                if (change > 5) {
+                    trendElement.textContent = '🚀 强势上涨';
+                    trendElement.className = 'trend-indicator green';
+                } else if (change > 2) {
+                    trendElement.textContent = '📈 温和上涨';
+                    trendElement.className = 'trend-indicator green';
+                } else if (change < -5) {
+                    trendElement.textContent = '📉 快速下跌';
+                    trendElement.className = 'trend-indicator red';
+                } else if (change < -2) {
+                    trendElement.textContent = '🔻 温和下跌';
+                    trendElement.className = 'trend-indicator red';
+                } else {
+                    trendElement.textContent = '➡️ 横盘整理';
+                    trendElement.className = 'trend-indicator yellow';
+                }
+
+                // 更新底部数据
+                document.getElementById('change24h').textContent = `${change >= 0 ? '+' : ''}${change.toFixed(1)}%`;
+                document.getElementById('volume24h').textContent = `$${(data.bitcoin.usd_24h_vol / 1000000000).toFixed(1)}B`;
+
+                // 添加到价格数据
+                priceData.push(currentPrice);
+                if (priceData.length > 50) {
+                    priceData.shift();
+                }
+                
+                // 计算技术指标和生成建议
+                const indicators = calculateIndicators(priceData);
+                const advice = generateTradingAdvice(indicators);
+                updateInterface(advice, indicators);
+                
+                // 更新时间
+                document.getElementById('updateTime').textContent = 
+                    `最后更新: ${new Date().toLocaleTimeString('zh-TW')}`;
+                
+            } catch (error) {
+                console.error('获取价格失败:', error);
+                document.getElementById('currentPrice').textContent = '获取失败';
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchBTCPrice();
+            
+            // 每15秒更新一次（更频繁）
+            setInterval(fetchBTCPrice, 15000);
+        });
+    </script>
+</body>
+</html> 
