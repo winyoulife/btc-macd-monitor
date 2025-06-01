@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>🚀 BTC Live Analysis | BTC即時分析 - 16:45 REAL DATA ONLY</title>
+    <title>🚀 BTC Live Analysis | BTC即時分析 - 17:30 REAL DATA ONLY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -542,15 +542,13 @@
     <!-- 免責聲明面板 -->
     <div class="disclaimer-panel">
         <div class="disclaimer-content">
-            ⚠️ <strong>重要聲明 | Important Notice:</strong> 
-            技術指標為簡化計算，僅供參考演示 | Technical indicators are simplified calculations for demonstration only. 
-            專業交易請使用專業平台 | Use professional platforms for actual trading.
+            ⚠️ <strong>重要聲明:</strong> 技術指標為簡化計算，僅供參考演示 | Technical indicators are simplified calculations for demo only
         </div>
     </div>
 
     <!-- BTC價格頂部區域 -->
     <div class="price-header">
-        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 16:45 更新</div>
+        <div class="price-title">💎 Bitcoin (BTC) | 比特幣 - 2025/06/01 17:30 更新</div>
         
         <!-- 主要價格和24H數據區域 -->
         <div class="price-main-row">
@@ -1599,9 +1597,30 @@
                 }
             }, 3000);
             
-            // 每30秒更新一次
-            setInterval(fetchBTCData, 30000);
+            // 每1秒更新數據 (從30秒改為1秒)
+            setInterval(fetchBTCData, 1000);
+            
+            // 每秒更新時間戳記
+            setInterval(updateTimestamp, 1000);
         });
+
+        // 更新時間戳記函數
+        function updateTimestamp() {
+            const updateElement = document.getElementById('updateTime');
+            if (updateElement) {
+                const currentTime = new Date().toLocaleTimeString('zh-TW');
+                const currentContent = updateElement.innerHTML;
+                
+                // 保留原有的狀態指示器和數據源，只更新時間
+                if (currentContent.includes(':')) {
+                    const parts = currentContent.split(': ');
+                    if (parts.length >= 2) {
+                        const prefix = parts[0];
+                        updateElement.innerHTML = `${prefix}: ${currentTime}`;
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html> 
