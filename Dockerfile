@@ -13,14 +13,10 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 複製文件
-COPY requirements.txt .
-COPY web_stream.py .
-
-# 安裝Python依賴
-RUN pip install -r requirements.txt
+COPY simple_web_stream.py .
 
 # 暴露端口
 EXPOSE 8080
 
 # 啟動命令
-CMD ["python", "web_stream.py"]
+CMD ["python", "simple_web_stream.py"]
