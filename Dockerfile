@@ -11,13 +11,15 @@ ENV PYTHONPATH=/app
 # 安裝系統依賴
 RUN apt-get update && apt-get install -y \
     gcc \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # 複製requirements文件
 COPY requirements.txt .
+COPY render_stream.py .
 
 # 安裝Python依賴
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # 複製應用程序代碼
 COPY . .
@@ -36,4 +38,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 EXPOSE 8080
 
 # 啟動命令
-CMD ["python", "start_cloud_monitor.py"] 
+CMD ["python", "render_stream.py"] 
