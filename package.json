@@ -1,0 +1,24 @@
+{
+  "name": "youtube-stream-vercel",
+  "version": "1.0.0",
+  "description": "YouTube Live Stream Controller on Vercel",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build needed for static deployment'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "youtube",
+    "streaming",
+    "vercel",
+    "ffmpeg",
+    "serverless"
+  ],
+  "author": "YouTube Stream Controller",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+} 

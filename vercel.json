@@ -1,0 +1,21 @@
+{
+  "functions": {
+    "api/stream.js": {
+      "maxDuration": 300
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    },
+    {
+      "source": "/start-stream",
+      "destination": "/api/stream"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+} 
