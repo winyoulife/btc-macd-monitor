@@ -1,15 +1,2 @@
-requests==2.31.0
-pandas==2.1.3
-numpy==1.24.3
-tkinter-tooltip==2.1.0
-matplotlib==3.7.2
-python-telegram-bot==20.7
-ta==0.11.0
-websocket-client==1.6.3
-schedule==1.2.1
-python-dotenv==1.0.0
-gunicorn==21.2.0
-aiohttp==3.9.1
-asyncio
-fastapi
-uvicorn 
+# No additional Python packages needed
+# FFmpeg will be installed via system packages 
