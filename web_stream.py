@@ -30,8 +30,9 @@ class HealthHandler(BaseHTTPRequestHandler):
             <head><title>YouTube Live Stream</title></head>
             <body>
                 <h1>YouTube Live Stream Active</h1>
-                <p>Streaming to YouTube with test pattern.</p>
+                <p>Streaming to YouTube with HIGH QUALITY test pattern.</p>
                 <p>Stream Key: f8bd-vduf-ycuf-s1ke-atbb</p>
+                <p>Bitrate: 2500k (HD Quality)</p>
             </body>
             </html>
             """
@@ -53,27 +54,33 @@ def start_stream():
     stream_key = os.environ.get('YOUTUBE_STREAM_KEY', 'f8bd-vduf-ycuf-s1ke-atbb')
     rtmp_url = f"rtmp://a.rtmp.youtube.com/live2/{stream_key}"
     
-    # FFmpeg 命令 - 生成測試圖案
+    # 優化的 FFmpeg 命令 - 高品質設置
     cmd = [
         'ffmpeg',
         '-f', 'lavfi',
-        '-i', 'testsrc=size=1280x720:rate=25,format=yuv420p',
+        '-i', 'testsrc=size=1920x1080:rate=30,format=yuv420p',  # 提升到 1080p 30fps
         '-f', 'lavfi', 
-        '-i', 'sine=frequency=1000:sample_rate=44100',
+        '-i', 'sine=frequency=1000:sample_rate=48000',  # 提升音頻取樣率
         '-c:v', 'libx264',
-        '-preset', 'veryfast',
-        '-b:v', '2000k',
-        '-maxrate', '2500k',
-        '-bufsize', '4000k',
+        '-preset', 'fast',  # 改為 fast 提升品質
+        '-b:v', '2500k',    # 提升到建議位元率
+        '-maxrate', '3000k', # 提升最大位元率
+        '-bufsize', '6000k', # 提升緩衝區
         '-pix_fmt', 'yuv420p',
-        '-g', '50',
+        '-g', '60',         # 提升 GOP 大小
+        '-keyint_min', '30', # 關鍵幀間隔
         '-c:a', 'aac',
-        '-b:a', '128k',
+        '-b:a', '160k',     # 提升音頻位元率
+        '-ar', '48000',     # 音頻取樣率
         '-f', 'flv',
+        '-reconnect', '1',   # 自動重連
+        '-reconnect_streamed', '1',
+        '-reconnect_delay_max', '2',
         rtmp_url
     ]
     
-    logger.info(f"Starting stream to: {rtmp_url}")
+    logger.info(f"Starting HIGH QUALITY stream to: {rtmp_url}")
+    logger.info("Stream settings: 1080p@30fps, 2500k video, 160k audio")
     
     while True:
         try:
