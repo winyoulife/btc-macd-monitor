@@ -1,1 +1,7 @@
- 
+﻿services:
+  - type: web
+    name: btc-macd-monitor
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
